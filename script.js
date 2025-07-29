@@ -93,7 +93,7 @@ function initBookingSystem() {
 }
 
 // Handle quick booking form submission
-function handleQuickBooking(e) {
+async function handleQuickBooking(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
@@ -109,6 +109,28 @@ function handleQuickBooking(e) {
     if (new Date(checkin) >= new Date(checkout)) {
         showNotification('Check-out date must be after check-in date.', 'error');
         return;
+    }
+    
+    try {
+        // Check availability for selected dates
+        const response = await fetch(`/api/availability?checkIn=${checkin}&checkOut=${checkout}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            const availability = result.data.availability;
+            const hasAvailability = Object.values(availability).some(room => room.available > 0);
+            
+            if (!hasAvailability) {
+                showNotification('Sorry, no rooms are available for your selected dates. Please try different dates.', 'error');
+                return;
+            }
+            
+            // Show availability info
+            showNotification(`Great! We have rooms available for your dates. Please complete your booking below.`, 'success');
+        }
+    } catch (error) {
+        console.error('Error checking availability:', error);
+        showNotification('Unable to check availability at the moment. Please try booking directly below.', 'error');
     }
     
     // Scroll to main booking form and pre-fill data
@@ -132,12 +154,10 @@ function handleQuickBooking(e) {
             behavior: 'smooth'
         });
     }
-    
-    showNotification('Please complete your booking details below.', 'success');
 }
 
 // Handle main booking form submission
-function handleBookingSubmission(e) {
+async function handleBookingSubmission(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
@@ -154,20 +174,54 @@ function handleBookingSubmission(e) {
     submitBtn.textContent = 'Processing...';
     submitBtn.disabled = true;
     
-    // Simulate booking process
-    setTimeout(() => {
+    try {
+        // Make API call to create booking
+        const response = await fetch('/api/bookings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstName: bookingData.firstName,
+                lastName: bookingData.lastName,
+                email: bookingData.email,
+                phone: bookingData.phone || '',
+                checkInDate: bookingData.checkinDate,
+                checkOutDate: bookingData.checkoutDate,
+                roomType: bookingData.roomType,
+                guestCount: parseInt(bookingData.guestCount),
+                specialRequests: bookingData.specialRequests || ''
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Show success message with real booking data
+            showBookingConfirmation(result.data.booking, result.data.confirmationNumber);
+            
+            // Reset form
+            e.target.reset();
+            updateBookingSummary();
+            
+            // Update room availability display
+            await updateRoomAvailability();
+            
+        } else {
+            throw new Error(result.message || 'Booking failed');
+        }
+        
+    } catch (error) {
+        console.error('Booking error:', error);
+        showNotification(
+            `Booking failed: ${error.message}. Please try again or contact us directly.`, 
+            'error'
+        );
+    } finally {
         // Reset button
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        
-        // Show success message
-        showBookingConfirmation(bookingData);
-        
-        // Reset form
-        e.target.reset();
-        updateBookingSummary();
-        
-    }, 2000);
+    }
 }
 
 // Validate booking form
@@ -420,9 +474,17 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-function showBookingConfirmation(bookingData) {
+function showBookingConfirmation(bookingData, confirmationNumber) {
     const modal = document.createElement('div');
     modal.className = 'booking-confirmation-modal';
+    
+    // Get room type display name
+    const roomNames = {
+        'ocean-view': 'Ocean View Room',
+        'beachfront-suite': 'Beachfront Suite', 
+        'presidential-villa': 'Presidential Villa'
+    };
+    
     modal.innerHTML = `
         <div class="modal-content">
             <div class="modal-header">
@@ -432,13 +494,15 @@ function showBookingConfirmation(bookingData) {
             <div class="modal-body">
                 <p>Thank you, ${bookingData.firstName}! Your reservation has been confirmed.</p>
                 <div class="confirmation-details">
-                    <p><strong>Confirmation Number:</strong> CC${Date.now().toString().slice(-6)}</p>
-                    <p><strong>Check-in:</strong> ${formatDate(bookingData.checkinDate)}</p>
-                    <p><strong>Check-out:</strong> ${formatDate(bookingData.checkoutDate)}</p>
-                    <p><strong>Room:</strong> ${document.getElementById('roomType').options[document.getElementById('roomType').selectedIndex].text}</p>
+                    <p><strong>Confirmation Number:</strong> ${confirmationNumber}</p>
+                    <p><strong>Check-in:</strong> ${formatDate(bookingData.checkInDate)}</p>
+                    <p><strong>Check-out:</strong> ${formatDate(bookingData.checkOutDate)}</p>
+                    <p><strong>Room:</strong> ${roomNames[bookingData.roomType]}</p>
                     <p><strong>Guests:</strong> ${bookingData.guestCount}</p>
+                    <p><strong>Nights:</strong> ${bookingData.numberOfNights}</p>
+                    <p><strong>Total Amount:</strong> $${bookingData.totalAmount.toFixed(2)}</p>
                 </div>
-                <p class="confirmation-note">A confirmation email has been sent to ${bookingData.email}. Please check your email for detailed information about your stay.</p>
+                <p class="confirmation-note">Your booking has been saved successfully! ${bookingData.email ? `A confirmation email will be sent to ${bookingData.email}.` : ''}</p>
                 <div class="modal-actions">
                     <button class="btn btn-primary" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">Continue</button>
                 </div>
@@ -545,6 +609,56 @@ function showBookingConfirmation(bookingData) {
     document.body.appendChild(modal);
 }
 
+// Update room availability display
+async function updateRoomAvailability() {
+    try {
+        const checkinDate = document.getElementById('checkinDate');
+        const checkoutDate = document.getElementById('checkoutDate');
+        
+        if (!checkinDate?.value || !checkoutDate?.value) {
+            return;
+        }
+        
+        const response = await fetch(`/api/availability?checkIn=${checkinDate.value}&checkOut=${checkoutDate.value}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            const availability = result.data.availability;
+            
+            // Update room cards with availability info
+            const roomCards = document.querySelectorAll('.room-card');
+            roomCards.forEach(card => {
+                const roomTitle = card.querySelector('h3').textContent;
+                const roomMapping = {
+                    'Ocean View Room': 'ocean-view',
+                    'Beachfront Suite': 'beachfront-suite',
+                    'Presidential Villa': 'presidential-villa'
+                };
+                
+                const roomType = roomMapping[roomTitle];
+                if (roomType && availability[roomType]) {
+                    const availabilityInfo = card.querySelector('.availability-info') || 
+                                           document.createElement('div');
+                    availabilityInfo.className = 'availability-info';
+                    
+                    const available = availability[roomType].available;
+                    if (available > 0) {
+                        availabilityInfo.innerHTML = `<span style="color: #2E8B57; font-weight: bold;">✓ ${available} rooms available</span>`;
+                    } else {
+                        availabilityInfo.innerHTML = `<span style="color: #e74c3c; font-weight: bold;">✗ Fully booked</span>`;
+                    }
+                    
+                    if (!card.querySelector('.availability-info')) {
+                        card.querySelector('.room-info').appendChild(availabilityInfo);
+                    }
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error updating room availability:', error);
+    }
+}
+
 // Initialize room booking buttons
 document.addEventListener('DOMContentLoaded', function() {
     const roomBookingButtons = document.querySelectorAll('.room-card .btn');
@@ -579,6 +693,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
             }
+        });
+    });
+    
+    // Update availability when dates change
+    const dateInputs = document.querySelectorAll('#checkinDate, #checkoutDate');
+    dateInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            setTimeout(updateRoomAvailability, 500); // Small delay to ensure both dates are updated
         });
     });
 });

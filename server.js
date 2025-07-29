@@ -70,7 +70,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/crazycoco
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Routes
-app.use('/api/bookings', bookingLimiter, require('./routes/bookings'));
+app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/rooms', require('./routes/rooms'));
 app.use('/api/availability', require('./routes/availability'));
 app.use('/api/admin', require('./routes/admin'));

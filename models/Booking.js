@@ -55,7 +55,6 @@ const bookingSchema = new mongoose.Schema({
     },
     numberOfNights: {
         type: Number,
-        required: true,
         min: [1, 'Minimum stay is 1 night'],
         max: [30, 'Maximum stay is 30 nights']
     },
@@ -109,8 +108,7 @@ const bookingSchema = new mongoose.Schema({
     },
     confirmationNumber: {
         type: String,
-        unique: true,
-        required: true
+        unique: true
     },
 
     // Payment Information

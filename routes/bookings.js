@@ -141,6 +141,7 @@ router.post('/', validateBookingData, async (req, res) => {
             phone,
             checkInDate: checkIn,
             checkOutDate: checkOut,
+            numberOfNights: nights,
             roomType,
             guestCount,
             specialRequests,
