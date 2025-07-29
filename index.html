@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Coconuts Hotel - Luxury Beachfront Resort in Colombia</title>
+    <meta name="description" content="Experience luxury at Crazy Coconuts Hotel, a premier beachfront resort on Colombia's stunning coast. Book your perfect getaway today.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Crazy Coconuts</h1>
+                <span>Hotel & Resort</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#rooms" class="nav-link">Rooms</a></li>
+                <li><a href="#amenities" class="nav-link">Amenities</a></li>
+                <li><a href="#dining" class="nav-link">Dining</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#booking" class="nav-link booking-btn">Book Now</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Paradise</h1>
+            <p>Experience luxury and tranquility at Colombia's most exclusive beachfront resort</p>
+            <div class="hero-buttons">
+                <a href="#booking" class="btn btn-primary">Book Your Stay</a>
+                <a href="#rooms" class="btn btn-secondary">Explore Rooms</a>
+            </div>
+        </div>
+        <div class="hero-video">
+            <div class="video-placeholder">
+                <i class="fas fa-play-circle"></i>
+                <p>Virtual Tour</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Booking Bar -->
+    <section class="quick-booking">
+        <div class="container">
+            <form class="booking-form-quick">
+                <div class="form-group">
+                    <label for="checkin">Check-in</label>
+                    <input type="date" id="checkin" name="checkin" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkout">Check-out</label>
+                    <input type="date" id="checkout" name="checkout" required>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Guests</label>
+                    <select id="guests" name="guests">
+                        <option value="1">1 Guest</option>
+                        <option value="2" selected>2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4+ Guests</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Check Availability</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Discover Crazy Coconuts</h2>
+                    <p>Nestled along Colombia's pristine Caribbean coast, Crazy Coconuts Hotel offers an unparalleled luxury experience where tropical paradise meets world-class hospitality.</p>
+                    <p>Our resort features stunning beachfront views, elegant accommodations, and exceptional amenities designed to create unforgettable memories for our guests.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <h3>Private Beach</h3>
+                            <p>Exclusive access to pristine white sand beaches</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-swimming-pool"></i>
+                            <h3>Infinity Pool</h3>
+                            <p>Breathtaking ocean views from our infinity pool</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-spa"></i>
+                            <h3>World-Class Spa</h3>
+                            <p>Rejuvenating treatments in a tranquil setting</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                        <p>Resort Overview</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="rooms">
+        <div class="container">
+            <h2>Luxury Accommodations</h2>
+            <p class="section-subtitle">Choose from our selection of elegantly appointed rooms and suites</p>
+            <div class="rooms-grid">
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-bed"></i>
+                            <p>Ocean View Room</p>
+                        </div>
+                    </div>
+                    <div class="room-info">
+                        <h3>Ocean View Room</h3>
+                        <p>Spacious room with stunning ocean views and modern amenities</p>
+                        <div class="room-features">
+                            <span><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span><i class="fas fa-tv"></i> Smart TV</span>
+                            <span><i class="fas fa-cocktail"></i> Mini Bar</span>
+                        </div>
+                        <div class="room-price">From $180/night</div>
+                        <a href="#booking" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-bed"></i>
+                            <p>Beachfront Suite</p>
+                        </div>
+                    </div>
+                    <div class="room-info">
+                        <h3>Beachfront Suite</h3>
+                        <p>Luxurious suite with direct beach access and private balcony</p>
+                        <div class="room-features">
+                            <span><i class="fas fa-hot-tub"></i> Jacuzzi</span>
+                            <span><i class="fas fa-couch"></i> Living Area</span>
+                            <span><i class="fas fa-concierge-bell"></i> Butler Service</span>
+                        </div>
+                        <div class="room-price">From $350/night</div>
+                        <a href="#booking" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-bed"></i>
+                            <p>Presidential Villa</p>
+                        </div>
+                    </div>
+                    <div class="room-info">
+                        <h3>Presidential Villa</h3>
+                        <p>Ultimate luxury with private pool and panoramic ocean views</p>
+                        <div class="room-features">
+                            <span><i class="fas fa-swimming-pool"></i> Private Pool</span>
+                            <span><i class="fas fa-car"></i> Airport Transfer</span>
+                            <span><i class="fas fa-utensils"></i> Private Chef</span>
+                        </div>
+                        <div class="room-price">From $650/night</div>
+                        <a href="#booking" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section id="amenities" class="amenities">
+        <div class="container">
+            <h2>Resort Amenities</h2>
+            <p class="section-subtitle">Everything you need for the perfect vacation</p>
+            <div class="amenities-grid">
+                <div class="amenity">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Fitness Center</h3>
+                    <p>State-of-the-art equipment with ocean views</p>
+                </div>
+                <div class="amenity">
+                    <i class="fas fa-ship"></i>
+                    <h3>Water Sports</h3>
+                    <p>Kayaking, snorkeling, and boat excursions</p>
+                </div>
+                <div class="amenity">
+                    <i class="fas fa-cocktail"></i>
+                    <h3>Beach Bar</h3>
+                    <p>Tropical cocktails and light bites by the ocean</p>
+                </div>
+                <div class="amenity">
+                    <i class="fas fa-wifi"></i>
+                    <h3>Free WiFi</h3>
+                    <p>High-speed internet throughout the resort</p>
+                </div>
+                <div class="amenity">
+                    <i class="fas fa-parking"></i>
+                    <h3>Valet Parking</h3>
+                    <p>Complimentary valet parking for all guests</p>
+                </div>
+                <div class="amenity">
+                    <i class="fas fa-baby"></i>
+                    <h3>Kids Club</h3>
+                    <p>Supervised activities for children</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dining Section -->
+    <section id="dining" class="dining">
+        <div class="container">
+            <h2>Culinary Excellence</h2>
+            <p class="section-subtitle">Savor the flavors of Colombia and international cuisine</p>
+            <div class="dining-options">
+                <div class="restaurant">
+                    <div class="restaurant-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-utensils"></i>
+                            <p>Coconut Grove Restaurant</p>
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3>Coconut Grove Restaurant</h3>
+                        <p>Fine dining with fresh seafood and local Colombian specialties</p>
+                        <div class="hours">Open: 6:00 PM - 11:00 PM</div>
+                    </div>
+                </div>
+                <div class="restaurant">
+                    <div class="restaurant-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-coffee"></i>
+                            <p>Sunrise Café</p>
+                        </div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3>Sunrise Café</h3>
+                        <p>Casual dining with fresh pastries, coffee, and light meals</p>
+                        <div class="hours">Open: 6:00 AM - 6:00 PM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2>Book Your Stay</h2>
+            <p class="section-subtitle">Reserve your perfect getaway at Crazy Coconuts</p>
+            <form class="booking-form" id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkinDate">Check-in Date *</label>
+                        <input type="date" id="checkinDate" name="checkinDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutDate">Check-out Date *</label>
+                        <input type="date" id="checkoutDate" name="checkoutDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="roomType">Room Type *</label>
+                        <select id="roomType" name="roomType" required>
+                            <option value="">Select Room Type</option>
+                            <option value="ocean-view">Ocean View Room - $180/night</option>
+                            <option value="beachfront-suite">Beachfront Suite - $350/night</option>
+                            <option value="presidential-villa">Presidential Villa - $650/night</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guestCount">Number of Guests *</label>
+                        <select id="guestCount" name="guestCount" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests</label>
+                    <textarea id="specialRequests" name="specialRequests" rows="4" placeholder="Any special requests or requirements for your stay..."></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="booking-summary">
+                        <h3>Booking Summary</h3>
+                        <div id="bookingSummary">
+                            <p>Please select your dates and room type to see pricing</p>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Complete Reservation</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Location</h3>
+                            <p>Carrera 2 #5-41, Santa Marta<br>Magdalena, Colombia</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+57 5 432 1000</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>reservations@crazycoconuts.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Front Desk Hours</h3>
+                            <p>24/7 Reception</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map"></i>
+                        <p>Interactive Map<br>Santa Marta, Colombia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Crazy Coconuts Hotel</h3>
+                    <p>Your luxury beachfront escape on Colombia's Caribbean coast</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#rooms">Rooms & Suites</a></li>
+                        <li><a href="#amenities">Amenities</a></li>
+                        <li><a href="#dining">Dining</a></li>
+                        <li><a href="#booking">Book Now</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Policies</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">COVID-19 Safety</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +57 5 432 1000</p>
+                    <p><i class="fas fa-envelope"></i> info@crazycoconuts.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Santa Marta, Colombia</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Crazy Coconuts Hotel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
