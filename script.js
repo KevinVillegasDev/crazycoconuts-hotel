@@ -364,7 +364,7 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 100px;
         right: 20px;
-        background: ${type === 'error' ? '#e74c3c' : type === 'success' ? '#27ae60' : '#3498db'};
+        background: ${type === 'error' ? '#e74c3c' : type === 'success' ? '#2E8B57' : '#4682B4'};
         color: white;
         padding: 15px 20px;
         border-radius: 8px;
@@ -494,7 +494,7 @@ function showBookingConfirmation(bookingData) {
             }
             .modal-header h2 {
                 margin: 0;
-                color: #27ae60;
+                color: #2E8B57;
                 display: flex;
                 align-items: center;
                 gap: 10px;
