@@ -877,3 +877,350 @@ function updateBookingSummaryWithCurrency() {
 // Override the original updateBookingSummary function
 const originalUpdateBookingSummary = updateBookingSummary;
 updateBookingSummary = updateBookingSummaryWithCurrency;
+
+// Stripe Payment Integration
+let stripe;
+let elements;
+let card;
+
+// Initialize Stripe
+function initializeStripe() {
+    // Initialize Stripe (you'll need to replace with your publishable key)
+    stripe = Stripe('pk_test_your_publishable_key_here'); // Replace with actual key
+    elements = stripe.elements();
+    
+    // Create card element
+    card = elements.create('card', {
+        style: {
+            base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                    color: '#aab7c4',
+                },
+            },
+        },
+    });
+    
+    card.mount('#card-element');
+    
+    // Handle real-time validation errors from the card Element
+    card.on('change', ({error}) => {
+        const displayError = document.getElementById('card-errors');
+        if (error) {
+            displayError.textContent = error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+}
+
+// Show payment modal
+function showPaymentModal(bookingData) {
+    const modal = document.getElementById('paymentModal');
+    const paymentSummary = document.getElementById('paymentSummary');
+    const paymentTotal = document.getElementById('paymentTotal');
+    const paymentForm = document.getElementById('paymentForm');
+    const paymentSuccess = document.getElementById('paymentSuccess');
+    
+    // Reset modal state
+    document.querySelector('.payment-form-container').style.display = 'block';
+    paymentSuccess.classList.add('hidden');
+    
+    // Calculate pricing
+    const roomPrices = {
+        'ocean-view': 180,
+        'beachfront-suite': 350,
+        'presidential-villa': 650
+    };
+    
+    const roomNames = {
+        'ocean-view': 'Ocean View Room',
+        'beachfront-suite': 'Beachfront Suite',
+        'presidential-villa': 'Presidential Villa'
+    };
+    
+    const checkinDate = new Date(bookingData.checkinDate);
+    const checkoutDate = new Date(bookingData.checkoutDate);
+    const nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+    const pricePerNight = roomPrices[bookingData.roomType] || 0;
+    const subtotal = pricePerNight * nights;
+    const tax = subtotal * 0.16;
+    const total = subtotal + tax;
+    
+    // Convert to current currency
+    const convertedSubtotal = currencyManager.convert(subtotal);
+    const convertedTax = currencyManager.convert(tax);
+    const convertedTotal = currencyManager.convert(total);
+    
+    // Update payment summary
+    paymentSummary.innerHTML = `
+        <h4>Booking Summary</h4>
+        <div class="summary-row">
+            <span>Guest:</span>
+            <span>${bookingData.firstName} ${bookingData.lastName}</span>
+        </div>
+        <div class="summary-row">
+            <span>Room:</span>
+            <span>${roomNames[bookingData.roomType]}</span>
+        </div>
+        <div class="summary-row">
+            <span>Check-in:</span>
+            <span>${formatDate(bookingData.checkinDate)}</span>
+        </div>
+        <div class="summary-row">
+            <span>Check-out:</span>
+            <span>${formatDate(bookingData.checkoutDate)}</span>
+        </div>
+        <div class="summary-row">
+            <span>Nights:</span>
+            <span>${nights}</span>
+        </div>
+        <div class="summary-row">
+            <span>Guests:</span>
+            <span>${bookingData.guestCount}</span>
+        </div>
+        <div class="summary-row">
+            <span>Room Rate:</span>
+            <span>${currencyManager.format(convertedSubtotal)}</span>
+        </div>
+        <div class="summary-row">
+            <span>Taxes & Fees:</span>
+            <span>${currencyManager.format(convertedTax)}</span>
+        </div>
+        <div class="summary-row">
+            <span><strong>Total:</strong></span>
+            <span><strong>${currencyManager.format(convertedTotal)}</strong></span>
+        </div>
+    `;
+    
+    // Update payment total
+    paymentTotal.textContent = currencyManager.format(convertedTotal);
+    
+    // Store booking data for payment processing
+    modal.dataset.bookingData = JSON.stringify({
+        ...bookingData,
+        originalTotal: total,
+        convertedTotal: convertedTotal,
+        currency: currencyManager.currentCurrency,
+        nights: nights
+    });
+    
+    // Show modal
+    modal.classList.add('show');
+    
+    // Initialize Stripe if not already done
+    if (!stripe) {
+        initializeStripe();
+    }
+}
+
+// Handle payment form submission
+function handlePaymentSubmit(event) {
+    event.preventDefault();
+    
+    const payButton = document.getElementById('payButton');
+    const modal = document.getElementById('paymentModal');
+    const bookingData = JSON.parse(modal.dataset.bookingData);
+    
+    // Disable pay button and show loading
+    payButton.disabled = true;
+    payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    
+    // Create payment intent
+    createPaymentIntent(bookingData)
+        .then(clientSecret => {
+            return stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: `${bookingData.firstName} ${bookingData.lastName}`,
+                        email: bookingData.email,
+                    }
+                }
+            });
+        })
+        .then(result => {
+            if (result.error) {
+                // Show error to customer
+                showNotification(result.error.message, 'error');
+                payButton.disabled = false;
+                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Now';
+            } else {
+                // Payment succeeded
+                handlePaymentSuccess(result.paymentIntent);
+            }
+        })
+        .catch(error => {
+            console.error('Payment error:', error);
+            showNotification('Payment failed. Please try again.', 'error');
+            payButton.disabled = false;
+            payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Now';
+        });
+}
+
+// Create payment intent
+async function createPaymentIntent(bookingData) {
+    try {
+        const response = await fetch('/api/payments/create-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookingId: bookingData.bookingId,
+                currency: bookingData.currency,
+                convertedAmount: bookingData.convertedTotal
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+            throw new Error(result.message || 'Failed to create payment intent');
+        }
+        
+        return result.data.clientSecret;
+    } catch (error) {
+        console.error('Error creating payment intent:', error);
+        throw error;
+    }
+}
+
+// Handle successful payment
+function handlePaymentSuccess(paymentIntent) {
+    const modal = document.getElementById('paymentModal');
+    const bookingData = JSON.parse(modal.dataset.bookingData);
+    
+    // Confirm payment with backend
+    fetch('/api/payments/confirm', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            paymentIntentId: paymentIntent.id
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success state
+            document.querySelector('.payment-form-container').style.display = 'none';
+            document.getElementById('paymentSuccess').classList.remove('hidden');
+            document.getElementById('confirmationNumberDisplay').textContent = result.data.confirmationNumber;
+            
+            // Update booking form to prevent resubmission
+            const bookingForm = document.getElementById('bookingForm');
+            if (bookingForm) {
+                bookingForm.reset();
+                updateBookingSummary();
+            }
+            
+            showNotification('Payment successful! Your booking is confirmed.', 'success');
+        } else {
+            showNotification('Payment processing failed. Please contact support.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error confirming payment:', error);
+        showNotification('Payment confirmation failed. Please contact support.', 'error');
+    });
+}
+
+// Initialize payment modal event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentForm = document.getElementById('paymentForm');
+    const modalCloseButtons = document.querySelectorAll('.modal-close');
+    
+    // Handle payment form submission
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', handlePaymentSubmit);
+    }
+    
+    // Handle modal close
+    modalCloseButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            paymentModal.classList.remove('show');
+        });
+    });
+    
+    // Close modal when clicking outside
+    paymentModal.addEventListener('click', function(e) {
+        if (e.target === paymentModal) {
+            paymentModal.classList.remove('show');
+        }
+    });
+});
+
+// Update the booking form submission to show payment modal instead of direct booking
+function updateBookingFormForPayments() {
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.removeEventListener('submit', handleBookingSubmit);
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form first
+            const formData = new FormData(this);
+            const bookingData = Object.fromEntries(formData);
+            
+            // Basic validation
+            const requiredFields = ['firstName', 'lastName', 'email', 'checkinDate', 'checkoutDate', 'roomType', 'guestCount'];
+            const missingFields = requiredFields.filter(field => !bookingData[field]);
+            
+            if (missingFields.length > 0) {
+                showNotification(`Please fill in all required fields: ${missingFields.map(getFieldLabel).join(', ')}`, 'error');
+                return;
+            }
+            
+            if (!isValidEmail(bookingData.email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Create booking first, then show payment modal
+            createBookingForPayment(bookingData);
+        });
+    }
+}
+
+// Create booking and show payment modal
+async function createBookingForPayment(formData) {
+    try {
+        const response = await fetch('/api/bookings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Show payment modal with booking data
+            const bookingData = {
+                ...formData,
+                bookingId: result.data.booking._id,
+                confirmationNumber: result.data.confirmationNumber,
+                checkinDate: formData.checkinDate,
+                checkoutDate: formData.checkoutDate
+            };
+            
+            showPaymentModal(bookingData);
+        } else {
+            showNotification(result.message || 'Failed to create booking', 'error');
+        }
+    } catch (error) {
+        console.error('Error creating booking:', error);
+        showNotification('Failed to create booking. Please try again.', 'error');
+    }
+}
+
+// Initialize payment system when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Update booking form to use payment flow
+    updateBookingFormForPayments();
+});

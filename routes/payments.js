@@ -1,12 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STRIPE_SECRET_KEY) : null;
 const Booking = require('../models/Booking');
 
 // POST /api/payments/create-intent - Create payment intent for booking
 router.post('/create-intent', async (req, res) => {
+    if (!stripe) {
+        return res.status(501).json({
+            success: false,
+            message: 'Payment processing not configured. Please configure Stripe in environment variables.'
+        });
+    }
+    
     try {
-        const { bookingId, confirmationNumber } = req.body;
+        const { bookingId, confirmationNumber, currency = 'usd', convertedAmount } = req.body;
         
         let booking;
         if (bookingId) {
@@ -29,22 +36,46 @@ router.post('/create-intent', async (req, res) => {
             });
         }
         
+        // Use converted amount if provided, otherwise use booking total
+        const paymentAmount = convertedAmount || booking.totalAmount;
+        
+        // Convert amount to smallest currency unit
+        let amount;
+        switch (currency.toLowerCase()) {
+            case 'cop':
+                amount = Math.round(paymentAmount); // COP doesn't use decimals
+                break;
+            case 'jpy':
+                amount = Math.round(paymentAmount); // JPY doesn't use decimals
+                break;
+            default:
+                amount = Math.round(paymentAmount * 100); // Most currencies use 2 decimal places
+        }
+        
         // Create payment intent with Stripe
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(booking.totalAmount * 100), // Convert to cents
-            currency: 'usd',
+            amount: amount,
+            currency: currency.toLowerCase(),
             metadata: {
                 bookingId: booking._id.toString(),
                 confirmationNumber: booking.confirmationNumber,
                 guestEmail: booking.email,
-                guestName: `${booking.firstName} ${booking.lastName}`
+                guestName: `${booking.firstName} ${booking.lastName}`,
+                roomType: booking.roomType,
+                checkInDate: booking.checkInDate.toISOString(),
+                checkOutDate: booking.checkOutDate.toISOString(),
+                originalAmount: booking.totalAmount,
+                paymentCurrency: currency,
+                convertedAmount: paymentAmount
             },
             receipt_email: booking.email,
-            description: `Crazy Coconuts Hotel - ${booking.confirmationNumber}`
+            description: `Crazy Coconuts Cabañas - ${booking.confirmationNumber}`
         });
         
-        // Save payment intent ID to booking
+        // Save payment intent ID and currency to booking
         booking.paymentIntentId = paymentIntent.id;
+        booking.paymentCurrency = currency;
+        booking.convertedAmount = paymentAmount;
         await booking.save();
         
         res.json({
@@ -52,7 +83,9 @@ router.post('/create-intent', async (req, res) => {
             data: {
                 clientSecret: paymentIntent.client_secret,
                 paymentIntentId: paymentIntent.id,
-                amount: booking.totalAmount
+                amount: paymentAmount,
+                currency: currency,
+                originalAmount: booking.totalAmount
             }
         });
         

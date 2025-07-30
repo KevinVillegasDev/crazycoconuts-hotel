@@ -121,6 +121,16 @@ const bookingSchema = new mongoose.Schema({
         type: String, // Stripe payment intent ID
         sparse: true
     },
+    paymentCurrency: {
+        type: String,
+        default: 'usd'
+    },
+    convertedAmount: {
+        type: Number
+    },
+    paidAt: {
+        type: Date
+    },
     paymentMethod: {
         type: String,
         enum: ['card', 'cash', 'bank_transfer'],
