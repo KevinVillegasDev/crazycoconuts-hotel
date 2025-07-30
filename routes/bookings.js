@@ -1,12 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Booking = require('../models/Booking');
 const { sendBookingConfirmation } = require('../utils/emailService');
 const { calculatePricing } = require('../utils/pricing');
 const { validateBookingData } = require('../middleware/validation');
 
-// GET /api/bookings - Get all bookings (admin only - will implement auth later)
-router.get('/', async (req, res) => {
+// Optional admin authentication middleware
+const optionalAdminAuth = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            if (decoded.role === 'admin') {
+                req.isAdmin = true;
+            }
+        } catch (error) {
+            // Invalid token, but we continue as non-admin
+        }
+    }
+    
+    next();
+};
+
+// GET /api/bookings - Get all bookings (admin only)
+router.get('/', optionalAdminAuth, async (req, res) => {
+    // Check if user is admin for this endpoint
+    if (!req.isAdmin) {
+        return res.status(403).json({
+            success: false,
+            message: 'Admin access required'
+        });
+    }
+    
     try {
         const { status, checkIn, checkOut, email, page = 1, limit = 10 } = req.query;
         
@@ -186,8 +213,16 @@ router.post('/', validateBookingData, async (req, res) => {
     }
 });
 
-// PUT /api/bookings/:id - Update booking
-router.put('/:id', async (req, res) => {
+// PUT /api/bookings/:id - Update booking (admin only)
+router.put('/:id', optionalAdminAuth, async (req, res) => {
+    // Check if user is admin for this endpoint
+    if (!req.isAdmin) {
+        return res.status(403).json({
+            success: false,
+            message: 'Admin access required'
+        });
+    }
+    
     try {
         const booking = await Booking.findById(req.params.id);
         

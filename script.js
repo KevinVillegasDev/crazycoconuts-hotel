@@ -1,11 +1,19 @@
+// Global currency management instance
+let currencyManager;
+
 // DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize currency system first
+    currencyManager = new CurrencyManager();
+    await currencyManager.initialize();
+    
     // Initialize all functionality
     initNavigation();
     initBookingSystem();
     initScrollEffects();
     initMobileMenu();
     initDateValidation();
+    initCurrencySystem();
 });
 
 // Navigation functionality
@@ -704,3 +712,168 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Currency System Functions
+function initCurrencySystem() {
+    const currencySelect = document.getElementById('currencySelect');
+    
+    if (currencySelect) {
+        // Set initial currency
+        currencySelect.value = currencyManager.currentCurrency;
+        
+        // Handle currency changes
+        currencySelect.addEventListener('change', function() {
+            const newCurrency = this.value;
+            currencyManager.saveCurrency(newCurrency);
+            updateAllPrices();
+            
+            // Show currency change notification
+            showNotification(`Currency changed to ${currencyManager.getName(newCurrency)}`, 'success');
+        });
+        
+        // Initial price update
+        updateAllPrices();
+    }
+}
+
+// Update all prices on the page
+function updateAllPrices() {
+    // Update room prices in the rooms section
+    updateRoomPrices();
+    
+    // Update booking summary if visible
+    updateBookingSummary();
+    
+    // Update any other price displays
+    updateMiscPrices();
+}
+
+// Update room prices in the rooms section
+function updateRoomPrices() {
+    const roomPrices = {
+        'ocean-view': 180,
+        'beachfront-suite': 350,
+        'presidential-villa': 650
+    };
+    
+    // Update room cards
+    const roomCards = document.querySelectorAll('.room-card');
+    roomCards.forEach((card, index) => {
+        const priceElement = card.querySelector('.room-price');
+        if (priceElement) {
+            // Try to get room type from title first
+            const roomTitle = card.querySelector('h3');
+            let roomType;
+            
+            if (roomTitle) {
+                const titleText = roomTitle.textContent;
+                if (titleText.includes('Ocean View')) roomType = 'ocean-view';
+                else if (titleText.includes('Beachfront Suite')) roomType = 'beachfront-suite';
+                else if (titleText.includes('Presidential Villa')) roomType = 'presidential-villa';
+            }
+            
+            // If no title found, use card index as fallback
+            if (!roomType) {
+                const roomTypesByIndex = ['ocean-view', 'beachfront-suite', 'presidential-villa'];
+                roomType = roomTypesByIndex[index];
+            }
+            
+            if (roomType && roomPrices[roomType]) {
+                const formattedPrice = currencyManager.format(roomPrices[roomType]);
+                priceElement.innerHTML = `
+                    <span class="price-label">From</span>
+                    <span class="price-amount">${formattedPrice}</span>
+                    <span class="price-period">/night</span>
+                `;
+            }
+        }
+    });
+}
+
+// Update miscellaneous prices
+function updateMiscPrices() {
+    // Update any other price elements with data-price attribute
+    const priceElements = document.querySelectorAll('[data-price]');
+    priceElements.forEach(element => {
+        const basePrice = parseFloat(element.dataset.price);
+        if (!isNaN(basePrice)) {
+            element.textContent = currencyManager.format(basePrice);
+        }
+    });
+}
+
+// Enhanced update booking summary with currency support
+function updateBookingSummaryWithCurrency() {
+    const checkinDate = document.getElementById('checkinDate');
+    const checkoutDate = document.getElementById('checkoutDate');
+    const roomType = document.getElementById('roomType');
+    const guestCount = document.getElementById('guestCount');
+    const summaryElement = document.getElementById('bookingSummary');
+    
+    if (!checkinDate || !checkoutDate || !roomType || !summaryElement) {
+        return;
+    }
+    
+    const checkin = checkinDate.value;
+    const checkout = checkoutDate.value;
+    const room = roomType.value;
+    const guests = guestCount ? guestCount.value : '2';
+    
+    if (!checkin || !checkout || !room) {
+        summaryElement.innerHTML = '<p>Please select your dates and room type to see pricing</p>';
+        return;
+    }
+    
+    const checkinDateObj = new Date(checkin);
+    const checkoutDateObj = new Date(checkout);
+    const nights = Math.ceil((checkoutDateObj - checkinDateObj) / (1000 * 60 * 60 * 24));
+    
+    if (nights <= 0) {
+        summaryElement.innerHTML = '<p>Please select valid dates</p>';
+        return;
+    }
+    
+    const roomPrices = {
+        'ocean-view': 180,
+        'beachfront-suite': 350,
+        'presidential-villa': 650
+    };
+    
+    const roomNames = {
+        'ocean-view': 'Ocean View Room',
+        'beachfront-suite': 'Beachfront Suite',
+        'presidential-villa': 'Presidential Villa'
+    };
+    
+    const pricePerNight = roomPrices[room] || 0;
+    const subtotal = pricePerNight * nights;
+    const tax = subtotal * 0.16; // 16% tax (typical for Colombia)
+    const total = subtotal + tax;
+    
+    // Format prices with current currency
+    const formattedPricePerNight = currencyManager.format(pricePerNight);
+    const formattedSubtotal = currencyManager.format(subtotal);
+    const formattedTax = currencyManager.format(tax);
+    const formattedTotal = currencyManager.format(total);
+    
+    summaryElement.innerHTML = `
+        <div class="booking-details">
+            <p><strong>Room:</strong> ${roomNames[room]}</p>
+            <p><strong>Dates:</strong> ${formatDate(checkin)} - ${formatDate(checkout)}</p>
+            <p><strong>Nights:</strong> ${nights}</p>
+            <p><strong>Guests:</strong> ${guests}</p>
+            <hr style="margin: 15px 0; border: 1px solid #eee;">
+            <p><strong>Room Rate:</strong> ${formattedPricePerNight} × ${nights} nights = ${formattedSubtotal}</p>
+            <p><strong>Taxes & Fees:</strong> ${formattedTax}</p>
+            <p style="font-size: 1.2rem; color: #2E8B57;"><strong>Total: ${formattedTotal}</strong></p>
+            <small style="color: #666; font-style: italic;">
+                Prices shown in ${currencyManager.getName()}
+                ${currencyManager.currentCurrency !== 'COP' ? ' (converted from Colombian Pesos)' : ''}
+            </small>
+        </div>
+    `;
+}
+
+// Override the original updateBookingSummary function
+const originalUpdateBookingSummary = updateBookingSummary;
+updateBookingSummary = updateBookingSummaryWithCurrency;

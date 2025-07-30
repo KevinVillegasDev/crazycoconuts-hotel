@@ -1,10 +1,78 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const Booking = require('../models/Booking');
 const Room = require('../models/Room');
 
+// Simple admin authentication middleware
+const authenticateAdmin = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: 'Access denied. No token provided.'
+        });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Admin privileges required.'
+            });
+        }
+        req.admin = decoded;
+        next();
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'Invalid token.'
+        });
+    }
+};
+
+// POST /api/admin/login - Admin login
+router.post('/login', async (req, res) => {
+    try {
+        const { password } = req.body;
+        
+        // Simple password check (in production, use proper user management)
+        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+        
+        if (password !== adminPassword) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid password'
+            });
+        }
+        
+        // Generate JWT token
+        const token = jwt.sign(
+            { role: 'admin', timestamp: Date.now() },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+        
+        res.json({
+            success: true,
+            message: 'Login successful',
+            token
+        });
+        
+    } catch (error) {
+        console.error('Admin login error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Login failed'
+        });
+    }
+});
+
 // GET /api/admin/dashboard - Dashboard statistics
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', authenticateAdmin, async (req, res) => {
     try {
         const today = new Date();
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -134,7 +202,7 @@ router.get('/dashboard', async (req, res) => {
 });
 
 // GET /api/admin/bookings/recent - Get recent bookings
-router.get('/bookings/recent', async (req, res) => {
+router.get('/bookings/recent', authenticateAdmin, async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
         

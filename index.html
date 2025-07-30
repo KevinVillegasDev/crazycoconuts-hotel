@@ -23,6 +23,19 @@
                 <li><a href="#amenities" class="nav-link">Amenities</a></li>
                 <li><a href="#dining" class="nav-link">Dining</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="currency-selector">
+                    <div class="currency-wrapper">
+                        <i class="fas fa-globe-americas currency-icon"></i>
+                        <select id="currencySelect" class="currency-select">
+                            <option value="COP" data-flag="🇨🇴">Colombia (COP)</option>
+                            <option value="USD" data-flag="🇺🇸">United States (USD)</option>
+                            <option value="EUR" data-flag="🇪🇺">Europe (EUR)</option>
+                            <option value="CAD" data-flag="🇨🇦">Canada (CAD)</option>
+                            <option value="MXN" data-flag="🇲🇽">México (MXN)</option>
+                            <option value="BRL" data-flag="🇧🇷">Brasil (BRL)</option>
+                        </select>
+                    </div>
+                </li>
                 <li><a href="#booking" class="nav-link booking-btn">Book Now</a></li>
             </ul>
             <div class="hamburger">
@@ -400,6 +413,7 @@
         </div>
     </footer>
 
+    <script src="utils/currency.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

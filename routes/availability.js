@@ -4,6 +4,27 @@ const Booking = require('../models/Booking');
 
 // GET /api/availability - Check room availability for date range
 router.get('/', async (req, res) => {
+    // If no dates provided, return current availability (for admin dashboard)
+    if (!req.query.checkIn && !req.query.checkOut) {
+        try {
+            const today = new Date();
+            const availability = await Booking.findAvailableRooms(today, today);
+            
+            res.json({
+                success: true,
+                data: {
+                    availability
+                }
+            });
+            return;
+        } catch (error) {
+            console.error('Error checking current availability:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to check availability'
+            });
+        }
+    }
     try {
         const { checkIn, checkOut, roomType } = req.query;
         

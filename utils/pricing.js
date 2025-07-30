@@ -1,4 +1,4 @@
-// Room pricing configuration
+// Room pricing configuration (base prices in USD)
 const ROOM_RATES = {
     'ocean-view': 180,
     'beachfront-suite': 350,
@@ -7,15 +7,76 @@ const ROOM_RATES = {
 
 const TAX_RATE = 0.16; // 16% tax rate for Colombia
 
+// Currency conversion rates (update these regularly or use an API)
+const EXCHANGE_RATES = {
+    'USD': 1,
+    'COP': 4200, // Colombian Peso
+    'EUR': 0.85,
+    'GBP': 0.75,
+    'CAD': 1.25,
+    'MXN': 18.5,
+    'BRL': 5.2,
+    'ARS': 350
+};
+
+// Currency symbols
+const CURRENCY_SYMBOLS = {
+    'USD': '$',
+    'COP': 'COP',
+    'EUR': '€',
+    'GBP': '£',
+    'CAD': 'C$',
+    'MXN': 'MX$',
+    'BRL': 'R$',
+    'ARS': 'AR$'
+};
+
+/**
+ * Convert currency from USD to target currency
+ * @param {number} amount - Amount in USD
+ * @param {string} targetCurrency - Target currency code
+ * @returns {number} Converted amount
+ */
+function convertCurrency(amount, targetCurrency = 'USD') {
+    if (!EXCHANGE_RATES[targetCurrency]) {
+        console.warn(`Unknown currency: ${targetCurrency}, defaulting to USD`);
+        return amount;
+    }
+    
+    return amount * EXCHANGE_RATES[targetCurrency];
+}
+
+/**
+ * Format currency with appropriate symbol and decimals
+ * @param {number} amount - Amount to format
+ * @param {string} currency - Currency code
+ * @returns {string} Formatted currency string
+ */
+function formatCurrency(amount, currency = 'USD') {
+    const symbol = CURRENCY_SYMBOLS[currency] || '$';
+    
+    if (currency === 'COP') {
+        // Colombian Peso - no decimals, use thousands separator
+        return `${Math.round(amount).toLocaleString('es-CO')} ${symbol}`;
+    } else if (['USD', 'EUR', 'GBP', 'CAD'].includes(currency)) {
+        // Standard currencies with 2 decimals
+        return `${symbol}${amount.toFixed(2)}`;
+    } else {
+        // Other currencies - round appropriately
+        return `${symbol}${Math.round(amount).toLocaleString()}`;
+    }
+}
+
 /**
  * Calculate pricing for a booking
  * @param {string} roomType - Type of room
  * @param {number} nights - Number of nights
  * @param {Date} checkIn - Check-in date (optional, for seasonal pricing)
  * @param {Date} checkOut - Check-out date (optional, for seasonal pricing)
+ * @param {string} currency - Target currency (optional, defaults to USD)
  * @returns {Object} Pricing breakdown
  */
-function calculatePricing(roomType, nights, checkIn = null, checkOut = null) {
+function calculatePricing(roomType, nights, checkIn = null, checkOut = null, currency = 'USD') {
     if (!ROOM_RATES[roomType]) {
         throw new Error(`Invalid room type: ${roomType}`);
     }
@@ -24,24 +85,38 @@ function calculatePricing(roomType, nights, checkIn = null, checkOut = null) {
         throw new Error('Number of nights must be between 1 and 30');
     }
     
-    const roomRate = ROOM_RATES[roomType];
-    let subtotal = roomRate * nights;
+    const roomRateUSD = ROOM_RATES[roomType];
+    let subtotalUSD = roomRateUSD * nights;
     
     // Apply seasonal pricing if dates are provided
     if (checkIn && checkOut) {
-        subtotal = calculateSeasonalPricing(roomType, checkIn, checkOut, roomRate);
+        subtotalUSD = calculateSeasonalPricing(roomType, checkIn, checkOut, roomRateUSD);
     }
     
-    const taxes = subtotal * TAX_RATE;
-    const total = subtotal + taxes;
+    const taxesUSD = subtotalUSD * TAX_RATE;
+    const totalUSD = subtotalUSD + taxesUSD;
+    
+    // Convert to target currency
+    const roomRate = convertCurrency(roomRateUSD, currency);
+    const subtotal = convertCurrency(subtotalUSD, currency);
+    const taxes = convertCurrency(taxesUSD, currency);
+    const total = convertCurrency(totalUSD, currency);
     
     return {
-        roomRate,
+        roomRate: Math.round(roomRate * 100) / 100,
         nights,
         subtotal: Math.round(subtotal * 100) / 100,
         taxes: Math.round(taxes * 100) / 100,
         total: Math.round(total * 100) / 100,
-        taxRate: TAX_RATE
+        taxRate: TAX_RATE,
+        currency,
+        // Also include USD amounts for backend storage
+        usdAmounts: {
+            roomRate: roomRateUSD,
+            subtotal: Math.round(subtotalUSD * 100) / 100,
+            taxes: Math.round(taxesUSD * 100) / 100,
+            total: Math.round(totalUSD * 100) / 100
+        }
     };
 }
 
@@ -159,5 +234,9 @@ module.exports = {
     getSeasonalRates,
     getRoomRate,
     getAllRoomRates,
-    TAX_RATE
+    convertCurrency,
+    formatCurrency,
+    TAX_RATE,
+    EXCHANGE_RATES,
+    CURRENCY_SYMBOLS
 };
