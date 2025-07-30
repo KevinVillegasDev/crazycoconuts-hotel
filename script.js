@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 // Navigation functionality
 function initNavigation() {
     const navbar = document.querySelector('.navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link:not(.currency-selector):not(.currency-selector *)');
     
     // Navbar scroll effect
     window.addEventListener('scroll', () => {
@@ -33,6 +33,11 @@ function initNavigation() {
     // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            // Don't prevent default if this is the currency selector or it contains form elements
+            if (link.closest('.currency-selector') || link.querySelector('select, input')) {
+                return;
+            }
+            
             e.preventDefault();
             const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
@@ -716,13 +721,27 @@ document.addEventListener('DOMContentLoaded', function() {
 // Currency System Functions
 function initCurrencySystem() {
     const currencySelect = document.getElementById('currencySelect');
+    const currencyWrapper = document.querySelector('.currency-wrapper');
     
     if (currencySelect) {
         // Set initial currency
         currencySelect.value = currencyManager.currentCurrency;
         
+        // Prevent event bubbling on currency wrapper
+        if (currencyWrapper) {
+            currencyWrapper.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        // Prevent event bubbling on currency select
+        currencySelect.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
         // Handle currency changes
-        currencySelect.addEventListener('change', function() {
+        currencySelect.addEventListener('change', function(e) {
+            e.stopPropagation();
             const newCurrency = this.value;
             currencyManager.saveCurrency(newCurrency);
             updateAllPrices();

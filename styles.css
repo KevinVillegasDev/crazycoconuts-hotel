@@ -210,6 +210,8 @@ h1, h2, h3, h4, h5, h6 {
 .currency-selector {
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 100;
 }
 
 .currency-wrapper {
@@ -253,6 +255,9 @@ h1, h2, h3, h4, h5, h6 {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    pointer-events: auto;
+    position: relative;
+    z-index: 101;
 }
 
 .currency-select:focus {
