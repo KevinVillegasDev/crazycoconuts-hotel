@@ -19,7 +19,12 @@
             <form id="loginForm" class="login-form">
                 <div class="form-group">
                     <label for="adminPassword">Password:</label>
-                    <input type="password" id="adminPassword" required>
+                    <div class="password-container">
+                        <input type="password" id="adminPassword" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt"></i> Login

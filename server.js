@@ -9,6 +9,12 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Debug: Log environment variables on startup
+console.log('Environment check:');
+console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+console.log('ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD || 'admin123 (default)');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 // Security middleware
 app.use(helmet({
     contentSecurityPolicy: {

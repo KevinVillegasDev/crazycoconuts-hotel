@@ -42,7 +42,14 @@ router.post('/login', async (req, res) => {
         // Simple password check (in production, use proper user management)
         const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
         
+        // Debug logging
+        console.log('Admin login attempt:');
+        console.log('Received password:', password);
+        console.log('Expected password:', adminPassword);
+        console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+        
         if (password !== adminPassword) {
+            console.log('Password mismatch!');
             return res.status(401).json({
                 success: false,
                 message: 'Invalid password'

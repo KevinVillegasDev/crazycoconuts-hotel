@@ -63,6 +63,11 @@ body {
     color: #333;
 }
 
+/* Password container for toggle button */
+.password-container {
+    position: relative;
+}
+
 .login-form input {
     width: 100%;
     padding: 12px;
@@ -70,6 +75,32 @@ body {
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s ease;
+}
+
+.password-container input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: #2E8B57;
 }
 
 .login-form input:focus {
