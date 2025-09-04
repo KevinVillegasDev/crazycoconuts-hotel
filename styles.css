@@ -773,6 +773,96 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.6;
 }
 
+/* Local Attractions Section */
+.attractions {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #e8f5f3 0%, #f0f9ff 50%, #fff5f0 100%);
+    position: relative;
+}
+
+.attractions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(0, 206, 209, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 70% 60%, rgba(255, 107, 53, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.attractions h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.attraction {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 206, 209, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.attraction::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 206, 209, 0.05), rgba(255, 107, 53, 0.05));
+    transition: transform 0.3s ease;
+    z-index: 0;
+}
+
+.attraction:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 206, 209, 0.15);
+}
+
+.attraction:hover::before {
+    transform: translateY(0);
+}
+
+.attraction i {
+    font-size: 3rem;
+    background: linear-gradient(135deg, #00CED1, #20B2AA, #FF6B35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.attraction h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    position: relative;
+    z-index: 1;
+}
+
+.attraction p {
+    color: #666;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
 /* Dining Section */
 .dining {
     padding: 100px 0;

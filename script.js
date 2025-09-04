@@ -77,9 +77,8 @@ function initBookingSystem() {
     
     // Room prices
     const roomPrices = {
-        'ocean-view': 180,
-        'beachfront-suite': 350,
-        'presidential-villa': 650
+        'family-room-4': 120,
+        'large-family-room-7': 130
     };
     
     // Quick booking form
@@ -316,15 +315,13 @@ function updateBookingSummary() {
     }
     
     const roomPrices = {
-        'ocean-view': 180,
-        'beachfront-suite': 350,
-        'presidential-villa': 650
+        'family-room-4': 120,
+        'large-family-room-7': 130
     };
     
     const roomNames = {
-        'ocean-view': 'Ocean View Room',
-        'beachfront-suite': 'Beachfront Suite',
-        'presidential-villa': 'Presidential Villa'
+        'family-room-4': 'Family Room (Up to 4 Guests)',
+        'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
     
     const pricePerNight = roomPrices[room] || 0;
@@ -643,9 +640,8 @@ async function updateRoomAvailability() {
             roomCards.forEach(card => {
                 const roomTitle = card.querySelector('h3').textContent;
                 const roomMapping = {
-                    'Ocean View Room': 'ocean-view',
-                    'Beachfront Suite': 'beachfront-suite',
-                    'Presidential Villa': 'presidential-villa'
+                    'Family Room (Up to 4 Guests)': 'family-room-4',
+                    'Large Family Room (Up to 7 Guests)': 'large-family-room-7'
                 };
                 
                 const roomType = roomMapping[roomTitle];
@@ -687,9 +683,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Map room titles to select values
             const roomMapping = {
-                'Ocean View Room': 'ocean-view',
-                'Beachfront Suite': 'beachfront-suite',
-                'Presidential Villa': 'presidential-villa'
+                'Family Room (Up to 4 Guests)': 'family-room-4',
+                'Large Family Room (Up to 7 Guests)': 'large-family-room-7'
             };
             
             if (roomTypeSelect && roomMapping[roomTitle]) {
@@ -770,9 +765,8 @@ function updateAllPrices() {
 // Update room prices in the rooms section
 function updateRoomPrices() {
     const roomPrices = {
-        'ocean-view': 180,
-        'beachfront-suite': 350,
-        'presidential-villa': 650
+        'family-room-4': 120,
+        'large-family-room-7': 130
     };
     
     // Update room cards
@@ -786,14 +780,13 @@ function updateRoomPrices() {
             
             if (roomTitle) {
                 const titleText = roomTitle.textContent;
-                if (titleText.includes('Ocean View')) roomType = 'ocean-view';
-                else if (titleText.includes('Beachfront Suite')) roomType = 'beachfront-suite';
-                else if (titleText.includes('Presidential Villa')) roomType = 'presidential-villa';
+                if (titleText.includes('Family Room (Up to 4')) roomType = 'family-room-4';
+                else if (titleText.includes('Large Family Room (Up to 7')) roomType = 'large-family-room-7';
             }
             
             // If no title found, use card index as fallback
             if (!roomType) {
-                const roomTypesByIndex = ['ocean-view', 'beachfront-suite', 'presidential-villa'];
+                const roomTypesByIndex = ['family-room-4', 'large-family-room-7'];
                 roomType = roomTypesByIndex[index];
             }
             
@@ -853,15 +846,13 @@ function updateBookingSummaryWithCurrency() {
     }
     
     const roomPrices = {
-        'ocean-view': 180,
-        'beachfront-suite': 350,
-        'presidential-villa': 650
+        'family-room-4': 120,
+        'large-family-room-7': 130
     };
     
     const roomNames = {
-        'ocean-view': 'Ocean View Room',
-        'beachfront-suite': 'Beachfront Suite',
-        'presidential-villa': 'Presidential Villa'
+        'family-room-4': 'Family Room (Up to 4 Guests)',
+        'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
     
     const pricePerNight = roomPrices[room] || 0;
@@ -948,15 +939,13 @@ function showPaymentModal(bookingData) {
     
     // Calculate pricing
     const roomPrices = {
-        'ocean-view': 180,
-        'beachfront-suite': 350,
-        'presidential-villa': 650
+        'family-room-4': 120,
+        'large-family-room-7': 130
     };
     
     const roomNames = {
-        'ocean-view': 'Ocean View Room',
-        'beachfront-suite': 'Beachfront Suite',
-        'presidential-villa': 'Presidential Villa'
+        'family-room-4': 'Family Room (Up to 4 Guests)',
+        'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
     
     const checkinDate = new Date(bookingData.checkinDate);
