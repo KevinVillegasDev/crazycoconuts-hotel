@@ -1,8 +1,7 @@
 // Room pricing configuration (base prices in USD)
 const ROOM_RATES = {
-    'ocean-view': 180,
-    'beachfront-suite': 350,
-    'presidential-villa': 650
+    'family-room-4': 120,
+    'large-family-room-7': 130
 };
 
 const TAX_RATE = 0.16; // 16% tax rate for Colombia
