@@ -31,12 +31,12 @@
             </a>
 
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">Our Story</a></li>
-                <li><a href="#rooms" class="nav-link">Rooms</a></li>
-                <li><a href="#amenities" class="nav-link">Amenities</a></li>
-                <li><a href="#attractions" class="nav-link">Explore</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#home" class="nav-link" data-i18n="nav.home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-i18n="nav.ourStory">Our Story</a></li>
+                <li><a href="#rooms" class="nav-link" data-i18n="nav.rooms">Rooms</a></li>
+                <li><a href="#amenities" class="nav-link" data-i18n="nav.amenities">Amenities</a></li>
+                <li><a href="#attractions" class="nav-link" data-i18n="nav.explore">Explore</a></li>
+                <li><a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a></li>
                 <li class="currency-selector">
                     <div class="currency-wrapper">
                         <select id="currencySelect" class="currency-select">
@@ -49,7 +49,13 @@
                         </select>
                     </div>
                 </li>
-                <li><a href="#booking" class="nav-link nav-cta">Book Your Stay</a></li>
+                <li class="language-selector">
+                    <button class="language-toggle" id="languageToggle" aria-label="Toggle language">
+                        <span class="lang-flag">🇺🇸</span>
+                        <span class="lang-code">EN</span>
+                    </button>
+                </li>
+                <li><a href="#booking" class="nav-link nav-cta" data-i18n="nav.bookYourStay">Book Your Stay</a></li>
             </ul>
 
             <div class="hamburger">
@@ -68,33 +74,33 @@
         </div>
         <div class="hero-content">
             <div class="hero-badge">
-                <span>San Antero, Colombia</span>
+                <span data-i18n="hero.location">San Antero, Colombia</span>
             </div>
-            <h1>Where the <em>Caribbean</em> feels like <em>home</em></h1>
-            <p class="hero-subtitle">A cozy family-run bed & breakfast on Colombia's unspoiled coast. Homemade meals, hammocks under palms, and the kind of hospitality that makes strangers feel like family.</p>
+            <h1 data-i18n="hero.title" data-i18n-html="true">Where the <em>Caribbean</em> feels like <em>home</em></h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">A cozy family-run bed & breakfast on Colombia's unspoiled coast. Homemade meals, hammocks under palms, and the kind of hospitality that makes strangers feel like family.</p>
             <div class="hero-buttons">
                 <a href="#booking" class="btn btn-primary">
-                    <span>Reserve Your Room</span>
+                    <span data-i18n="hero.reserveRoom">Reserve Your Room</span>
                     <i class="fas fa-arrow-right"></i>
                 </a>
                 <a href="#rooms" class="btn btn-secondary">
-                    <span>See Our Rooms</span>
+                    <span data-i18n="hero.seeRooms">See Our Rooms</span>
                 </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
                     <span class="stat-number">15+</span>
-                    <span class="stat-label">Years of Hospitality</span>
+                    <span class="stat-label" data-i18n="hero.yearsHospitality">Years of Hospitality</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
                     <span class="stat-number">2</span>
-                    <span class="stat-label">Family Rooms</span>
+                    <span class="stat-label" data-i18n="hero.familyRooms">Family Rooms</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
                     <span class="stat-number">100%</span>
-                    <span class="stat-label">Homemade Breakfast</span>
+                    <span class="stat-label" data-i18n="hero.homemadeBreakfast">Homemade Breakfast</span>
                 </div>
             </div>
         </div>
@@ -108,13 +114,13 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="floating-card-content">
-                    <span class="floating-card-title">Guest Favorite</span>
-                    <span class="floating-card-text">"Like staying with family"</span>
+                    <span class="floating-card-title" data-i18n="hero.guestFavorite">Guest Favorite</span>
+                    <span class="floating-card-text" data-i18n="hero.guestQuote">"Like staying with family"</span>
                 </div>
             </div>
         </div>
         <div class="hero-scroll-indicator">
-            <span>Scroll to explore</span>
+            <span data-i18n="hero.scrollToExplore">Scroll to explore</span>
             <div class="scroll-line"></div>
         </div>
     </section>
@@ -124,28 +130,28 @@
         <div class="container">
             <div class="quick-booking-inner">
                 <div class="quick-booking-header">
-                    <h3>Check Availability</h3>
-                    <p>Find your perfect dates</p>
+                    <h3 data-i18n="quickBooking.checkAvailability">Check Availability</h3>
+                    <p data-i18n="quickBooking.findDates">Find your perfect dates</p>
                 </div>
                 <form class="booking-form-quick">
                     <div class="form-group">
                         <label for="checkin">
                             <i class="fas fa-calendar-alt"></i>
-                            Check-in
+                            <span data-i18n="quickBooking.checkIn">Check-in</span>
                         </label>
                         <input type="date" id="checkin" name="checkin" required>
                     </div>
                     <div class="form-group">
                         <label for="checkout">
                             <i class="fas fa-calendar-alt"></i>
-                            Check-out
+                            <span data-i18n="quickBooking.checkOut">Check-out</span>
                         </label>
                         <input type="date" id="checkout" name="checkout" required>
                     </div>
                     <div class="form-group">
                         <label for="guests">
                             <i class="fas fa-users"></i>
-                            Guests
+                            <span data-i18n="quickBooking.guests">Guests</span>
                         </label>
                         <select id="guests" name="guests">
                             <option value="1">1 Guest</option>
@@ -155,7 +161,7 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <span>Check Availability</span>
+                        <span data-i18n="quickBooking.checkAvailability">Check Availability</span>
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -177,16 +183,16 @@
                     </div>
                     <div class="about-badge">
                         <span class="badge-icon"><i class="fas fa-heart"></i></span>
-                        <span class="badge-text">Family Run Since 2009</span>
+                        <span class="badge-text" data-i18n="about.familyBadge">Family Run Since 2009</span>
                     </div>
                 </div>
                 <div class="about-content">
-                    <span class="section-tag">Our Story</span>
-                    <h2>More than a place to stay&mdash;<br><em>a place to belong</em></h2>
+                    <span class="section-tag" data-i18n="about.tag">Our Story</span>
+                    <h2 data-i18n="about.title" data-i18n-html="true">More than a place to stay&mdash;<br><em>a place to belong</em></h2>
                     <div class="about-text">
-                        <p class="lead">Welcome to our family. Nestled in the coastal town of San Antero, Córdoba, Crazy Coconuts is more than a destination&mdash;it's a home where every guest becomes family.</p>
-                        <p>Our spacious, immaculately clean bed & breakfast offers the perfect sanctuary for those seeking authentic relaxation. Here, where tranquil beaches meet unspoiled countryside, you'll savor lovingly prepared homemade meals while surrounded by the safe, serene atmosphere where time slows down.</p>
-                        <p>We believe in the simple things: fresh morning coffee on the terrace, afternoon naps in hammocks, and evenings filled with good conversation and even better food.</p>
+                        <p class="lead" data-i18n="about.lead">Welcome to our family. Nestled in the coastal town of San Antero, Córdoba, Crazy Coconuts is more than a destination—it's a home where every guest becomes family.</p>
+                        <p data-i18n="about.p1">Our spacious, immaculately clean bed & breakfast offers the perfect sanctuary for those seeking authentic relaxation. Here, where tranquil beaches meet unspoiled countryside, you'll savor lovingly prepared homemade meals while surrounded by the safe, serene atmosphere where time slows down.</p>
+                        <p data-i18n="about.p2">We believe in the simple things: fresh morning coffee on the terrace, afternoon naps in hammocks, and evenings filled with good conversation and even better food.</p>
                     </div>
                     <div class="about-features">
                         <div class="about-feature">
@@ -194,8 +200,8 @@
                                 <i class="fas fa-utensils"></i>
                             </div>
                             <div class="feature-text">
-                                <h4>Homemade Meals</h4>
-                                <p>Traditional Colombian breakfast included daily</p>
+                                <h4 data-i18n="about.feature1Title">Homemade Meals</h4>
+                                <p data-i18n="about.feature1Text">Traditional Colombian breakfast included daily</p>
                             </div>
                         </div>
                         <div class="about-feature">
@@ -203,8 +209,8 @@
                                 <i class="fas fa-leaf"></i>
                             </div>
                             <div class="feature-text">
-                                <h4>Peaceful Setting</h4>
-                                <p>Escape the crowds on quiet, pristine beaches</p>
+                                <h4 data-i18n="about.feature2Title">Peaceful Setting</h4>
+                                <p data-i18n="about.feature2Text">Escape the crowds on quiet, pristine beaches</p>
                             </div>
                         </div>
                         <div class="about-feature">
@@ -212,8 +218,8 @@
                                 <i class="fas fa-hands-helping"></i>
                             </div>
                             <div class="feature-text">
-                                <h4>Personal Touch</h4>
-                                <p>We'll help plan tours, meals & local experiences</p>
+                                <h4 data-i18n="about.feature3Title">Personal Touch</h4>
+                                <p data-i18n="about.feature3Text">We'll help plan tours, meals & local experiences</p>
                             </div>
                         </div>
                     </div>
@@ -226,9 +232,9 @@
     <section id="rooms" class="rooms">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Accommodations</span>
-                <h2>Comfortable rooms for <em>families & friends</em></h2>
-                <p class="section-subtitle">Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, air conditioning, and everything you need for a relaxing stay.</p>
+                <span class="section-tag" data-i18n="rooms.tag">Accommodations</span>
+                <h2 data-i18n="rooms.title" data-i18n-html="true">Comfortable rooms for <em>families & friends</em></h2>
+                <p class="section-subtitle" data-i18n="rooms.subtitle">Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, air conditioning, and everything you need for a relaxing stay.</p>
             </div>
 
             <div class="rooms-grid">
@@ -238,27 +244,27 @@
                         <div class="room-image-overlay"></div>
                         <span class="room-capacity">
                             <i class="fas fa-users"></i>
-                            Up to 4 guests
+                            <span data-i18n="rooms.upTo">Up to</span> 4 <span data-i18n="rooms.guestsLabel">guests</span>
                         </span>
                     </div>
                     <div class="room-info">
-                        <h3>Family Room (Up to 4 Guests)</h3>
-                        <p class="room-description">Perfect for families and small groups. Comfortable beds, private bathroom, and all the amenities you need.</p>
+                        <h3 data-i18n="rooms.room1Name">Family Room (Up to 4 Guests)</h3>
+                        <p class="room-description" data-i18n="rooms.room1Desc">Perfect for families and small groups. Comfortable beds, private bathroom, and all the amenities you need.</p>
                         <div class="room-features">
-                            <span class="feature"><i class="fas fa-wifi"></i> Free WiFi</span>
-                            <span class="feature"><i class="fas fa-snowflake"></i> A/C</span>
-                            <span class="feature"><i class="fas fa-bath"></i> Private Bath</span>
-                            <span class="feature"><i class="fas fa-tv"></i> TV</span>
-                            <span class="feature"><i class="fas fa-cube"></i> Mini Fridge</span>
-                            <span class="feature"><i class="fas fa-coffee"></i> Breakfast</span>
+                            <span class="feature"><i class="fas fa-wifi"></i> <span data-i18n="rooms.freeWifi">Free WiFi</span></span>
+                            <span class="feature"><i class="fas fa-snowflake"></i> <span data-i18n="rooms.ac">A/C</span></span>
+                            <span class="feature"><i class="fas fa-bath"></i> <span data-i18n="rooms.privateBath">Private Bath</span></span>
+                            <span class="feature"><i class="fas fa-tv"></i> <span data-i18n="rooms.tv">TV</span></span>
+                            <span class="feature"><i class="fas fa-cube"></i> <span data-i18n="rooms.miniFridge">Mini Fridge</span></span>
+                            <span class="feature"><i class="fas fa-coffee"></i> <span data-i18n="rooms.breakfast">Breakfast</span></span>
                         </div>
                         <div class="room-footer">
                             <div class="room-price">
-                                <span class="price-label">From</span>
+                                <span class="price-label" data-i18n="rooms.from">From</span>
                                 <span class="price-amount">$120</span>
-                                <span class="price-period">/night</span>
+                                <span class="price-period" data-i18n="rooms.perNight">/night</span>
                             </div>
-                            <a href="#booking" class="btn btn-primary">Book This Room</a>
+                            <a href="#booking" class="btn btn-primary" data-i18n="rooms.bookThisRoom">Book This Room</a>
                         </div>
                     </div>
                 </article>
@@ -269,28 +275,28 @@
                         <div class="room-image-overlay"></div>
                         <span class="room-capacity">
                             <i class="fas fa-users"></i>
-                            Up to 7 guests
+                            <span data-i18n="rooms.upTo">Up to</span> 7 <span data-i18n="rooms.guestsLabel">guests</span>
                         </span>
-                        <span class="room-badge">Most Popular</span>
+                        <span class="room-badge" data-i18n="rooms.mostPopular">Most Popular</span>
                     </div>
                     <div class="room-info">
-                        <h3>Large Family Room (Up to 7 Guests)</h3>
-                        <p class="room-description">Our most spacious room, ideal for large families and group gatherings. Plenty of space to spread out and relax.</p>
+                        <h3 data-i18n="rooms.room2Name">Large Family Room (Up to 7 Guests)</h3>
+                        <p class="room-description" data-i18n="rooms.room2Desc">Our most spacious room, ideal for large families and group gatherings. Plenty of space to spread out and relax.</p>
                         <div class="room-features">
-                            <span class="feature"><i class="fas fa-wifi"></i> Free WiFi</span>
-                            <span class="feature"><i class="fas fa-snowflake"></i> A/C</span>
-                            <span class="feature"><i class="fas fa-bath"></i> Private Bath</span>
-                            <span class="feature"><i class="fas fa-tv"></i> TV</span>
-                            <span class="feature"><i class="fas fa-cube"></i> Mini Fridge</span>
-                            <span class="feature"><i class="fas fa-coffee"></i> Breakfast</span>
+                            <span class="feature"><i class="fas fa-wifi"></i> <span data-i18n="rooms.freeWifi">Free WiFi</span></span>
+                            <span class="feature"><i class="fas fa-snowflake"></i> <span data-i18n="rooms.ac">A/C</span></span>
+                            <span class="feature"><i class="fas fa-bath"></i> <span data-i18n="rooms.privateBath">Private Bath</span></span>
+                            <span class="feature"><i class="fas fa-tv"></i> <span data-i18n="rooms.tv">TV</span></span>
+                            <span class="feature"><i class="fas fa-cube"></i> <span data-i18n="rooms.miniFridge">Mini Fridge</span></span>
+                            <span class="feature"><i class="fas fa-coffee"></i> <span data-i18n="rooms.breakfast">Breakfast</span></span>
                         </div>
                         <div class="room-footer">
                             <div class="room-price">
-                                <span class="price-label">From</span>
+                                <span class="price-label" data-i18n="rooms.from">From</span>
                                 <span class="price-amount">$130</span>
-                                <span class="price-period">/night</span>
+                                <span class="price-period" data-i18n="rooms.perNight">/night</span>
                             </div>
-                            <a href="#booking" class="btn btn-primary">Book This Room</a>
+                            <a href="#booking" class="btn btn-primary" data-i18n="rooms.bookThisRoom">Book This Room</a>
                         </div>
                     </div>
                 </article>
@@ -298,63 +304,109 @@
 
             <div class="rooms-note">
                 <i class="fas fa-info-circle"></i>
-                <p>All rooms include daily homemade breakfast, fresh linens, and 24-hour access. Need something special? Just ask&mdash;we're here to help!</p>
+                <p data-i18n="rooms.note">All rooms include daily homemade breakfast, fresh linens, and 24-hour access. Need something special? Just ask—we're here to help!</p>
             </div>
         </div>
     </section>
 
     <!-- Amenities Section -->
     <section id="amenities" class="amenities">
-        <div class="amenities-bg"></div>
         <div class="container">
-            <div class="section-header section-header-light">
-                <span class="section-tag">What's Included</span>
-                <h2>Everything for a <em>perfect stay</em></h2>
-                <p class="section-subtitle">Simple comforts, thoughtfully provided. Everything you need, nothing you don't.</p>
+            <div class="section-header">
+                <span class="section-tag" data-i18n="amenities.tag">What's Included</span>
+                <h2 data-i18n="amenities.title" data-i18n-html="true">All the little things that make it <em>feel like home</em></h2>
+                <p class="section-subtitle" data-i18n="amenities.subtitle">No fancy frills, just genuine comforts. Everything you need for a perfect stay.</p>
             </div>
 
             <div class="amenities-grid">
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-utensils"></i>
+                <div class="amenity-card amenity-breakfast">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <path d="M25 50 Q30 35 40 35 Q50 35 55 50" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <circle cx="35" cy="42" r="4" fill="currentColor"/>
+                            <circle cx="45" cy="42" r="4" fill="currentColor"/>
+                            <path d="M30 55 L50 55" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M38 25 Q40 20 42 25" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M32 28 Q35 22 38 28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
                     </div>
-                    <h3>Homemade Meals</h3>
-                    <p>Start your day with traditional Colombian breakfast. Lunch and dinner available on request.</p>
+                    <h3 data-i18n="amenities.breakfastTitle">Homemade Breakfast</h3>
+                    <p data-i18n="amenities.breakfastDesc">Wake up to the smell of fresh arepas, eggs, and Colombian coffee. Made with love, every morning.</p>
                 </div>
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-cocktail"></i>
+
+                <div class="amenity-card amenity-drinks">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <path d="M30 30 L32 55 Q32 60 40 60 Q48 60 48 55 L50 30 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <ellipse cx="40" cy="30" rx="10" ry="3" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="36" cy="45" r="3" fill="currentColor" opacity="0.5"/>
+                            <circle cx="44" cy="50" r="2" fill="currentColor" opacity="0.5"/>
+                            <path d="M50 35 Q60 30 55 45" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <circle cx="55" cy="46" r="4" fill="currentColor" opacity="0.3"/>
+                        </svg>
                     </div>
-                    <h3>Beach Bar</h3>
-                    <p>Fresh coconut water, tropical cocktails, and cold drinks just steps from the sand.</p>
+                    <h3 data-i18n="amenities.drinksTitle">Fresh Coconut Water</h3>
+                    <p data-i18n="amenities.drinksDesc">Straight from the tree to your glass. Plus tropical juices and cold drinks anytime.</p>
                 </div>
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-wifi"></i>
+
+                <div class="amenity-card amenity-wifi">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <circle cx="40" cy="55" r="4" fill="currentColor"/>
+                            <path d="M28 45 Q40 35 52 45" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M22 38 Q40 25 58 38" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </svg>
                     </div>
-                    <h3>Free WiFi</h3>
-                    <p>Stay connected with reliable internet throughout the property.</p>
+                    <h3 data-i18n="amenities.wifiTitle">Free WiFi</h3>
+                    <p data-i18n="amenities.wifiDesc">Stay connected (or don't - we won't judge). Reliable internet throughout the property.</p>
                 </div>
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-swimming-pool"></i>
+
+                <div class="amenity-card amenity-pool">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <path d="M20 45 Q27 40 34 45 Q41 50 48 45 Q55 40 62 45" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M20 55 Q27 50 34 55 Q41 60 48 55 Q55 50 62 55" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <circle cx="55" cy="35" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M55 30 L55 25 M60 35 L65 35 M55 40 L55 45 M50 35 L45 35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
                     </div>
-                    <h3>Swimming Pool</h3>
-                    <p>Cool off in our refreshing pool surrounded by tropical gardens.</p>
+                    <h3 data-i18n="amenities.poolTitle">Swimming Pool</h3>
+                    <p data-i18n="amenities.poolDesc">Take a dip in our refreshing pool, surrounded by palm trees and tropical flowers.</p>
                 </div>
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-parking"></i>
+
+                <div class="amenity-card amenity-parking">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <rect x="25" y="35" width="30" height="20" rx="5" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="32" cy="55" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="48" cy="55" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M30 35 L33 28 L47 28 L50 35" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <line x1="35" y1="42" x2="38" y2="42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
                     </div>
-                    <h3>Free Parking</h3>
-                    <p>Secure, complimentary parking for all our guests.</p>
+                    <h3 data-i18n="amenities.parkingTitle">Free Parking</h3>
+                    <p data-i18n="amenities.parkingDesc">Secure, complimentary parking right on the property. Your car will be safe with us.</p>
                 </div>
-                <div class="amenity">
-                    <div class="amenity-icon">
-                        <i class="fas fa-leaf"></i>
+
+                <div class="amenity-card amenity-hammock">
+                    <div class="amenity-illustration">
+                        <svg viewBox="0 0 80 80" class="amenity-svg">
+                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
+                            <path d="M20 35 L20 55" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M60 35 L60 55" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M20 40 Q40 60 60 40" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M15 32 Q20 28 25 32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M55 32 Q60 28 65 32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <ellipse cx="40" cy="48" rx="8" ry="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
                     </div>
-                    <h3>Hammock Garden</h3>
-                    <p>Find your favorite spot among our shaded hammocks and lounge areas.</p>
+                    <h3 data-i18n="amenities.hammockTitle">Hammock Heaven</h3>
+                    <p data-i18n="amenities.hammockDesc">Find your favorite spot among our shaded hammocks. Perfect for afternoon naps and good books.</p>
                 </div>
             </div>
         </div>
@@ -364,83 +416,99 @@
     <section id="attractions" class="attractions">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Explore the Area</span>
-                <h2>Adventures await <em>just around the corner</em></h2>
-                <p class="section-subtitle">San Antero and the surrounding coast offer incredible natural wonders. We'll help you discover them all.</p>
+                <span class="section-tag" data-i18n="attractions.tag">Explore the Area</span>
+                <h2 data-i18n="attractions.title" data-i18n-html="true">Your adventure starts <em>right outside our door</em></h2>
+                <p class="section-subtitle" data-i18n="attractions.subtitle">San Antero is full of hidden gems. We'll share our favorite spots and help you get there.</p>
             </div>
 
-            <div class="attractions-grid">
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-ship"></i>
+            <div class="attractions-showcase">
+                <div class="attraction-featured">
+                    <div class="attraction-image">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" alt="Island boat tour" />
+                        <div class="attraction-image-overlay"></div>
                     </div>
-                    <div class="attraction-content">
-                        <h3>Island Boat Tours</h3>
-                        <p>Explore pristine islands and hidden coves on guided boat excursions</p>
-                    </div>
-                </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-dove"></i>
-                    </div>
-                    <div class="attraction-content">
-                        <h3>Bird Watching</h3>
-                        <p>Discover exotic species at La Caimanera wildlife sanctuary</p>
+                    <div class="attraction-info">
+                        <span class="attraction-badge" data-i18n="attractions.featuredBadge">Most Popular</span>
+                        <h3 data-i18n="attractions.featuredTitle">Island Hopping Tours</h3>
+                        <p data-i18n="attractions.featuredDesc">Hop on a local boat and explore pristine islands, secret beaches, and the famous bioluminescent waters. We'll pack you a cooler of drinks and snacks.</p>
+                        <div class="attraction-meta">
+                            <span><i class="fas fa-clock"></i> <span data-i18n="attractions.featuredTime">Full day trip</span></span>
+                            <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="attractions.featuredDistance">15 min from here</span></span>
+                        </div>
                     </div>
                 </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-tree"></i>
+
+                <div class="attractions-grid-small">
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.mangroveTitle">Mangrove Forest Tours</h4>
+                            <p data-i18n="attractions.mangroveDesc">Kayak through magical tunnels of mangroves. Keep your eyes open for monkeys and exotic birds!</p>
+                        </div>
                     </div>
-                    <div class="attraction-content">
-                        <h3>Mangrove Tours</h3>
-                        <p>Journey through magical mangrove forests teeming with wildlife</p>
+
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.mudTitle">Mud Volcano</h4>
+                            <p data-i18n="attractions.mudDesc">Float in therapeutic volcanic mud - it's weird, wonderful, and your skin will thank you.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-mountain"></i>
+
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.beachTitle">Rincón del Mar</h4>
+                            <p data-i18n="attractions.beachDesc">The most beautiful beach in the region. Crystal-clear water and fresh seafood restaurants.</p>
+                        </div>
                     </div>
-                    <div class="attraction-content">
-                        <h3>Mud Volcano</h3>
-                        <p>Therapeutic mud baths at the famous nearby volcano</p>
+
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.fishingTitle">Fishing with Locals</h4>
+                            <p data-i18n="attractions.fishingDesc">Join local fishermen at dawn. Whatever you catch, we'll cook it for your dinner!</p>
+                        </div>
                     </div>
-                </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-umbrella-beach"></i>
+
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-binoculars"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.birdTitle">Bird Watching</h4>
+                            <p data-i18n="attractions.birdDesc">La Caimanera sanctuary is home to flamingos, herons, and hundreds of exotic species.</p>
+                        </div>
                     </div>
-                    <div class="attraction-content">
-                        <h3>Rincon del Mar</h3>
-                        <p>Crystal-clear waters and pristine white sand beaches</p>
-                    </div>
-                </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-water"></i>
-                    </div>
-                    <div class="attraction-content">
-                        <h3>Snorkeling & Surfing</h3>
-                        <p>World-class water sports in warm Caribbean waters</p>
-                    </div>
-                </div>
-                <div class="attraction">
-                    <div class="attraction-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div class="attraction-content">
-                        <h3>Local Villages</h3>
-                        <p>Experience authentic Colombian culture in charming Cobenas</p>
+
+                    <div class="attraction-card">
+                        <div class="attraction-card-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="attraction-card-content">
+                            <h4 data-i18n="attractions.marketTitle">Local Village Markets</h4>
+                            <p data-i18n="attractions.marketDesc">Explore Cobeñas and Lorica. Fresh fruit, handmade crafts, and the friendliest people.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="attractions-cta">
-                <p>Want to plan your perfect adventure? We'll help arrange tours, transportation, and local experiences.</p>
-                <a href="#contact" class="btn btn-secondary">
-                    <span>Ask Us Anything</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+            <div class="attractions-note">
+                <div class="note-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="note-content">
+                    <h4 data-i18n="attractions.noteTitle">We'll help you plan everything</h4>
+                    <p data-i18n="attractions.noteDesc">Just tell us what sounds fun and we'll arrange tours, transportation, and local guides. We know all the best spots (and the ones to skip).</p>
+                </div>
             </div>
         </div>
     </section>
@@ -451,31 +519,31 @@
         <div class="container">
             <div class="booking-wrapper">
                 <div class="booking-info">
-                    <span class="section-tag">Reserve Your Room</span>
-                    <h2>Ready to <em>escape?</em></h2>
-                    <p>Fill out the form and we'll confirm your reservation. Questions? We're always happy to help plan your perfect stay.</p>
+                    <span class="section-tag" data-i18n="booking.tag">Reserve Your Room</span>
+                    <h2 data-i18n="booking.title" data-i18n-html="true">Ready to <em>escape?</em></h2>
+                    <p data-i18n="booking.subtitle">Fill out the form and we'll confirm your reservation. Questions? We're always happy to help plan your perfect stay.</p>
 
                     <div class="booking-highlights">
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span>Free cancellation up to 48 hours</span>
+                            <span data-i18n="booking.highlight1">Free cancellation up to 48 hours</span>
                         </div>
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span>Breakfast included every morning</span>
+                            <span data-i18n="booking.highlight2">Breakfast included every morning</span>
                         </div>
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span>No hidden fees or surprises</span>
+                            <span data-i18n="booking.highlight3">No hidden fees or surprises</span>
                         </div>
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span>Secure online payment</span>
+                            <span data-i18n="booking.highlight4">Secure online payment</span>
                         </div>
                     </div>
 
                     <div class="booking-contact">
-                        <p>Prefer to book by phone?</p>
+                        <p data-i18n="booking.phonePrompt">Prefer to book by phone?</p>
                         <a href="tel:+5754321000" class="phone-link">
                             <i class="fas fa-phone"></i>
                             +57 5 432 1000
@@ -486,52 +554,52 @@
                 <div class="booking-form-container">
                     <form class="booking-form" id="bookingForm">
                         <div class="form-section">
-                            <h3>Your Information</h3>
+                            <h3 data-i18n="booking.yourInfo">Your Information</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="firstName">First Name <span class="required">*</span></label>
+                                    <label for="firstName"><span data-i18n="booking.firstName">First Name</span> <span class="required">*</span></label>
                                     <input type="text" id="firstName" name="firstName" required placeholder="Juan">
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Last Name <span class="required">*</span></label>
+                                    <label for="lastName"><span data-i18n="booking.lastName">Last Name</span> <span class="required">*</span></label>
                                     <input type="text" id="lastName" name="lastName" required placeholder="Garcia">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="email">Email <span class="required">*</span></label>
+                                    <label for="email"><span data-i18n="booking.email">Email</span> <span class="required">*</span></label>
                                     <input type="email" id="email" name="email" required placeholder="you@example.com">
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone">Phone</label>
+                                    <label for="phone" data-i18n="booking.phone">Phone</label>
                                     <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-section">
-                            <h3>Stay Details</h3>
+                            <h3 data-i18n="booking.stayDetails">Stay Details</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="checkinDate">Check-in <span class="required">*</span></label>
+                                    <label for="checkinDate"><span data-i18n="booking.checkInLabel">Check-in</span> <span class="required">*</span></label>
                                     <input type="date" id="checkinDate" name="checkinDate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="checkoutDate">Check-out <span class="required">*</span></label>
+                                    <label for="checkoutDate"><span data-i18n="booking.checkOutLabel">Check-out</span> <span class="required">*</span></label>
                                     <input type="date" id="checkoutDate" name="checkoutDate" required>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="roomType">Room <span class="required">*</span></label>
+                                    <label for="roomType"><span data-i18n="booking.roomLabel">Room</span> <span class="required">*</span></label>
                                     <select id="roomType" name="roomType" required>
-                                        <option value="">Select a room...</option>
-                                        <option value="family-room-4">Family Room (Up to 4) - $120/night</option>
-                                        <option value="large-family-room-7">Large Family Room (Up to 7) - $130/night</option>
+                                        <option value="" data-i18n="booking.selectRoom">Select a room...</option>
+                                        <option value="family-room-4" data-i18n="booking.room1Option">Family Room (Up to 4) - $120/night</option>
+                                        <option value="large-family-room-7" data-i18n="booking.room2Option">Large Family Room (Up to 7) - $130/night</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="guestCount">Guests <span class="required">*</span></label>
+                                    <label for="guestCount"><span data-i18n="booking.guestsLabel">Guests</span> <span class="required">*</span></label>
                                     <select id="guestCount" name="guestCount" required>
                                         <option value="1">1 Guest</option>
                                         <option value="2">2 Guests</option>
@@ -546,19 +614,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="specialRequests">Special Requests</label>
-                            <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Dietary needs, arrival time, special occasions..."></textarea>
+                            <label for="specialRequests" data-i18n="booking.specialRequests">Special Requests</label>
+                            <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Dietary needs, arrival time, special occasions..." data-i18n-placeholder="booking.specialPlaceholder"></textarea>
                         </div>
 
                         <div class="booking-summary-container">
-                            <h3>Booking Summary</h3>
+                            <h3 data-i18n="booking.summaryTitle">Booking Summary</h3>
                             <div id="bookingSummary" class="booking-summary">
-                                <p class="summary-placeholder">Select your dates and room to see pricing</p>
+                                <p class="summary-placeholder" data-i18n="booking.summaryPlaceholder">Select your dates and room to see pricing</p>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-large">
-                            <span>Complete Reservation</span>
+                            <span data-i18n="booking.completeReservation">Complete Reservation</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </form>
@@ -571,9 +639,9 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Get in Touch</span>
-                <h2>We'd love to <em>hear from you</em></h2>
-                <p class="section-subtitle">Questions about your stay? Planning a special trip? We're here to help make it perfect.</p>
+                <span class="section-tag" data-i18n="contact.tag">Get in Touch</span>
+                <h2 data-i18n="contact.title" data-i18n-html="true">We'd love to <em>hear from you</em></h2>
+                <p class="section-subtitle" data-i18n="contact.subtitle">Questions about your stay? Planning a special trip? We're here to help make it perfect.</p>
             </div>
 
             <div class="contact-grid">
@@ -583,9 +651,9 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="contact-card-content">
-                            <h3>Call Us</h3>
+                            <h3 data-i18n="contact.callUs">Call Us</h3>
                             <p>+57 5 432 1000</p>
-                            <span class="contact-card-hint">We speak English & Spanish</span>
+                            <span class="contact-card-hint" data-i18n="contact.callHint">We speak English & Spanish</span>
                         </div>
                     </a>
 
@@ -594,9 +662,9 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-card-content">
-                            <h3>Email Us</h3>
+                            <h3 data-i18n="contact.emailUs">Email Us</h3>
                             <p>reservations@crazycoconuts.com</p>
-                            <span class="contact-card-hint">We reply within 24 hours</span>
+                            <span class="contact-card-hint" data-i18n="contact.emailHint">We reply within 24 hours</span>
                         </div>
                     </a>
 
@@ -605,9 +673,9 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="contact-card-content">
-                            <h3>Visit Us</h3>
+                            <h3 data-i18n="contact.visitUs">Visit Us</h3>
                             <p>San Antero, Córdoba<br>Colombia</p>
-                            <span class="contact-card-hint">3 hours from Cartagena</span>
+                            <span class="contact-card-hint" data-i18n="contact.visitHint">3 hours from Cartagena</span>
                         </div>
                     </div>
 
@@ -616,9 +684,9 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="contact-card-content">
-                            <h3>Reception Hours</h3>
-                            <p>7:00 AM - 10:00 PM</p>
-                            <span class="contact-card-hint">24/7 for emergencies</span>
+                            <h3 data-i18n="contact.hours">Reception Hours</h3>
+                            <p data-i18n="contact.hoursValue">7:00 AM - 10:00 PM</p>
+                            <span class="contact-card-hint" data-i18n="contact.hoursHint">24/7 for emergencies</span>
                         </div>
                     </div>
                 </div>
@@ -658,7 +726,7 @@
                         </svg>
                         <span>Crazy Coconuts</span>
                     </div>
-                    <p>A cozy family-run bed & breakfast on Colombia's Caribbean coast. Where strangers become friends, and friends become family.</p>
+                    <p data-i18n="footer.tagline">A cozy family-run bed & breakfast on Colombia's Caribbean coast. Where strangers become friends, and friends become family.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -669,36 +737,36 @@
 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>Stay With Us</h4>
+                        <h4 data-i18n="footer.stayWithUs">Stay With Us</h4>
                         <ul>
-                            <li><a href="#rooms">Our Rooms</a></li>
-                            <li><a href="#amenities">Amenities</a></li>
-                            <li><a href="#booking">Book Now</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#rooms" data-i18n="footer.ourRooms">Our Rooms</a></li>
+                            <li><a href="#amenities" data-i18n="footer.amenitiesLink">Amenities</a></li>
+                            <li><a href="#booking" data-i18n="footer.bookNow">Book Now</a></li>
+                            <li><a href="#contact" data-i18n="footer.contactLink">Contact</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Explore</h4>
+                        <h4 data-i18n="footer.exploreTitle">Explore</h4>
                         <ul>
-                            <li><a href="#attractions">Local Attractions</a></li>
-                            <li><a href="#about">Our Story</a></li>
-                            <li><a href="#">Getting Here</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#attractions" data-i18n="footer.localAttractions">Local Attractions</a></li>
+                            <li><a href="#about" data-i18n="footer.ourStory">Our Story</a></li>
+                            <li><a href="#" data-i18n="footer.gettingHere">Getting Here</a></li>
+                            <li><a href="#" data-i18n="footer.faq">FAQ</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Policies</h4>
+                        <h4 data-i18n="footer.policies">Policies</h4>
                         <ul>
-                            <li><a href="#">Cancellation</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#" data-i18n="footer.cancellation">Cancellation</a></li>
+                            <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
+                            <li><a href="#" data-i18n="footer.terms">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 Crazy Coconuts. Made with <i class="fas fa-heart"></i> in San Antero, Colombia.</p>
+                <p>&copy; 2024 <span data-i18n="footer.copyright">Crazy Coconuts. Made with</span> <i class="fas fa-heart"></i> <span data-i18n="footer.inLocation">in San Antero, Colombia.</span></p>
             </div>
         </div>
     </footer>
@@ -755,6 +823,8 @@
 
     <script src="https://js.stripe.com/v3/"></script>
     <script src="utils/currency.js"></script>
+    <script src="utils/translations.js"></script>
+    <script src="utils/i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
