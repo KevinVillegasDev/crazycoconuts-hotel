@@ -3,40 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crazy Coconuts Hotel - Luxury Beachfront Resort in Colombia</title>
-    <meta name="description" content="Experience luxury at Crazy Coconuts Hotel, a premier beachfront resort on Colombia's stunning coast. Book your perfect getaway today.">
+    <title>Crazy Coconuts | A Cozy Beach Home in San Antero, Colombia</title>
+    <meta name="description" content="Escape to Crazy Coconuts, a family-run bed & breakfast on Colombia's Caribbean coast. Authentic hospitality, homemade meals, and peaceful beaches await.">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <img src="images/logo.png" alt="Crazy Coconuts Cabañas" class="logo-image">
-            </div>
+            <a href="#home" class="nav-logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 48 48" class="coconut-icon">
+                        <circle cx="24" cy="28" r="16" fill="currentColor" opacity="0.9"/>
+                        <ellipse cx="20" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="28" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="24" cy="30" rx="2" ry="2.5" fill="var(--sand-light)"/>
+                        <path d="M24 12 Q20 8 16 10 Q12 12 14 16 Q10 14 8 18 Q6 22 10 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q28 8 32 10 Q36 12 34 16 Q38 14 40 18 Q42 22 38 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q24 6 26 4 Q28 2 30 6" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Crazy Coconuts</span>
+            </a>
+
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">Our Story</a></li>
                 <li><a href="#rooms" class="nav-link">Rooms</a></li>
                 <li><a href="#amenities" class="nav-link">Amenities</a></li>
-                <li><a href="#dining" class="nav-link">Dining</a></li>
+                <li><a href="#attractions" class="nav-link">Explore</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
                 <li class="currency-selector">
                     <div class="currency-wrapper">
-                        <i class="fas fa-globe-americas currency-icon"></i>
                         <select id="currencySelect" class="currency-select">
-                            <option value="COP" data-flag="🇨🇴">Colombia (COP)</option>
-                            <option value="USD" data-flag="🇺🇸">United States (USD)</option>
-                            <option value="EUR" data-flag="🇪🇺">Europe (EUR)</option>
-                            <option value="CAD" data-flag="🇨🇦">Canada (CAD)</option>
-                            <option value="MXN" data-flag="🇲🇽">México (MXN)</option>
-                            <option value="BRL" data-flag="🇧🇷">Brasil (BRL)</option>
+                            <option value="COP" data-flag="🇨🇴">🇨🇴 COP</option>
+                            <option value="USD" data-flag="🇺🇸">🇺🇸 USD</option>
+                            <option value="EUR" data-flag="🇪🇺">🇪🇺 EUR</option>
+                            <option value="CAD" data-flag="🇨🇦">🇨🇦 CAD</option>
+                            <option value="MXN" data-flag="🇲🇽">🇲🇽 MXN</option>
+                            <option value="BRL" data-flag="🇧🇷">🇧🇷 BRL</option>
                         </select>
                     </div>
                 </li>
-                <li><a href="#booking" class="nav-link booking-btn">Book Now</a></li>
+                <li><a href="#booking" class="nav-link nav-cta">Book Your Stay</a></li>
             </ul>
+
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -47,59 +62,161 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="hero-gradient"></div>
+            <div class="hero-pattern"></div>
+        </div>
         <div class="hero-content">
-            <h1>Relax, Unwind, Belong</h1>
-            <p>Experience authentic Colombian hospitality in the peaceful coastal town of San Antero</p>
+            <div class="hero-badge">
+                <span>San Antero, Colombia</span>
+            </div>
+            <h1>Where the <em>Caribbean</em> feels like <em>home</em></h1>
+            <p class="hero-subtitle">A cozy family-run bed & breakfast on Colombia's unspoiled coast. Homemade meals, hammocks under palms, and the kind of hospitality that makes strangers feel like family.</p>
             <div class="hero-buttons">
-                <a href="#booking" class="btn btn-primary">Book Your Stay</a>
-                <a href="#rooms" class="btn btn-secondary">Explore Rooms</a>
+                <a href="#booking" class="btn btn-primary">
+                    <span>Reserve Your Room</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#rooms" class="btn btn-secondary">
+                    <span>See Our Rooms</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Years of Hospitality</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">Family Rooms</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Homemade Breakfast</span>
+                </div>
             </div>
         </div>
-        <div class="hero-video">
-            <div class="video-placeholder">
-                <i class="fas fa-play-circle"></i>
-                <p>Virtual Tour</p>
+        <div class="hero-image-container">
+            <div class="hero-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80" alt="Beautiful beachfront view at Crazy Coconuts" class="hero-image">
+                <div class="hero-image-frame"></div>
             </div>
+            <div class="hero-floating-card">
+                <div class="floating-card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="floating-card-content">
+                    <span class="floating-card-title">Guest Favorite</span>
+                    <span class="floating-card-text">"Like staying with family"</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
     <!-- Quick Booking Bar -->
     <section class="quick-booking">
         <div class="container">
-            <form class="booking-form-quick">
-                <div class="form-group">
-                    <label for="checkin">Check-in</label>
-                    <input type="date" id="checkin" name="checkin" required>
+            <div class="quick-booking-inner">
+                <div class="quick-booking-header">
+                    <h3>Check Availability</h3>
+                    <p>Find your perfect dates</p>
                 </div>
-                <div class="form-group">
-                    <label for="checkout">Check-out</label>
-                    <input type="date" id="checkout" name="checkout" required>
-                </div>
-                <div class="form-group">
-                    <label for="guests">Guests</label>
-                    <select id="guests" name="guests">
-                        <option value="1">1 Guest</option>
-                        <option value="2" selected>2 Guests</option>
-                        <option value="3">3 Guests</option>
-                        <option value="4">4+ Guests</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Check Availability</button>
-            </form>
+                <form class="booking-form-quick">
+                    <div class="form-group">
+                        <label for="checkin">
+                            <i class="fas fa-calendar-alt"></i>
+                            Check-in
+                        </label>
+                        <input type="date" id="checkin" name="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout">
+                            <i class="fas fa-calendar-alt"></i>
+                            Check-out
+                        </label>
+                        <input type="date" id="checkout" name="checkout" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">
+                            <i class="fas fa-users"></i>
+                            Guests
+                        </label>
+                        <select id="guests" name="guests">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4+ Guests</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Check Availability</span>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="about">
+    <section id="about" class="about">
         <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Discover Crazy Coconuts</h2>
-                    <p>Welcome to our family. Located in the coastal town of San Antero, Córdoba, Colombia, Crazy Coconuts is more than just a destination—it's a home away from home where every guest becomes part of our extended family.</p>
-                    <p>Our spacious, immaculately clean bed & breakfast offers the perfect sanctuary for those seeking authentic relaxation. Here, where tranquil and peaceful beaches meet the unspoiled native countryside, you'll savor our lovingly prepared homemade meals while surrounded by the safe, serene atmosphere where time slows down and your spirit can truly unwind.</p>
+            <div class="about-grid">
+                <div class="about-images">
+                    <div class="about-image-main">
+                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Crazy Coconuts exterior" />
+                        <div class="image-accent"></div>
+                    </div>
+                    <div class="about-image-secondary">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80" alt="Relaxing hammock area" />
+                    </div>
+                    <div class="about-badge">
+                        <span class="badge-icon"><i class="fas fa-heart"></i></span>
+                        <span class="badge-text">Family Run Since 2009</span>
+                    </div>
                 </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Luxury beachfront resort overview" />
+                <div class="about-content">
+                    <span class="section-tag">Our Story</span>
+                    <h2>More than a place to stay&mdash;<br><em>a place to belong</em></h2>
+                    <div class="about-text">
+                        <p class="lead">Welcome to our family. Nestled in the coastal town of San Antero, Córdoba, Crazy Coconuts is more than a destination&mdash;it's a home where every guest becomes family.</p>
+                        <p>Our spacious, immaculately clean bed & breakfast offers the perfect sanctuary for those seeking authentic relaxation. Here, where tranquil beaches meet unspoiled countryside, you'll savor lovingly prepared homemade meals while surrounded by the safe, serene atmosphere where time slows down.</p>
+                        <p>We believe in the simple things: fresh morning coffee on the terrace, afternoon naps in hammocks, and evenings filled with good conversation and even better food.</p>
+                    </div>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Homemade Meals</h4>
+                                <p>Traditional Colombian breakfast included daily</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Peaceful Setting</h4>
+                                <p>Escape the crowds on quiet, pristine beaches</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Personal Touch</h4>
+                                <p>We'll help plan tours, meals & local experiences</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,250 +225,412 @@
     <!-- Rooms Section -->
     <section id="rooms" class="rooms">
         <div class="container">
-            <h2>Comfortable Rooms</h2>
-            <p class="section-subtitle">Choose from our comfortable, spacious rooms perfect for families and groups</p>
+            <div class="section-header">
+                <span class="section-tag">Accommodations</span>
+                <h2>Comfortable rooms for <em>families & friends</em></h2>
+                <p class="section-subtitle">Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, air conditioning, and everything you need for a relaxing stay.</p>
+            </div>
+
             <div class="rooms-grid">
-                <div class="room-card">
+                <article class="room-card">
                     <div class="room-image">
-                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Family Room for 4" />
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1000&q=80" alt="Family Room for 4 guests" />
+                        <div class="room-image-overlay"></div>
+                        <span class="room-capacity">
+                            <i class="fas fa-users"></i>
+                            Up to 4 guests
+                        </span>
                     </div>
                     <div class="room-info">
                         <h3>Family Room (Up to 4 Guests)</h3>
-                        <p>Comfortable room perfect for families and small groups</p>
+                        <p class="room-description">Perfect for families and small groups. Comfortable beds, private bathroom, and all the amenities you need.</p>
                         <div class="room-features">
-                            <span><i class="fas fa-users"></i> Sleeps 4</span>
-                            <span><i class="fas fa-wifi"></i> Free WiFi</span>
-                            <span><i class="fas fa-snowflake"></i> Air Conditioning</span>
-                            <span><i class="fas fa-bath"></i> Private Bathroom</span>
-                            <span><i class="fas fa-fan"></i> Ceiling Fans</span>
-                            <span><i class="fas fa-tv"></i> TV</span>
-                            <span><i class="fas fa-cube"></i> Mini Fridge</span>
-                            <span><i class="fas fa-utensils"></i> Breakfast Included</span>
+                            <span class="feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="feature"><i class="fas fa-snowflake"></i> A/C</span>
+                            <span class="feature"><i class="fas fa-bath"></i> Private Bath</span>
+                            <span class="feature"><i class="fas fa-tv"></i> TV</span>
+                            <span class="feature"><i class="fas fa-cube"></i> Mini Fridge</span>
+                            <span class="feature"><i class="fas fa-coffee"></i> Breakfast</span>
                         </div>
-                        <div class="room-price">From $120/night</div>
-                        <a href="#booking" class="btn btn-primary">Book Now</a>
+                        <div class="room-footer">
+                            <div class="room-price">
+                                <span class="price-label">From</span>
+                                <span class="price-amount">$120</span>
+                                <span class="price-period">/night</span>
+                            </div>
+                            <a href="#booking" class="btn btn-primary">Book This Room</a>
+                        </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="room-card">
+                <article class="room-card">
                     <div class="room-image">
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Large Family Room for 7" />
+                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80" alt="Large Family Room for 7 guests" />
+                        <div class="room-image-overlay"></div>
+                        <span class="room-capacity">
+                            <i class="fas fa-users"></i>
+                            Up to 7 guests
+                        </span>
+                        <span class="room-badge">Most Popular</span>
                     </div>
                     <div class="room-info">
                         <h3>Large Family Room (Up to 7 Guests)</h3>
-                        <p>Spacious room ideal for large families and group gatherings</p>
+                        <p class="room-description">Our most spacious room, ideal for large families and group gatherings. Plenty of space to spread out and relax.</p>
                         <div class="room-features">
-                            <span><i class="fas fa-users"></i> Sleeps 7</span>
-                            <span><i class="fas fa-wifi"></i> Free WiFi</span>
-                            <span><i class="fas fa-snowflake"></i> Air Conditioning</span>
-                            <span><i class="fas fa-bath"></i> Private Bathroom</span>
-                            <span><i class="fas fa-fan"></i> Ceiling Fans</span>
-                            <span><i class="fas fa-tv"></i> TV</span>
-                            <span><i class="fas fa-cube"></i> Mini Fridge</span>
-                            <span><i class="fas fa-utensils"></i> Breakfast Included</span>
+                            <span class="feature"><i class="fas fa-wifi"></i> Free WiFi</span>
+                            <span class="feature"><i class="fas fa-snowflake"></i> A/C</span>
+                            <span class="feature"><i class="fas fa-bath"></i> Private Bath</span>
+                            <span class="feature"><i class="fas fa-tv"></i> TV</span>
+                            <span class="feature"><i class="fas fa-cube"></i> Mini Fridge</span>
+                            <span class="feature"><i class="fas fa-coffee"></i> Breakfast</span>
                         </div>
-                        <div class="room-price">From $130/night</div>
-                        <a href="#booking" class="btn btn-primary">Book Now</a>
+                        <div class="room-footer">
+                            <div class="room-price">
+                                <span class="price-label">From</span>
+                                <span class="price-amount">$130</span>
+                                <span class="price-period">/night</span>
+                            </div>
+                            <a href="#booking" class="btn btn-primary">Book This Room</a>
+                        </div>
                     </div>
-                </div>
+                </article>
+            </div>
 
+            <div class="rooms-note">
+                <i class="fas fa-info-circle"></i>
+                <p>All rooms include daily homemade breakfast, fresh linens, and 24-hour access. Need something special? Just ask&mdash;we're here to help!</p>
             </div>
         </div>
     </section>
 
     <!-- Amenities Section -->
     <section id="amenities" class="amenities">
+        <div class="amenities-bg"></div>
         <div class="container">
-            <h2>Resort Amenities</h2>
+            <div class="section-header section-header-light">
+                <span class="section-tag">What's Included</span>
+                <h2>Everything for a <em>perfect stay</em></h2>
+                <p class="section-subtitle">Simple comforts, thoughtfully provided. Everything you need, nothing you don't.</p>
+            </div>
+
             <div class="amenities-grid">
                 <div class="amenity">
-                    <i class="fas fa-cocktail"></i>
+                    <div class="amenity-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Homemade Meals</h3>
+                    <p>Start your day with traditional Colombian breakfast. Lunch and dinner available on request.</p>
+                </div>
+                <div class="amenity">
+                    <div class="amenity-icon">
+                        <i class="fas fa-cocktail"></i>
+                    </div>
                     <h3>Beach Bar</h3>
-                    <p>Tropical cocktails and light bites by the ocean</p>
+                    <p>Fresh coconut water, tropical cocktails, and cold drinks just steps from the sand.</p>
                 </div>
                 <div class="amenity">
-                    <i class="fas fa-wifi"></i>
+                    <div class="amenity-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
                     <h3>Free WiFi</h3>
-                    <p>High-speed internet throughout the property</p>
+                    <p>Stay connected with reliable internet throughout the property.</p>
                 </div>
                 <div class="amenity">
-                    <i class="fas fa-utensils"></i>
-                    <h3>Full Service Restaurant</h3>
-                    <p>Delicious meals served in our outdoor seating area</p>
-                </div>
-                <div class="amenity">
-                    <i class="fas fa-swimming-pool"></i>
+                    <div class="amenity-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
                     <h3>Swimming Pool</h3>
-                    <p>Relax and cool off in our refreshing pool</p>
+                    <p>Cool off in our refreshing pool surrounded by tropical gardens.</p>
                 </div>
                 <div class="amenity">
-                    <i class="fas fa-parking"></i>
+                    <div class="amenity-icon">
+                        <i class="fas fa-parking"></i>
+                    </div>
                     <h3>Free Parking</h3>
-                    <p>Complimentary parking available for all guests</p>
+                    <p>Secure, complimentary parking for all our guests.</p>
                 </div>
                 <div class="amenity">
-                    <i class="fas fa-leaf"></i>
-                    <h3>Hammocks</h3>
-                    <p>Relax in our comfortable hammocks under the trees</p>
+                    <div class="amenity-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Hammock Garden</h3>
+                    <p>Find your favorite spot among our shaded hammocks and lounge areas.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Local Attractions Section -->
+    <!-- Attractions Section -->
     <section id="attractions" class="attractions">
         <div class="container">
-            <h2>Local Attractions</h2>
-            <p class="section-subtitle">Discover the natural wonders and adventures surrounding San Antero</p>
+            <div class="section-header">
+                <span class="section-tag">Explore the Area</span>
+                <h2>Adventures await <em>just around the corner</em></h2>
+                <p class="section-subtitle">San Antero and the surrounding coast offer incredible natural wonders. We'll help you discover them all.</p>
+            </div>
+
             <div class="attractions-grid">
                 <div class="attraction">
-                    <i class="fas fa-ship"></i>
-                    <h3>Island Tours</h3>
-                    <p>Explore the pristine surrounding islands on guided boat tours</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-ship"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Island Boat Tours</h3>
+                        <p>Explore pristine islands and hidden coves on guided boat excursions</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-dove"></i>
-                    <h3>La Caimanera Bird Watching</h3>
-                    <p>Discover exotic bird species in their natural habitat at La Caimanera</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-dove"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Bird Watching</h3>
+                        <p>Discover exotic species at La Caimanera wildlife sanctuary</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-tree"></i>
-                    <h3>Mangrove Ecosystem</h3>
-                    <p>Journey through the nearby mangrove forests and experience unique wildlife</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Mangrove Tours</h3>
+                        <p>Journey through magical mangrove forests teeming with wildlife</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-home"></i>
-                    <h3>Cobenas Village</h3>
-                    <p>Visit the charming small town of Cobenas and experience local culture</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Mud Volcano</h3>
+                        <p>Therapeutic mud baths at the famous nearby volcano</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-mountain"></i>
-                    <h3>Mud Volcano</h3>
-                    <p>Relax with therapeutic mud baths at the famous nearby mud volcano</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Rincon del Mar</h3>
+                        <p>Crystal-clear waters and pristine white sand beaches</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-umbrella-beach"></i>
-                    <h3>Rincon del Mar Beaches</h3>
-                    <p>Enjoy pristine beaches and crystal-clear waters at Rincon del Mar</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Snorkeling & Surfing</h3>
+                        <p>World-class water sports in warm Caribbean waters</p>
+                    </div>
                 </div>
                 <div class="attraction">
-                    <i class="fas fa-water"></i>
-                    <h3>Snorkeling & Surfing</h3>
-                    <p>Experience world-class snorkeling and surfing in nearby waters</p>
+                    <div class="attraction-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="attraction-content">
+                        <h3>Local Villages</h3>
+                        <p>Experience authentic Colombian culture in charming Cobenas</p>
+                    </div>
                 </div>
+            </div>
+
+            <div class="attractions-cta">
+                <p>Want to plan your perfect adventure? We'll help arrange tours, transportation, and local experiences.</p>
+                <a href="#contact" class="btn btn-secondary">
+                    <span>Ask Us Anything</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Booking Section -->
     <section id="booking" class="booking">
+        <div class="booking-bg"></div>
         <div class="container">
-            <h2>Book Your Stay</h2>
-            <p class="section-subtitle">Reserve your perfect getaway at Crazy Coconuts</p>
-            <form class="booking-form" id="bookingForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">First Name *</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name *</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="checkinDate">Check-in Date *</label>
-                        <input type="date" id="checkinDate" name="checkinDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkoutDate">Check-out Date *</label>
-                        <input type="date" id="checkoutDate" name="checkoutDate" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="roomType">Room Type *</label>
-                        <select id="roomType" name="roomType" required>
-                            <option value="">Select Room Type</option>
-                            <option value="family-room-4">Family Room (Up to 4) - $120/night</option>
-                            <option value="large-family-room-7">Large Family Room (Up to 7) - $130/night</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="guestCount">Number of Guests *</label>
-                        <select id="guestCount" name="guestCount" required>
-                            <option value="1">1 Guest</option>
-                            <option value="2">2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4+ Guests</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="specialRequests">Special Requests</label>
-                    <textarea id="specialRequests" name="specialRequests" rows="4" placeholder="Any special requests or requirements for your stay..."></textarea>
-                </div>
-                <div class="form-group">
-                    <div class="booking-summary">
-                        <h3>Booking Summary</h3>
-                        <div id="bookingSummary">
-                            <p>Please select your dates and room type to see pricing</p>
+            <div class="booking-wrapper">
+                <div class="booking-info">
+                    <span class="section-tag">Reserve Your Room</span>
+                    <h2>Ready to <em>escape?</em></h2>
+                    <p>Fill out the form and we'll confirm your reservation. Questions? We're always happy to help plan your perfect stay.</p>
+
+                    <div class="booking-highlights">
+                        <div class="highlight">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Free cancellation up to 48 hours</span>
+                        </div>
+                        <div class="highlight">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Breakfast included every morning</span>
+                        </div>
+                        <div class="highlight">
+                            <i class="fas fa-check-circle"></i>
+                            <span>No hidden fees or surprises</span>
+                        </div>
+                        <div class="highlight">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Secure online payment</span>
                         </div>
                     </div>
+
+                    <div class="booking-contact">
+                        <p>Prefer to book by phone?</p>
+                        <a href="tel:+5754321000" class="phone-link">
+                            <i class="fas fa-phone"></i>
+                            +57 5 432 1000
+                        </a>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-large">Complete Reservation</button>
-            </form>
+
+                <div class="booking-form-container">
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-section">
+                            <h3>Your Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name <span class="required">*</span></label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Juan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name <span class="required">*</span></label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Garcia">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email <span class="required">*</span></label>
+                                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Stay Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="checkinDate">Check-in <span class="required">*</span></label>
+                                    <input type="date" id="checkinDate" name="checkinDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkoutDate">Check-out <span class="required">*</span></label>
+                                    <input type="date" id="checkoutDate" name="checkoutDate" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="roomType">Room <span class="required">*</span></label>
+                                    <select id="roomType" name="roomType" required>
+                                        <option value="">Select a room...</option>
+                                        <option value="family-room-4">Family Room (Up to 4) - $120/night</option>
+                                        <option value="large-family-room-7">Large Family Room (Up to 7) - $130/night</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guestCount">Guests <span class="required">*</span></label>
+                                    <select id="guestCount" name="guestCount" required>
+                                        <option value="1">1 Guest</option>
+                                        <option value="2">2 Guests</option>
+                                        <option value="3">3 Guests</option>
+                                        <option value="4">4 Guests</option>
+                                        <option value="5">5 Guests</option>
+                                        <option value="6">6 Guests</option>
+                                        <option value="7">7 Guests</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="specialRequests">Special Requests</label>
+                            <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Dietary needs, arrival time, special occasions..."></textarea>
+                        </div>
+
+                        <div class="booking-summary-container">
+                            <h3>Booking Summary</h3>
+                            <div id="bookingSummary" class="booking-summary">
+                                <p class="summary-placeholder">Select your dates and room to see pricing</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <span>Complete Reservation</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2>Contact Us</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h3>Location</h3>
-                            <p>Carrera 2 #5-41, Santa Marta<br>Magdalena, Colombia</p>
+            <div class="section-header">
+                <span class="section-tag">Get in Touch</span>
+                <h2>We'd love to <em>hear from you</em></h2>
+                <p class="section-subtitle">Questions about your stay? Planning a special trip? We're here to help make it perfect.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-cards">
+                    <a href="tel:+5754321000" class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fas fa-phone"></i>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h3>Phone</h3>
+                        <div class="contact-card-content">
+                            <h3>Call Us</h3>
                             <p>+57 5 432 1000</p>
+                            <span class="contact-card-hint">We speak English & Spanish</span>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h3>Email</h3>
+                    </a>
+
+                    <a href="mailto:reservations@crazycoconuts.com" class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-card-content">
+                            <h3>Email Us</h3>
                             <p>reservations@crazycoconuts.com</p>
+                            <span class="contact-card-hint">We reply within 24 hours</span>
+                        </div>
+                    </a>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-card-content">
+                            <h3>Visit Us</h3>
+                            <p>San Antero, Córdoba<br>Colombia</p>
+                            <span class="contact-card-hint">3 hours from Cartagena</span>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h3>Front Desk Hours</h3>
-                            <p>24/7 Reception</p>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-card-content">
+                            <h3>Reception Hours</h3>
+                            <p>7:00 AM - 10:00 PM</p>
+                            <span class="contact-card-hint">24/7 for emergencies</span>
                         </div>
                     </div>
                 </div>
-                <div class="map">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Santa Marta, Colombia coastal location" class="map-image" />
+
+                <div class="contact-map">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1000&q=80" alt="Beautiful coastal view of San Antero" class="map-image" />
+                    <div class="map-overlay">
+                        <div class="map-pin">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <span>Crazy Coconuts</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -359,45 +638,67 @@
 
     <!-- Footer -->
     <footer class="footer">
+        <div class="footer-wave">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,50 C150,100 350,0 500,50 C650,100 800,0 1000,50 C1200,100 1350,0 1440,50 L1440,100 L0,100 Z" fill="currentColor"/>
+            </svg>
+        </div>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Crazy Coconuts Hotel</h3>
-                    <p>Your luxury beachfront escape on Colombia's Caribbean coast</p>
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 48 48" class="coconut-icon">
+                            <circle cx="24" cy="28" r="16" fill="currentColor" opacity="0.9"/>
+                            <ellipse cx="20" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                            <ellipse cx="28" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                            <ellipse cx="24" cy="30" rx="2" ry="2.5" fill="var(--sand-light)"/>
+                            <path d="M24 12 Q20 8 16 10 Q12 12 14 16 Q10 14 8 18 Q6 22 10 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M24 12 Q28 8 32 10 Q36 12 34 16 Q38 14 40 18 Q42 22 38 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M24 12 Q24 6 26 4 Q28 2 30 6" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                        <span>Crazy Coconuts</span>
+                    </div>
+                    <p>A cozy family-run bed & breakfast on Colombia's Caribbean coast. Where strangers become friends, and friends become family.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="TripAdvisor"><i class="fab fa-tripadvisor"></i></a>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#rooms">Rooms & Suites</a></li>
-                        <li><a href="#amenities">Amenities</a></li>
-                        <li><a href="#dining">Dining</a></li>
-                        <li><a href="#booking">Book Now</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Policies</h3>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Cancellation Policy</a></li>
-                        <li><a href="#">COVID-19 Safety</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <p><i class="fas fa-phone"></i> +57 5 432 1000</p>
-                    <p><i class="fas fa-envelope"></i> info@crazycoconuts.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Santa Marta, Colombia</p>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Stay With Us</h4>
+                        <ul>
+                            <li><a href="#rooms">Our Rooms</a></li>
+                            <li><a href="#amenities">Amenities</a></li>
+                            <li><a href="#booking">Book Now</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="#attractions">Local Attractions</a></li>
+                            <li><a href="#about">Our Story</a></li>
+                            <li><a href="#">Getting Here</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Policies</h4>
+                        <ul>
+                            <li><a href="#">Cancellation</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2024 Crazy Coconuts Hotel. All rights reserved.</p>
+                <p>&copy; 2024 Crazy Coconuts. Made with <i class="fas fa-heart"></i> in San Antero, Colombia.</p>
             </div>
         </div>
     </footer>
@@ -407,13 +708,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Complete Your Booking</h3>
-                <button class="modal-close">&times;</button>
+                <button class="modal-close" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" id="paymentModalBody">
                 <div id="paymentSummary" class="payment-summary">
                     <!-- Payment summary will be loaded here -->
                 </div>
-                
+
                 <div class="payment-form-container">
                     <form id="paymentForm">
                         <div class="form-group">
@@ -423,20 +724,21 @@
                             </div>
                             <div id="card-errors" role="alert" class="error-message"></div>
                         </div>
-                        
+
                         <div class="payment-total">
                             <div class="total-row">
                                 <span>Total Amount:</span>
                                 <span id="paymentTotal" class="total-amount"></span>
                             </div>
                         </div>
-                        
+
                         <button type="submit" id="payButton" class="btn btn-primary btn-large payment-btn">
-                            <i class="fas fa-lock"></i> Pay Now
+                            <i class="fas fa-lock"></i>
+                            <span>Pay Now</span>
                         </button>
                     </form>
                 </div>
-                
+
                 <div id="paymentSuccess" class="payment-success hidden">
                     <div class="success-icon">
                         <i class="fas fa-check-circle"></i>

@@ -16,6 +16,8 @@ const sections = document.querySelectorAll('.dashboard-section');
 document.addEventListener('DOMContentLoaded', function() {
     checkAuthStatus();
     initializeEventListeners();
+    updateCurrentDate();
+    initializeSidebarToggle();
 });
 
 // Check if admin is already authenticated
@@ -150,11 +152,20 @@ function switchSection(sectionName) {
     sections.forEach(section => {
         section.classList.remove('active');
     });
-    
+
     const targetSection = document.getElementById(sectionName);
     if (targetSection) {
         targetSection.classList.add('active');
-        
+
+        // Update page title
+        updatePageTitle(sectionName);
+
+        // Close sidebar on mobile after navigation
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar && window.innerWidth <= 992) {
+            sidebar.classList.remove('open');
+        }
+
         // Load section-specific data
         switch(sectionName) {
             case 'overview':
@@ -625,16 +636,16 @@ function closeModal() {
 function showAlert(message, type) {
     // Remove existing alerts
     document.querySelectorAll('.alert').forEach(alert => alert.remove());
-    
+
     // Create new alert
     const alert = document.createElement('div');
     alert.className = `alert alert-${type}`;
     alert.textContent = message;
-    
+
     // Insert at appropriate location based on current view
     const main = document.querySelector('.dashboard-main');
     const loginContent = document.querySelector('.login-content');
-    
+
     if (main && !main.closest('.hidden')) {
         // Dashboard is visible, insert in dashboard
         main.insertBefore(alert, main.firstChild);
@@ -642,9 +653,59 @@ function showAlert(message, type) {
         // Login modal is visible, insert in login modal
         loginContent.insertBefore(alert, loginContent.firstChild);
     }
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         alert.remove();
     }, 5000);
+}
+
+// Update current date in header
+function updateCurrentDate() {
+    const dateElement = document.getElementById('currentDate');
+    if (dateElement) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+    }
+}
+
+// Initialize sidebar toggle for mobile
+function initializeSidebarToggle() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 992) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    }
+}
+
+// Update page title based on active section
+function updatePageTitle(sectionName) {
+    const pageTitle = document.getElementById('pageTitle');
+    const pageSubtitle = document.getElementById('pageSubtitle');
+
+    const titles = {
+        'overview': { title: 'Dashboard Overview', subtitle: "Welcome back! Here's what's happening today." },
+        'reservations': { title: 'Reservations', subtitle: 'Manage and view all bookings' },
+        'rooms': { title: 'Room Management', subtitle: 'Monitor room availability and status' },
+        'reports': { title: 'Reports & Analytics', subtitle: 'View business insights and statistics' }
+    };
+
+    if (pageTitle && titles[sectionName]) {
+        pageTitle.textContent = titles[sectionName].title;
+    }
+    if (pageSubtitle && titles[sectionName]) {
+        pageSubtitle.textContent = titles[sectionName].subtitle;
+    }
 }

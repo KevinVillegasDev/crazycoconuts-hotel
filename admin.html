@@ -3,222 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Crazy Coconuts Hotel</title>
+    <title>Admin Dashboard | Crazy Coconuts</title>
     <link rel="stylesheet" href="admin-styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Admin Login Modal -->
     <div id="loginModal" class="login-modal">
-        <div class="login-content">
-            <div class="login-header">
-                <h2><i class="fas fa-shield-alt"></i> Admin Access</h2>
-                <p>Enter your credentials to access the dashboard</p>
-            </div>
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="adminPassword">Password:</label>
-                    <div class="password-container">
-                        <input type="password" id="adminPassword" required>
-                        <button type="button" class="password-toggle" id="passwordToggle">
-                            <i class="fas fa-eye" id="toggleIcon"></i>
-                        </button>
-                    </div>
+        <div class="login-wrapper">
+            <div class="login-brand">
+                <div class="login-logo">
+                    <svg viewBox="0 0 48 48" class="coconut-icon">
+                        <circle cx="24" cy="28" r="16" fill="currentColor" opacity="0.9"/>
+                        <ellipse cx="20" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="28" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="24" cy="30" rx="2" ry="2.5" fill="var(--sand-light)"/>
+                        <path d="M24 12 Q20 8 16 10 Q12 12 14 16 Q10 14 8 18 Q6 22 10 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q28 8 32 10 Q36 12 34 16 Q38 14 40 18 Q42 22 38 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q24 6 26 4 Q28 2 30 6" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
                 </div>
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-            </form>
+                <h1>Crazy Coconuts</h1>
+                <p>Admin Dashboard</p>
+            </div>
+            <div class="login-content">
+                <div class="login-header">
+                    <div class="login-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2>Welcome back</h2>
+                    <p>Enter your password to access the dashboard</p>
+                </div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="adminPassword" required placeholder="Enter admin password">
+                            <button type="button" class="password-toggle" id="passwordToggle">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="login-btn">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="login-footer">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to website</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Main Dashboard -->
     <div id="dashboard" class="dashboard hidden">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-left">
-                <img src="images/logo.png" alt="Crazy Coconuts Cabañas" class="admin-logo">
-                <span class="admin-title">Admin Dashboard</span>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg viewBox="0 0 48 48" class="coconut-icon">
+                        <circle cx="24" cy="28" r="16" fill="currentColor" opacity="0.9"/>
+                        <ellipse cx="20" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="28" cy="24" rx="2" ry="3" fill="var(--sand-light)"/>
+                        <ellipse cx="24" cy="30" rx="2" ry="2.5" fill="var(--sand-light)"/>
+                        <path d="M24 12 Q20 8 16 10 Q12 12 14 16 Q10 14 8 18 Q6 22 10 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q28 8 32 10 Q36 12 34 16 Q38 14 40 18 Q42 22 38 24" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12 Q24 6 26 4 Q28 2 30 6" stroke="var(--palm)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <span>Crazy Coconuts</span>
+                </div>
             </div>
-            <div class="header-right">
-                <span class="admin-greeting">Welcome, Admin</span>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-section="overview">
+                    <i class="fas fa-th-large"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-btn" data-section="reservations">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Reservations</span>
+                </button>
+                <button class="nav-btn" data-section="rooms">
+                    <i class="fas fa-bed"></i>
+                    <span>Rooms</span>
+                </button>
+                <button class="nav-btn" data-section="reports">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Reports</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Website</span>
+                </a>
                 <button id="logoutBtn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </button>
             </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="dashboard-nav">
-            <button class="nav-btn active" data-section="overview">
-                <i class="fas fa-chart-line"></i> Overview
-            </button>
-            <button class="nav-btn" data-section="reservations">
-                <i class="fas fa-calendar-check"></i> Reservations
-            </button>
-            <button class="nav-btn" data-section="rooms">
-                <i class="fas fa-bed"></i> Room Management
-            </button>
-            <button class="nav-btn" data-section="reports">
-                <i class="fas fa-chart-bar"></i> Reports
-            </button>
-        </nav>
+        </aside>
 
         <!-- Main Content -->
-        <main class="dashboard-main">
-            <!-- Overview Section -->
-            <section id="overview" class="dashboard-section active">
-                <h2>Dashboard Overview</h2>
-                
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 id="totalBookings">0</h3>
-                            <p>Total Bookings</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 id="pendingBookings">0</h3>
-                            <p>Pending Bookings</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 id="confirmedBookings">0</h3>
-                            <p>Confirmed Bookings</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 id="totalRevenue">$0</h3>
-                            <p>Total Revenue</p>
-                        </div>
+        <div class="main-wrapper">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="header-title">
+                        <h1 id="pageTitle">Dashboard Overview</h1>
+                        <p id="pageSubtitle">Welcome back! Here's what's happening today.</p>
                     </div>
                 </div>
+                <div class="header-right">
+                    <div class="header-date">
+                        <i class="fas fa-calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                    <div class="header-user">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
 
-                <!-- Recent Bookings -->
-                <div class="recent-bookings">
-                    <h3>Recent Bookings</h3>
-                    <div id="recentBookingsList" class="bookings-list">
-                        <!-- Recent bookings will be loaded here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Reservations Section -->
-            <section id="reservations" class="dashboard-section">
-                <div class="section-header">
-                    <h2>Manage Reservations</h2>
-                    <div class="search-filters">
-                        <input type="text" id="searchBookings" placeholder="Search by name, email, or confirmation number...">
-                        <select id="statusFilter">
-                            <option value="">All Statuses</option>
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="cancelled">Cancelled</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                        <input type="date" id="dateFilter" placeholder="Filter by date">
-                    </div>
-                </div>
-
-                <!-- Bookings Table -->
-                <div class="table-container">
-                    <table id="bookingsTable" class="bookings-table">
-                        <thead>
-                            <tr>
-                                <th>Confirmation #</th>
-                                <th>Guest Name</th>
-                                <th>Email</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Room Type</th>
-                                <th>Guests</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bookingsTableBody">
-                            <!-- Bookings will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button id="prevPage">Previous</button>
-                    <span id="pageInfo">Page 1 of 1</span>
-                    <button id="nextPage">Next</button>
-                </div>
-            </section>
-
-            <!-- Room Management Section -->
-            <section id="rooms" class="dashboard-section">
-                <h2>Room Management</h2>
-                <div class="room-availability">
-                    <h3>Current Availability</h3>
-                    <div id="roomAvailability" class="room-grid">
-                        <!-- Room availability will be loaded here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Reports Section -->
-            <section id="reports" class="dashboard-section">
-                <h2>Reports & Analytics</h2>
-                <div class="reports-grid">
-                    <div class="report-card">
-                        <h3>Monthly Revenue</h3>
-                        <div id="monthlyRevenue" class="report-content">
-                            <!-- Chart will be here -->
+            <!-- Dashboard Content -->
+            <main class="dashboard-main">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section active">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card stat-card-primary">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="totalBookings">0</span>
+                                <span class="stat-label">Total Bookings</span>
+                            </div>
+                            <div class="stat-trend stat-trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-card-warning">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="pendingBookings">0</span>
+                                <span class="stat-label">Pending</span>
+                            </div>
+                            <div class="stat-badge">Needs action</div>
+                        </div>
+                        <div class="stat-card stat-card-success">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="confirmedBookings">0</span>
+                                <span class="stat-label">Confirmed</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-card-coral">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="totalRevenue">$0</span>
+                                <span class="stat-label">Total Revenue</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="report-card">
-                        <h3>Occupancy Rate</h3>
-                        <div id="occupancyRate" class="report-content">
-                            <!-- Chart will be here -->
+
+                    <!-- Recent Bookings -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>
+                                <i class="fas fa-history"></i>
+                                Recent Bookings
+                            </h3>
+                            <a href="#" class="card-link" onclick="document.querySelector('[data-section=reservations]').click(); return false;">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentBookingsList" class="recent-bookings-list">
+                                <!-- Recent bookings will be loaded here -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </main>
+                </section>
+
+                <!-- Reservations Section -->
+                <section id="reservations" class="dashboard-section">
+                    <!-- Filters -->
+                    <div class="filters-bar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchBookings" placeholder="Search by name, email, or confirmation #">
+                        </div>
+                        <div class="filter-group">
+                            <select id="statusFilter" class="filter-select">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="cancelled">Cancelled</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <input type="date" id="dateFilter" class="filter-date">
+                        </div>
+                    </div>
+
+                    <!-- Bookings Table -->
+                    <div class="content-card">
+                        <div class="table-container">
+                            <table id="bookingsTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Confirmation</th>
+                                        <th>Guest</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Room</th>
+                                        <th>Guests</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody">
+                                    <!-- Bookings will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button id="prevPage" class="pagination-btn">
+                                <i class="fas fa-chevron-left"></i>
+                                Previous
+                            </button>
+                            <span id="pageInfo" class="pagination-info">Page 1 of 1</span>
+                            <button id="nextPage" class="pagination-btn">
+                                Next
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Room Management Section -->
+                <section id="rooms" class="dashboard-section">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>
+                                <i class="fas fa-bed"></i>
+                                Room Availability
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="roomAvailability" class="room-grid">
+                                <!-- Room availability will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="dashboard-section">
+                    <div class="reports-grid">
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3>
+                                    <i class="fas fa-chart-line"></i>
+                                    Monthly Revenue
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="monthlyRevenue" class="report-placeholder">
+                                    <i class="fas fa-chart-area"></i>
+                                    <p>Revenue analytics coming soon</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3>
+                                    <i class="fas fa-percentage"></i>
+                                    Occupancy Rate
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="occupancyRate" class="report-placeholder">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <p>Occupancy analytics coming soon</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
 
     <!-- Booking Details Modal -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Booking Details</h3>
-                <button class="modal-close">&times;</button>
+                <h3><i class="fas fa-file-alt"></i> Booking Details</h3>
+                <button class="modal-close" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" id="bookingDetails">
                 <!-- Booking details will be loaded here -->
             </div>
             <div class="modal-footer">
-                <select id="statusUpdate">
-                    <option value="pending">Pending</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="cancelled">Cancelled</option>
-                    <option value="completed">Completed</option>
-                </select>
-                <button id="updateStatus" class="btn-primary">Update Status</button>
-                <button class="modal-close btn-secondary">Close</button>
+                <div class="modal-footer-left">
+                    <label for="statusUpdate">Update Status:</label>
+                    <select id="statusUpdate" class="status-select">
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="modal-footer-right">
+                    <button class="modal-close btn-secondary">Cancel</button>
+                    <button id="updateStatus" class="btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
             </div>
         </div>
     </div>
