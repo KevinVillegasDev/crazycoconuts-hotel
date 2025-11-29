@@ -77,8 +77,8 @@ function initBookingSystem() {
     
     // Room prices
     const roomPrices = {
-        'family-room-4': 120,
-        'large-family-room-7': 130
+        'family-room-4': 140,
+        'large-family-room-7': 150
     };
     
     // Quick booking form
@@ -315,8 +315,8 @@ function updateBookingSummary() {
     }
     
     const roomPrices = {
-        'family-room-4': 120,
-        'large-family-room-7': 130
+        'family-room-4': 140,
+        'large-family-room-7': 150
     };
     
     const roomNames = {
@@ -765,8 +765,8 @@ function updateAllPrices() {
 // Update room prices in the rooms section
 function updateRoomPrices() {
     const roomPrices = {
-        'family-room-4': 120,
-        'large-family-room-7': 130
+        'family-room-4': 140,
+        'large-family-room-7': 150
     };
     
     // Update room cards
@@ -846,8 +846,8 @@ function updateBookingSummaryWithCurrency() {
     }
     
     const roomPrices = {
-        'family-room-4': 120,
-        'large-family-room-7': 130
+        'family-room-4': 140,
+        'large-family-room-7': 150
     };
     
     const roomNames = {
@@ -939,8 +939,8 @@ function showPaymentModal(bookingData) {
     
     // Calculate pricing
     const roomPrices = {
-        'family-room-4': 120,
-        'large-family-room-7': 130
+        'family-room-4': 140,
+        'large-family-room-7': 150
     };
     
     const roomNames = {

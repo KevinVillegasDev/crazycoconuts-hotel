@@ -3,10 +3,7 @@ const Room = require('../models/Room');
 require('dotenv').config();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/crazycoconuts', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/crazycoconuts')
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch(err => {
     console.error('❌ MongoDB connection error:', err);
@@ -19,7 +16,7 @@ const roomsData = [
         type: 'family-room-4',
         name: 'Family Room (Up to 4 Guests)',
         description: 'Comfortable room perfect for families and small groups. Features cozy beds, modern amenities, and a welcoming atmosphere.',
-        basePrice: 120,
+        basePrice: 140,
         maxGuests: 4,
         totalRooms: 3,
         amenities: [
@@ -41,7 +38,7 @@ const roomsData = [
         type: 'large-family-room-7',
         name: 'Large Family Room (Up to 7 Guests)',
         description: 'Spacious room ideal for large families and group gatherings. Plenty of space for everyone to relax and enjoy.',
-        basePrice: 130,
+        basePrice: 150,
         maxGuests: 7,
         totalRooms: 2,
         amenities: [

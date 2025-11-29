@@ -156,7 +156,6 @@ const bookingSchema = new mongoose.Schema({
 
 // Indexes for performance
 bookingSchema.index({ email: 1 });
-bookingSchema.index({ confirmationNumber: 1 });
 bookingSchema.index({ checkInDate: 1, checkOutDate: 1 });
 bookingSchema.index({ status: 1 });
 bookingSchema.index({ paymentStatus: 1 });

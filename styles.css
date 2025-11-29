@@ -297,8 +297,8 @@ section {
 }
 
 .logo-mark {
-    width: 44px;
-    height: 44px;
+    width: 99px;
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -307,14 +307,23 @@ section {
 .coconut-icon {
     width: 100%;
     height: 100%;
-    color: var(--coconut);
 }
 
 .logo-text {
     font-family: var(--font-display);
-    font-size: 1.375rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--text-dark);
+    display: flex;
+    align-items: center;
+}
+
+.coconut-letter {
+    width: 0.85em;
+    height: 0.85em;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.01em;
 }
 
 .nav-menu {
@@ -1724,16 +1733,17 @@ a.contact-card:hover {
 }
 
 .footer-logo .coconut-icon {
-    width: 36px;
-    height: 36px;
-    color: var(--sand);
+    width: 81px;
+    height: 45px;
 }
 
 .footer-logo span {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.875rem;
     font-weight: 600;
     color: var(--white);
+    display: flex;
+    align-items: center;
 }
 
 .footer-brand p {
