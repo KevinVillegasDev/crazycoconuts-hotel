@@ -546,34 +546,54 @@ async function updateBookingStatus() {
 
 // Load room data
 async function loadRoomData() {
+    const container = document.getElementById('roomAvailability');
     try {
         const response = await fetch('/api/availability', {
             headers: getAuthHeaders()
         });
-        
+
         const result = await response.json();
-        
-        if (result.success) {
+        console.log('Room availability response:', result);
+
+        if (result.success && result.data && result.data.availability) {
             displayRoomAvailability(result.data.availability);
+        } else {
+            container.innerHTML = '<p class="no-data">Unable to load room availability.</p>';
         }
     } catch (error) {
         console.error('Error loading room data:', error);
+        container.innerHTML = '<p class="no-data">Error loading room data. Check console for details.</p>';
     }
 }
 
 // Display room availability
 function displayRoomAvailability(availability) {
     const container = document.getElementById('roomAvailability');
-    
+
+    if (!availability || Object.keys(availability).length === 0) {
+        container.innerHTML = '<p class="no-data">No room availability data available.</p>';
+        return;
+    }
+
     const roomTypes = [
         { key: 'family-room-4', name: 'Family Room (Up to 4)' },
         { key: 'large-family-room-7', name: 'Large Family Room (Up to 7)' }
     ];
-    
+
     container.innerHTML = roomTypes.map(room => {
         const roomData = availability[room.key];
-        const occupancyRate = ((roomData.total - roomData.available) / roomData.total * 100).toFixed(1);
-        
+        if (!roomData) {
+            return `
+                <div class="room-availability-card">
+                    <h4>${room.name}</h4>
+                    <div class="availability-stats">
+                        <span>Data unavailable</span>
+                    </div>
+                </div>
+            `;
+        }
+        const occupancyRate = roomData.total > 0 ? ((roomData.total - roomData.available) / roomData.total * 100).toFixed(1) : 0;
+
         return `
             <div class="room-availability-card">
                 <h4>${room.name}</h4>
