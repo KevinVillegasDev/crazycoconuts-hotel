@@ -296,6 +296,23 @@ section {
     z-index: 1001;
 }
 
+.nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--coconut);
+    transition: all var(--transition-base);
+    letter-spacing: -0.02em;
+}
+
+.nav-logo:hover .nav-logo-text {
+    color: var(--coral);
+}
+
+.navbar.scrolled .nav-logo-text {
+    font-size: 1.35rem;
+}
+
 .logo-image {
     height: 110px;
     width: 110px;
@@ -531,6 +548,34 @@ section {
 .hero-content {
     max-width: 600px;
     padding-left: var(--space-2xl);
+}
+
+.hero-logo-feature {
+    margin-bottom: var(--space-xl);
+}
+
+.hero-logo-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9cbb0 0%, #c4b49a 100%);
+    filter: drop-shadow(0 8px 24px rgba(92, 64, 51, 0.3));
+    animation: heroLogoFloat 4s ease-in-out infinite;
+    transition: transform var(--transition-base);
+}
+
+.hero-logo-image:hover {
+    transform: scale(1.05) rotate(-3deg);
+}
+
+@keyframes heroLogoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .hero-badge {
@@ -2058,6 +2103,16 @@ a.contact-card:hover {
         max-width: 100%;
         padding: 0 var(--space-lg);
         order: 2;
+    }
+
+    .hero-logo-feature {
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero-logo-image {
+        width: 150px;
+        height: 150px;
     }
 
     .hero-buttons {
