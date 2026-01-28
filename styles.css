@@ -269,15 +269,15 @@ section {
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: var(--space-md) 0;
+    padding: var(--space-sm) 0;
     transition: all var(--transition-base);
 }
 
 .navbar.scrolled {
-    background: rgba(245, 240, 230, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-md);
-    padding: var(--space-sm) 0;
+    background: rgba(245, 240, 230, 0.97);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(92, 64, 51, 0.1);
+    padding: var(--space-xs) 0;
 }
 
 .nav-container {
@@ -294,6 +294,26 @@ section {
     align-items: center;
     gap: var(--space-sm);
     z-index: 1001;
+}
+
+.logo-image {
+    height: 110px;
+    width: 110px;
+    object-fit: cover;
+    transition: all var(--transition-base);
+    filter: drop-shadow(0 3px 10px rgba(92, 64, 51, 0.2));
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9cbb0 0%, #c4b49a 100%);
+}
+
+.navbar.scrolled .logo-image {
+    height: 70px;
+    width: 70px;
+}
+
+.nav-logo:hover .logo-image {
+    transform: scale(1.05) rotate(-2deg);
+    filter: drop-shadow(0 4px 12px rgba(92, 64, 51, 0.25));
 }
 
 .logo-mark {
@@ -1730,6 +1750,15 @@ a.contact-card:hover {
     align-items: center;
     gap: var(--space-sm);
     margin-bottom: var(--space-lg);
+}
+
+.footer-logo-image {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9cbb0 0%, #c4b49a 100%);
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.2));
 }
 
 .footer-logo .coconut-icon {
