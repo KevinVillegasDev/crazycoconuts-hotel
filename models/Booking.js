@@ -62,7 +62,7 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Room type is required'],
         enum: {
-            values: ['ocean-view', 'beachfront-suite', 'presidential-villa'],
+            values: ['family-room-4', 'large-family-room-7'],
             message: 'Invalid room type'
         }
     },
@@ -207,9 +207,8 @@ bookingSchema.statics.findAvailableRooms = async function(checkIn, checkOut, roo
     
     // Define room inventory
     const roomInventory = {
-        'ocean-view': 10,
-        'beachfront-suite': 5,
-        'presidential-villa': 2
+        'family-room-4': 1,
+        'large-family-room-7': 1
     };
     
     const availability = {};

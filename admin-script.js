@@ -566,9 +566,8 @@ function displayRoomAvailability(availability) {
     const container = document.getElementById('roomAvailability');
     
     const roomTypes = [
-        { key: 'ocean-view', name: 'Ocean View Room' },
-        { key: 'beachfront-suite', name: 'Beachfront Suite' },
-        { key: 'presidential-villa', name: 'Presidential Villa' }
+        { key: 'family-room-4', name: 'Family Room (Up to 4)' },
+        { key: 'large-family-room-7', name: 'Large Family Room (Up to 7)' }
     ];
     
     container.innerHTML = roomTypes.map(room => {
@@ -620,9 +619,8 @@ function formatDate(dateString) {
 
 function formatRoomType(roomType) {
     const roomTypes = {
-        'ocean-view': 'Ocean View Room',
-        'beachfront-suite': 'Beachfront Suite',
-        'presidential-villa': 'Presidential Villa'
+        'family-room-4': 'Family Room (Up to 4)',
+        'large-family-room-7': 'Large Family Room (Up to 7)'
     };
     return roomTypes[roomType] || roomType;
 }
