@@ -108,6 +108,15 @@ function initializeEventListeners() {
     if (updateStatusBtn) {
         updateStatusBtn.addEventListener('click', updateBookingStatus);
     }
+
+    // View all bookings link
+    const viewAllBookings = document.getElementById('viewAllBookings');
+    if (viewAllBookings) {
+        viewAllBookings.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('[data-section=reservations]').click();
+        });
+    }
 }
 
 // Handle login
