@@ -146,14 +146,23 @@ body {
 }
 
 .login-logo {
-    width: 180px;
-    height: 100px;
     margin-bottom: var(--space-lg);
+    display: flex;
+    justify-content: center;
 }
 
 .login-logo .coconut-icon {
     width: 100%;
     height: 100%;
+}
+
+.login-logo-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9cbb0 0%, #c4b49a 100%);
+    filter: drop-shadow(0 4px 12px rgba(92, 64, 51, 0.3));
 }
 
 .login-brand h1 {
@@ -362,6 +371,16 @@ body {
 .sidebar-logo .coconut-icon {
     width: 54px;
     height: 30px;
+    flex-shrink: 0;
+}
+
+.sidebar-logo-image {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d9cbb0 0%, #c4b49a 100%);
+    filter: drop-shadow(0 2px 6px rgba(92, 64, 51, 0.25));
     flex-shrink: 0;
 }
 
