@@ -37,9 +37,9 @@ const translations = {
             findDates: "Find your perfect dates",
             checkIn: "Check-in",
             checkOut: "Check-out",
-            guests: "Guests",
-            guest: "Guest",
-            guestsPlural: "Guests"
+            roomType: "Room",
+            room1: "Family Room (1-4 guests)",
+            room2: "Large Family Room (1-7 guests)"
         },
 
         // About Section
@@ -62,7 +62,7 @@ const translations = {
         rooms: {
             tag: "Accommodations",
             title: 'Comfortable rooms for <em>families & friends</em>',
-            subtitle: "Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, air conditioning, and everything you need for a relaxing stay.",
+            subtitle: "Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, wifi, air conditioning, and everything you need for a comfortable stay.",
             upTo: "Up to",
             guestsLabel: "guests",
             room1Name: "Family Room (Up to 4 Guests)",
@@ -108,23 +108,28 @@ const translations = {
             subtitle: "San Antero is full of hidden gems. We'll share our favorite spots and help you get there.",
             featuredBadge: "Most Popular",
             featuredTitle: "Island Hopping Tours",
-            featuredDesc: "Hop on a local boat and explore pristine islands, secret beaches, and the famous bioluminescent waters. We'll pack you a cooler of drinks and snacks.",
+            featuredDesc: "Hop on a local boat and explore pristine islands, secret beaches, and the famous bioluminescent waters.",
             featuredTime: "Full day trip",
-            featuredDistance: "15 min from here",
+            featuredDistance: "20 min from here",
             mangroveTitle: "Mangrove Forest Tours",
             mangroveDesc: "Kayak through magical tunnels of mangroves. Keep your eyes open for monkeys and exotic birds!",
             mudTitle: "Mud Volcano",
             mudDesc: "Float in therapeutic volcanic mud - it's weird, wonderful, and your skin will thank you.",
             beachTitle: "Rincón del Mar",
-            beachDesc: "The most beautiful beach in the region. Crystal-clear water and fresh seafood restaurants.",
+            beachDesc: "Incredible snorkeling tours in crystal-clear water, with plenty of fresh seafood restaurants to refuel after.",
             fishingTitle: "Fishing with Locals",
             fishingDesc: "Join local fishermen at dawn. Whatever you catch, we'll cook it for your dinner!",
             birdTitle: "Bird Watching",
             birdDesc: "La Caimanera sanctuary is home to flamingos, herons, and hundreds of exotic species.",
             marketTitle: "Local Village Markets",
-            marketDesc: "Explore Cobeñas and Lorica. Fresh fruit, handmade crafts, and the friendliest people.",
-            noteTitle: "We'll help you plan everything",
-            noteDesc: "Just tell us what sounds fun and we'll arrange tours, transportation, and local guides. We know all the best spots (and the ones to skip)."
+            marketDesc: "Explore Coveñas and Lorica. Fresh fruit, handmade crafts, and the friendliest people.",
+        },
+
+        // Colombia Welcome Section
+        colombia: {
+            tag: "A Message for Our International Guests",
+            title: 'Colombia is <em>waiting for you</em>',
+            message: "If you've been dreaming about visiting Colombia, this is your sign. The people are warm, the food is incredible, the beaches are untouched, and the culture will stay with you long after you leave. Come see for yourself — we'd love to welcome you and share everything we know about this beautiful corner of the Caribbean."
         },
 
         // Booking Section
@@ -132,11 +137,12 @@ const translations = {
             tag: "Reserve Your Room",
             title: 'Ready to <em>escape?</em>',
             subtitle: "Fill out the form and we'll confirm your reservation. Questions? We're always happy to help plan your perfect stay.",
-            highlight1: "Free cancellation up to 48 hours",
+            highlight1: "Free cancellation with full deposit refund within 48 hours",
             highlight2: "Breakfast included every morning",
             highlight3: "No hidden fees or surprises",
-            highlight4: "Secure online payment",
-            phonePrompt: "Prefer to book by phone?",
+            highlight4: "Secure online deposit payment",
+            highlight5: "Only 50% deposit required — pay the rest on arrival",
+            phonePrompt: "Contact us on WhatsApp",
             yourInfo: "Your Information",
             firstName: "First Name",
             lastName: "Last Name",
@@ -147,8 +153,8 @@ const translations = {
             checkOutLabel: "Check-out",
             roomLabel: "Room",
             selectRoom: "Select a room...",
-            room1Option: "Family Room (Up to 4) - $140/night",
-            room2Option: "Large Family Room (Up to 7) - $150/night",
+            room1Option: "Family Room (Up to 4) - 420,000 COP/night",
+            room2Option: "Large Family Room (Up to 7) - 735,000 COP/night",
             guestsLabel: "Guests",
             specialRequests: "Special Requests",
             specialPlaceholder: "Dietary needs, arrival time, special occasions...",
@@ -162,7 +168,7 @@ const translations = {
             tag: "Get in Touch",
             title: 'We\'d love to <em>hear from you</em>',
             subtitle: "Questions about your stay? Planning a special trip? We're here to help make it perfect.",
-            callUs: "Call Us",
+            callUs: "WhatsApp",
             callHint: "We speak English & Spanish",
             emailUs: "Email Us",
             emailHint: "We reply within 24 hours",
@@ -196,13 +202,15 @@ const translations = {
 
         // Payment Modal
         payment: {
-            title: "Complete Your Booking",
+            title: "Pay Your Deposit",
             cardLabel: "Credit or Debit Card",
-            totalAmount: "Total Amount:",
-            payNow: "Pay Now",
-            successTitle: "Payment Successful!",
-            successMessage: "Your booking has been confirmed. You'll receive a confirmation email shortly.",
-            confirmationNumber: "Confirmation Number:"
+            depositAmount: "Deposit Amount (50%):",
+            balanceOnArrival: "Balance due on arrival:",
+            payDeposit: "Pay Deposit",
+            successTitle: "Deposit Paid Successfully!",
+            successMessage: "Your deposit has been received and your booking is confirmed. The remaining balance is due upon arrival.",
+            confirmationNumber: "Confirmation Number:",
+            cancellationNote: "Free cancellation with full deposit refund within 48 hours of booking."
         }
     },
 
@@ -239,9 +247,9 @@ const translations = {
             findDates: "Encuentra tus fechas perfectas",
             checkIn: "Llegada",
             checkOut: "Salida",
-            guests: "Huéspedes",
-            guest: "Huésped",
-            guestsPlural: "Huéspedes"
+            roomType: "Habitación",
+            room1: "Habitación Familiar (1-4 huéspedes)",
+            room2: "Habitación Familiar Grande (1-7 huéspedes)"
         },
 
         // About Section
@@ -264,7 +272,7 @@ const translations = {
         rooms: {
             tag: "Alojamiento",
             title: 'Habitaciones cómodas para <em>familias y amigos</em>',
-            subtitle: "Espaciosas, limpias y diseñadas pensando en tu comodidad. Cada habitación incluye desayuno, aire acondicionado y todo lo que necesitas para una estadía relajante.",
+            subtitle: "Espaciosas, limpias y diseñadas pensando en tu comodidad. Cada habitación incluye desayuno, wifi, aire acondicionado y todo lo que necesitas para una estadía cómoda.",
             upTo: "Hasta",
             guestsLabel: "huéspedes",
             room1Name: "Habitación Familiar (Hasta 4 Huéspedes)",
@@ -310,23 +318,28 @@ const translations = {
             subtitle: "San Antero está lleno de tesoros escondidos. Compartiremos nuestros lugares favoritos y te ayudaremos a llegar.",
             featuredBadge: "Más Popular",
             featuredTitle: "Tours a las Islas",
-            featuredDesc: "Súbete a un bote local y explora islas prístinas, playas secretas y las famosas aguas bioluminiscentes. Te empacamos una nevera con bebidas y snacks.",
+            featuredDesc: "Súbete a un bote local y explora islas prístinas, playas secretas y las famosas aguas bioluminiscentes.",
             featuredTime: "Día completo",
-            featuredDistance: "15 min de aquí",
+            featuredDistance: "20 min de aquí",
             mangroveTitle: "Tours por Manglares",
             mangroveDesc: "Navega en kayak por túneles mágicos de manglares. ¡Mantén los ojos abiertos para ver monos y aves exóticas!",
             mudTitle: "Volcán de Lodo",
             mudDesc: "Flota en lodo volcánico terapéutico - es raro, maravilloso, y tu piel te lo agradecerá.",
             beachTitle: "Rincón del Mar",
-            beachDesc: "La playa más hermosa de la región. Agua cristalina y restaurantes de mariscos frescos.",
+            beachDesc: "Increíbles tours de snorkel en aguas cristalinas, con restaurantes de mariscos frescos para recargar energías después.",
             fishingTitle: "Pesca con Locales",
             fishingDesc: "Únete a pescadores locales al amanecer. ¡Lo que pesques, lo cocinamos para tu cena!",
             birdTitle: "Avistamiento de Aves",
             birdDesc: "El santuario La Caimanera es hogar de flamencos, garzas y cientos de especies exóticas.",
             marketTitle: "Mercados Locales",
-            marketDesc: "Explora Cobeñas y Lorica. Fruta fresca, artesanías y la gente más amable.",
-            noteTitle: "Te ayudamos a planear todo",
-            noteDesc: "Solo dinos qué suena divertido y organizamos tours, transporte y guías locales. Conocemos los mejores lugares (y los que debes evitar)."
+            marketDesc: "Explora Coveñas y Lorica. Fruta fresca, artesanías y la gente más amable.",
+        },
+
+        // Colombia Welcome Section
+        colombia: {
+            tag: "Un Mensaje para Nuestros Huéspedes Internacionales",
+            title: 'Colombia te <em>está esperando</em>',
+            message: "Si has soñado con visitar Colombia, esta es tu señal. La gente es cálida, la comida es increíble, las playas son vírgenes y la cultura se quedará contigo mucho después de irte. Ven a verlo por ti mismo — nos encantaría darte la bienvenida y compartir todo lo que sabemos sobre este hermoso rincón del Caribe."
         },
 
         // Booking Section
@@ -334,11 +347,12 @@ const translations = {
             tag: "Reserva Tu Habitación",
             title: '¿Listo para <em>escapar?</em>',
             subtitle: "Completa el formulario y confirmaremos tu reservación. ¿Preguntas? Siempre estamos felices de ayudarte a planear tu estadía perfecta.",
-            highlight1: "Cancelación gratis hasta 48 horas antes",
+            highlight1: "Cancelación gratis con reembolso total del depósito dentro de 48 horas",
             highlight2: "Desayuno incluido cada mañana",
             highlight3: "Sin cargos ocultos ni sorpresas",
-            highlight4: "Pago seguro en línea",
-            phonePrompt: "¿Prefieres reservar por teléfono?",
+            highlight4: "Pago de depósito seguro en línea",
+            highlight5: "Solo 50% de depósito — paga el resto a tu llegada",
+            phonePrompt: "Contáctanos por WhatsApp",
             yourInfo: "Tu Información",
             firstName: "Nombre",
             lastName: "Apellido",
@@ -349,8 +363,8 @@ const translations = {
             checkOutLabel: "Salida",
             roomLabel: "Habitación",
             selectRoom: "Selecciona una habitación...",
-            room1Option: "Habitación Familiar (Hasta 4) - $140/noche",
-            room2Option: "Habitación Familiar Grande (Hasta 7) - $150/noche",
+            room1Option: "Habitación Familiar (Hasta 4) - 420,000 COP/noche",
+            room2Option: "Habitación Familiar Grande (Hasta 7) - 735,000 COP/noche",
             guestsLabel: "Huéspedes",
             specialRequests: "Solicitudes Especiales",
             specialPlaceholder: "Necesidades dietéticas, hora de llegada, ocasiones especiales...",
@@ -364,7 +378,7 @@ const translations = {
             tag: "Contáctanos",
             title: 'Nos encantaría <em>saber de ti</em>',
             subtitle: "¿Preguntas sobre tu estadía? ¿Planeando un viaje especial? Estamos aquí para hacerlo perfecto.",
-            callUs: "Llámanos",
+            callUs: "WhatsApp",
             callHint: "Hablamos inglés y español",
             emailUs: "Escríbenos",
             emailHint: "Respondemos en 24 horas",
@@ -398,13 +412,15 @@ const translations = {
 
         // Payment Modal
         payment: {
-            title: "Completa Tu Reserva",
+            title: "Pagar Tu Depósito",
             cardLabel: "Tarjeta de Crédito o Débito",
-            totalAmount: "Monto Total:",
-            payNow: "Pagar Ahora",
-            successTitle: "¡Pago Exitoso!",
-            successMessage: "Tu reserva ha sido confirmada. Recibirás un correo de confirmación pronto.",
-            confirmationNumber: "Número de Confirmación:"
+            depositAmount: "Monto del Depósito (50%):",
+            balanceOnArrival: "Saldo a pagar a la llegada:",
+            payDeposit: "Pagar Depósito",
+            successTitle: "¡Depósito Pagado Exitosamente!",
+            successMessage: "Tu depósito ha sido recibido y tu reserva está confirmada. El saldo restante se paga a tu llegada.",
+            confirmationNumber: "Número de Confirmación:",
+            cancellationNote: "Cancelación gratis con reembolso total del depósito dentro de 48 horas de la reserva."
         }
     }
 };

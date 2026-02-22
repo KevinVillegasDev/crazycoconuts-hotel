@@ -100,6 +100,16 @@ const bookingSchema = new mongoose.Schema({
         min: [0, 'Total amount cannot be negative']
     },
 
+    // Deposit & Balance Tracking
+    depositAmount: {
+        type: Number,
+        min: [0, 'Deposit amount cannot be negative']
+    },
+    balanceDue: {
+        type: Number,
+        min: [0, 'Balance due cannot be negative']
+    },
+
     // Booking Status
     status: {
         type: String,
@@ -114,7 +124,7 @@ const bookingSchema = new mongoose.Schema({
     // Payment Information
     paymentStatus: {
         type: String,
-        enum: ['pending', 'paid', 'failed', 'refunded'],
+        enum: ['pending', 'deposit_paid', 'paid', 'failed', 'refunded'],
         default: 'pending'
     },
     paymentIntentId: {
@@ -135,6 +145,23 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         enum: ['card', 'cash', 'bank_transfer'],
         default: 'card'
+    },
+
+    // Refund tracking
+    refundId: {
+        type: String,
+        sparse: true
+    },
+    refundedAt: {
+        type: Date
+    },
+    refundAmount: {
+        type: Number
+    },
+
+    // Cancellation policy
+    cancellationDeadline: {
+        type: Date
     },
 
     // Administrative
@@ -176,8 +203,24 @@ bookingSchema.pre('save', function(next) {
     if (!this.confirmationNumber) {
         this.confirmationNumber = 'CC' + Date.now().toString().slice(-8).toUpperCase();
     }
-    
+
+    // Calculate deposit and balance for new bookings
+    if (this.isNew && this.totalAmount && !this.depositAmount) {
+        this.depositAmount = Math.round(this.totalAmount * 0.5);
+        this.balanceDue = this.totalAmount - this.depositAmount;
+    }
+
+    // Set cancellation deadline (48 hours from creation) for new bookings
+    if (this.isNew && !this.cancellationDeadline) {
+        this.cancellationDeadline = new Date(Date.now() + 48 * 60 * 60 * 1000);
+    }
+
     next();
+});
+
+// Virtual for checking refund eligibility
+bookingSchema.virtual('isRefundEligible').get(function() {
+    return this.cancellationDeadline && new Date() < this.cancellationDeadline;
 });
 
 // Instance method to check if booking conflicts with another booking
@@ -207,8 +250,8 @@ bookingSchema.statics.findAvailableRooms = async function(checkIn, checkOut, roo
     
     // Define room inventory
     const roomInventory = {
-        'family-room-4': 1,
-        'large-family-room-7': 1
+        'family-room-4': 2,
+        'large-family-room-7': 6
     };
     
     const availability = {};

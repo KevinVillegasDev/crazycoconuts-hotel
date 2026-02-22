@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+const exchangeRateService = require('./utils/exchangeRateService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -79,6 +80,15 @@ app.use('/api/availability', require('./routes/availability'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/payments', bookingLimiter, require('./routes/payments'));
 
+// Exchange rates endpoint
+app.get('/api/exchange-rates', (req, res) => {
+    const rateData = exchangeRateService.getRates();
+    res.json({
+        success: true,
+        data: rateData
+    });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ 
@@ -114,6 +124,9 @@ app.use('/api/*', (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile('index.html', { root: './' });
 });
+
+// Start exchange rate auto-refresh
+exchangeRateService.startAutoRefresh();
 
 // Start server
 app.listen(PORT, () => {

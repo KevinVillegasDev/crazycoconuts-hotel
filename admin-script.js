@@ -237,7 +237,7 @@ function updateOverviewStats(bookings) {
     document.getElementById('totalBookings').textContent = totalBookings;
     document.getElementById('pendingBookings').textContent = pendingBookings;
     document.getElementById('confirmedBookings').textContent = confirmedBookings;
-    document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+    document.getElementById('totalRevenue').textContent = `${Math.round(totalRevenue).toLocaleString()} COP`;
 }
 
 // Display recent bookings
@@ -265,7 +265,7 @@ function displayRecentBookings(bookings) {
                 </div>
             </div>
             <div style="text-align: right;">
-                <div style="font-weight: 600; color: #2E8B57;">$${booking.totalAmount.toFixed(2)}</div>
+                <div style="font-weight: 600; color: #2E8B57;">${Math.round(booking.totalAmount).toLocaleString()} COP</div>
                 <div class="status-badge status-${booking.status}" style="margin-top: 4px;">
                     ${booking.status}
                 </div>
@@ -329,7 +329,7 @@ function displayBookingsTable() {
     if (!filteredBookings || filteredBookings.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="10" style="text-align: center; padding: 40px; color: #666;">
+                <td colspan="11" style="text-align: center; padding: 40px; color: #666;">
                     No bookings found matching your criteria.
                 </td>
             </tr>
@@ -350,7 +350,12 @@ function displayBookingsTable() {
             <td>${formatDate(booking.checkOutDate)}</td>
             <td>${formatRoomType(booking.roomType)}</td>
             <td>${booking.guestCount}</td>
-            <td>$${booking.totalAmount.toFixed(2)}</td>
+            <td>${Math.round(booking.totalAmount).toLocaleString()} COP</td>
+            <td>
+                <span class="status-badge status-${booking.paymentStatus || 'pending'}">
+                    ${formatPaymentStatus(booking.paymentStatus)}
+                </span>
+            </td>
             <td>
                 <span class="status-badge status-${booking.status}">
                     ${booking.status}
@@ -470,23 +475,48 @@ function showBookingModal(booking) {
             </div>
             <div>
                 <strong>Room Rate:</strong><br>
-                $${booking.roomRate.toFixed(2)} per night
+                ${Math.round(booking.roomRate).toLocaleString()} COP/night
             </div>
             <div>
                 <strong>Subtotal:</strong><br>
-                $${booking.subtotal.toFixed(2)}
+                ${Math.round(booking.subtotal).toLocaleString()} COP
             </div>
             <div>
                 <strong>Taxes:</strong><br>
-                $${booking.taxes.toFixed(2)}
+                ${Math.round(booking.taxes).toLocaleString()} COP
             </div>
         </div>
-        
+
         <div style="margin-bottom: 20px;">
             <strong>Total Amount:</strong><br>
             <span style="font-size: 24px; color: #2E8B57; font-weight: 700;">
-                $${booking.totalAmount.toFixed(2)}
+                ${Math.round(booking.totalAmount).toLocaleString()} COP
             </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; background: #fff3e0; padding: 15px; border-radius: 8px;">
+            <div>
+                <strong>Deposit Paid (50%):</strong><br>
+                <span style="color: #1E6B7B; font-weight: 600;">
+                    ${booking.depositAmount ? Math.round(booking.depositAmount).toLocaleString() + ' COP' : 'N/A'}
+                </span>
+            </div>
+            <div>
+                <strong>Balance Due on Arrival:</strong><br>
+                <span style="color: #E07A5F; font-weight: 600;">
+                    ${booking.balanceDue ? Math.round(booking.balanceDue).toLocaleString() + ' COP' : 'N/A'}
+                </span>
+            </div>
+            <div>
+                <strong>Payment Status:</strong><br>
+                <span class="status-badge status-${booking.paymentStatus || 'pending'}">
+                    ${formatPaymentStatus(booking.paymentStatus)}
+                </span>
+            </div>
+            <div>
+                <strong>Cancellation Deadline:</strong><br>
+                ${booking.cancellationDeadline ? formatDate(booking.cancellationDeadline) : 'N/A'}
+            </div>
         </div>
         
         ${booking.specialRequests ? `
@@ -512,12 +542,39 @@ function showBookingModal(booking) {
         </div>
     `;
     
+    // Add cancel button if booking is not already cancelled or completed
+    const cancelBtnContainer = document.getElementById('cancelBookingContainer');
+    if (cancelBtnContainer) {
+        if (booking.status !== 'cancelled' && booking.status !== 'completed') {
+            const isRefundEligible = booking.cancellationDeadline && new Date() < new Date(booking.cancellationDeadline);
+            const hasDeposit = booking.paymentStatus === 'deposit_paid';
+
+            let cancelWarning = '';
+            if (hasDeposit && isRefundEligible) {
+                cancelWarning = 'The deposit will be automatically refunded via Stripe.';
+            } else if (hasDeposit && !isRefundEligible) {
+                cancelWarning = 'The 48-hour cancellation window has passed. The deposit will be forfeited.';
+            }
+
+            cancelBtnContainer.innerHTML = `
+                <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
+                    ${cancelWarning ? `<p style="color: #666; font-size: 13px; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> ${cancelWarning}</p>` : ''}
+                    <button class="btn btn-danger" onclick="cancelBooking('${booking._id}')" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                        <i class="fas fa-times-circle"></i> Cancel Booking
+                    </button>
+                </div>
+            `;
+        } else {
+            cancelBtnContainer.innerHTML = '';
+        }
+    }
+
     // Set current status in select
     statusSelect.value = booking.status;
-    
+
     // Store booking ID for updates
     modal.dataset.bookingId = booking._id;
-    
+
     modal.classList.add('show');
 }
 
@@ -550,6 +607,34 @@ async function updateBookingStatus() {
     } catch (error) {
         console.error('Error updating booking status:', error);
         showAlert('Failed to update booking status', 'error');
+    }
+}
+
+// Cancel booking
+async function cancelBooking(bookingId) {
+    if (!confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/bookings/${bookingId}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showAlert(result.message, 'success');
+            closeModal();
+            loadReservationsData();
+            loadOverviewData();
+        } else {
+            showAlert(result.message || 'Failed to cancel booking', 'error');
+        }
+    } catch (error) {
+        console.error('Error cancelling booking:', error);
+        showAlert('Failed to cancel booking', 'error');
     }
 }
 
@@ -652,6 +737,17 @@ function formatRoomType(roomType) {
         'large-family-room-7': 'Large Family Room (Up to 7)'
     };
     return roomTypes[roomType] || roomType;
+}
+
+function formatPaymentStatus(status) {
+    const labels = {
+        'pending': 'Pending',
+        'deposit_paid': 'Deposit Paid',
+        'paid': 'Fully Paid',
+        'failed': 'Failed',
+        'refunded': 'Refunded'
+    };
+    return labels[status] || status || 'Pending';
 }
 
 function closeModal() {

@@ -1164,8 +1164,17 @@ section {
 
 .amenities-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: var(--space-lg);
+}
+
+.amenity-card {
+    grid-column: span 2;
+}
+
+/* Center the last row (cards 4 & 5 of 5) */
+.amenity-card:nth-child(4) {
+    grid-column: 2 / span 2;
 }
 
 .amenity-card {
@@ -1390,41 +1399,138 @@ section {
 }
 
 /* Attractions note/CTA */
-.attractions-note {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-lg);
-    margin-top: var(--space-3xl);
-    padding: var(--space-xl);
+/* --------------------------------------------------------------------------
+   Colombia Welcome Section
+   -------------------------------------------------------------------------- */
+.colombia-welcome {
+    padding: var(--space-4xl) 0;
     background: linear-gradient(135deg, var(--ocean) 0%, var(--ocean-dark) 100%);
-    border-radius: var(--radius-xl);
-    color: var(--white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.note-icon {
-    width: 50px;
-    height: 50px;
+.colombia-welcome::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.colombia-welcome .section-tag {
     background: rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
     color: var(--sunset-light);
+}
+
+.colombia-welcome-content {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.colombia-welcome-content h2 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: var(--space-xl);
+    line-height: 1.2;
+}
+
+.colombia-welcome-content h2 em {
+    color: var(--sunset-light);
+    font-style: italic;
+}
+
+.colombia-welcome-content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Deposit Breakdown (Booking Summary & Payment Modal)
+   -------------------------------------------------------------------------- */
+.deposit-breakdown {
+    background: var(--sand-light);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--coral);
+    margin-top: var(--space-md);
+}
+
+.deposit-breakdown p {
+    margin: 0;
+    line-height: 1.8;
+}
+
+.deposit-breakdown .deposit-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+    color: var(--ocean);
+}
+
+.deposit-breakdown .balance-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Payment modal deposit/balance rows */
+.summary-row.deposit-row {
+    border-top: 2px dashed var(--coral);
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+    color: var(--ocean);
+}
+
+.summary-row.balance-row {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.total-row.balance-row {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+}
+
+.balance-amount {
+    font-family: var(--font-display);
+}
+
+/* Cancellation note in payment success */
+.cancellation-note {
+    background: #E8F5E9;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-top: var(--space-lg);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.cancellation-note i {
+    color: var(--ocean);
+    margin-top: 2px;
     flex-shrink: 0;
 }
 
-.note-content h4 {
-    color: var(--white);
-    font-size: 1.125rem;
-    margin-bottom: var(--space-sm);
-}
-
-.note-content p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.9375rem;
-    margin: 0;
-    line-height: 1.6;
+/* Payment status badge for deposit_paid */
+.status-badge.status-deposit_paid {
+    background: #E3F2FD;
+    color: #1565C0;
 }
 
 /* --------------------------------------------------------------------------
@@ -2189,6 +2295,21 @@ a.contact-card:hover {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .amenities-grid .amenity-card {
+        grid-column: span 1;
+    }
+
+    .amenities-grid .amenity-card:nth-child(4) {
+        grid-column: span 1;
+    }
+
+    /* Center the 5th card on tablet */
+    .amenities-grid .amenity-card:nth-child(5) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        justify-self: center;
+    }
+
     .attractions-showcase {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
@@ -2321,14 +2442,24 @@ a.contact-card:hover {
         grid-template-columns: 1fr;
     }
 
+    .amenities-grid .amenity-card,
+    .amenities-grid .amenity-card:nth-child(4),
+    .amenities-grid .amenity-card:nth-child(5) {
+        grid-column: span 1;
+        max-width: 100%;
+        justify-self: stretch;
+    }
+
     .attractions-grid-small {
         grid-template-columns: 1fr;
     }
 
-    .attractions-note {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
+    .colombia-welcome-content h2 {
+        font-size: 2rem;
+    }
+
+    .colombia-welcome-content p {
+        font-size: 1rem;
     }
 
     .contact-cards {

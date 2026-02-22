@@ -16,9 +16,9 @@ const roomsData = [
         type: 'family-room-4',
         name: 'Family Room (Up to 4 Guests)',
         description: 'Comfortable room perfect for families and small groups. Features cozy beds, modern amenities, and a welcoming atmosphere.',
-        basePrice: 140,
+        basePrice: 420000,
         maxGuests: 4,
-        totalRooms: 3,
+        totalRooms: 2,
         amenities: [
             { icon: 'fas fa-wifi', name: 'Free WiFi', description: 'High-speed internet access' },
             { icon: 'fas fa-wind', name: 'Air Conditioning', description: 'Climate control for your comfort' },
@@ -38,9 +38,9 @@ const roomsData = [
         type: 'large-family-room-7',
         name: 'Large Family Room (Up to 7 Guests)',
         description: 'Spacious room ideal for large families and group gatherings. Plenty of space for everyone to relax and enjoy.',
-        basePrice: 150,
+        basePrice: 735000,
         maxGuests: 7,
-        totalRooms: 2,
+        totalRooms: 6,
         amenities: [
             { icon: 'fas fa-wifi', name: 'Free WiFi', description: 'High-speed internet access' },
             { icon: 'fas fa-wind', name: 'Air Conditioning', description: 'Climate control for your comfort' },

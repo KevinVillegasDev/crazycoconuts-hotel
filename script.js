@@ -1,6 +1,12 @@
 // Global currency management instance
 let currencyManager;
 
+// Room prices in COP (source of truth)
+const ROOM_PRICES_COP = {
+    'family-room-4': 420000,
+    'large-family-room-7': 735000
+};
+
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', async function() {
     // Initialize currency system first
@@ -75,12 +81,6 @@ function initBookingSystem() {
     const bookingForm = document.getElementById('bookingForm');
     const quickBookingForm = document.querySelector('.booking-form-quick');
     
-    // Room prices
-    const roomPrices = {
-        'family-room-4': 140,
-        'large-family-room-7': 150
-    };
-    
     // Quick booking form
     if (quickBookingForm) {
         quickBookingForm.addEventListener('submit', handleQuickBooking);
@@ -111,49 +111,49 @@ async function handleQuickBooking(e) {
     const formData = new FormData(e.target);
     const checkin = formData.get('checkin');
     const checkout = formData.get('checkout');
-    const guests = formData.get('guests');
-    
+    const roomType = formData.get('roomType');
+
     if (!checkin || !checkout) {
         showNotification('Please select both check-in and check-out dates.', 'error');
         return;
     }
-    
+
     if (new Date(checkin) >= new Date(checkout)) {
         showNotification('Check-out date must be after check-in date.', 'error');
         return;
     }
-    
+
     try {
-        // Check availability for selected dates
-        const response = await fetch(`/api/availability?checkIn=${checkin}&checkOut=${checkout}`);
+        // Check availability for selected dates and room type
+        const response = await fetch(`/api/availability?checkIn=${checkin}&checkOut=${checkout}&roomType=${roomType}`);
         const result = await response.json();
-        
+
         if (result.success) {
             const availability = result.data.availability;
-            const hasAvailability = Object.values(availability).some(room => room.available > 0);
-            
-            if (!hasAvailability) {
-                showNotification('Sorry, no rooms are available for your selected dates. Please try different dates.', 'error');
+            const roomAvail = availability[roomType];
+
+            if (!roomAvail || roomAvail.available === 0) {
+                showNotification('Sorry, no rooms of that type are available for your selected dates. Please try different dates or room type.', 'error');
                 return;
             }
-            
-            // Show availability info
-            showNotification(`Great! We have rooms available for your dates. Please complete your booking below.`, 'success');
+
+            // Show availability info with rooms available count
+            showNotification(`Great! ${roomAvail.available} room${roomAvail.available > 1 ? 's' : ''} available for your dates. Please complete your booking below.`, 'success');
         }
     } catch (error) {
         console.error('Error checking availability:', error);
         showNotification('Unable to check availability at the moment. Please try booking directly below.', 'error');
     }
-    
+
     // Scroll to main booking form and pre-fill data
     const mainBookingSection = document.getElementById('booking');
     const mainCheckin = document.getElementById('checkinDate');
     const mainCheckout = document.getElementById('checkoutDate');
-    const mainGuests = document.getElementById('guestCount');
-    
+    const mainRoomType = document.getElementById('roomType');
+
     if (mainCheckin) mainCheckin.value = checkin;
     if (mainCheckout) mainCheckout.value = checkout;
-    if (mainGuests) mainGuests.value = guests;
+    if (mainRoomType) mainRoomType.value = roomType;
     
     // Update booking summary
     updateBookingSummary();
@@ -314,21 +314,24 @@ function updateBookingSummary() {
         return;
     }
     
-    const roomPrices = {
-        'family-room-4': 140,
-        'large-family-room-7': 150
-    };
-    
     const roomNames = {
         'family-room-4': 'Family Room (Up to 4 Guests)',
         'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
-    
-    const pricePerNight = roomPrices[room] || 0;
-    const subtotal = pricePerNight * nights;
-    const tax = subtotal * 0.16; // 16% tax (typical for Colombia)
-    const total = subtotal + tax;
-    
+
+    const pricePerNightCOP = ROOM_PRICES_COP[room] || 0;
+    const subtotalCOP = pricePerNightCOP * nights;
+    const taxCOP = subtotalCOP * 0.16;
+    const totalCOP = subtotalCOP + taxCOP;
+
+    // Convert to selected currency for display
+    const pricePerNight = currencyManager.convert(pricePerNightCOP, 'COP');
+    const subtotal = currencyManager.convert(subtotalCOP, 'COP');
+    const tax = currencyManager.convert(taxCOP, 'COP');
+    const total = currencyManager.convert(totalCOP, 'COP');
+    const symbol = currencyManager.getSymbol();
+    const currency = currencyManager.currentCurrency;
+
     summaryElement.innerHTML = `
         <div class="booking-details">
             <p><strong>Room:</strong> ${roomNames[room]}</p>
@@ -336,9 +339,9 @@ function updateBookingSummary() {
             <p><strong>Nights:</strong> ${nights}</p>
             <p><strong>Guests:</strong> ${guests}</p>
             <hr style="margin: 15px 0; border: 1px solid #eee;">
-            <p><strong>Room Rate:</strong> $${pricePerNight} × ${nights} nights = $${subtotal.toFixed(2)}</p>
-            <p><strong>Taxes & Fees:</strong> $${tax.toFixed(2)}</p>
-            <p style="font-size: 1.2rem; color: #ff6b35;"><strong>Total: $${total.toFixed(2)}</strong></p>
+            <p><strong>Room Rate:</strong> ${currencyManager.format(pricePerNightCOP)} × ${nights} nights = ${currencyManager.format(subtotalCOP)}</p>
+            <p><strong>Taxes & Fees:</strong> ${currencyManager.format(taxCOP)}</p>
+            <p style="font-size: 1.2rem; color: #ff6b35;"><strong>Total: ${currencyManager.format(totalCOP)}</strong></p>
         </div>
     `;
 }
@@ -764,11 +767,6 @@ function updateAllPrices() {
 
 // Update room prices in the rooms section
 function updateRoomPrices() {
-    const roomPrices = {
-        'family-room-4': 140,
-        'large-family-room-7': 150
-    };
-    
     // Update room cards
     const roomCards = document.querySelectorAll('.room-card');
     roomCards.forEach((card, index) => {
@@ -790,8 +788,8 @@ function updateRoomPrices() {
                 roomType = roomTypesByIndex[index];
             }
             
-            if (roomType && roomPrices[roomType]) {
-                const formattedPrice = currencyManager.format(roomPrices[roomType]);
+            if (roomType && ROOM_PRICES_COP[roomType]) {
+                const formattedPrice = currencyManager.format(ROOM_PRICES_COP[roomType]);
                 priceElement.innerHTML = `
                     <span class="price-label">From</span>
                     <span class="price-amount">${formattedPrice}</span>
@@ -845,27 +843,26 @@ function updateBookingSummaryWithCurrency() {
         return;
     }
     
-    const roomPrices = {
-        'family-room-4': 140,
-        'large-family-room-7': 150
-    };
-    
     const roomNames = {
         'family-room-4': 'Family Room (Up to 4 Guests)',
         'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
-    
-    const pricePerNight = roomPrices[room] || 0;
-    const subtotal = pricePerNight * nights;
-    const tax = subtotal * 0.16; // 16% tax (typical for Colombia)
-    const total = subtotal + tax;
-    
+
+    const pricePerNightCOP = ROOM_PRICES_COP[room] || 0;
+    const subtotalCOP = pricePerNightCOP * nights;
+    const taxCOP = subtotalCOP * 0.16;
+    const totalCOP = subtotalCOP + taxCOP;
+    const depositCOP = Math.round(totalCOP * 0.5);
+    const balanceCOP = totalCOP - depositCOP;
+
     // Format prices with current currency
-    const formattedPricePerNight = currencyManager.format(pricePerNight);
-    const formattedSubtotal = currencyManager.format(subtotal);
-    const formattedTax = currencyManager.format(tax);
-    const formattedTotal = currencyManager.format(total);
-    
+    const formattedPricePerNight = currencyManager.format(pricePerNightCOP);
+    const formattedSubtotal = currencyManager.format(subtotalCOP);
+    const formattedTax = currencyManager.format(taxCOP);
+    const formattedTotal = currencyManager.format(totalCOP);
+    const formattedDeposit = currencyManager.format(depositCOP);
+    const formattedBalance = currencyManager.format(balanceCOP);
+
     summaryElement.innerHTML = `
         <div class="booking-details">
             <p><strong>Room:</strong> ${roomNames[room]}</p>
@@ -875,8 +872,18 @@ function updateBookingSummaryWithCurrency() {
             <hr style="margin: 15px 0; border: 1px solid #eee;">
             <p><strong>Room Rate:</strong> ${formattedPricePerNight} × ${nights} nights = ${formattedSubtotal}</p>
             <p><strong>Taxes & Fees:</strong> ${formattedTax}</p>
-            <p style="font-size: 1.2rem; color: #2E8B57;"><strong>Total: ${formattedTotal}</strong></p>
-            <small style="color: #666; font-style: italic;">
+            <p style="font-size: 1.1rem;"><strong>Total: ${formattedTotal}</strong></p>
+            <div class="deposit-breakdown">
+                <p class="deposit-line">
+                    <strong><i class="fas fa-credit-card"></i> Deposit Due Now (50%):</strong>
+                    <strong>${formattedDeposit}</strong>
+                </p>
+                <p class="balance-line">
+                    <i class="fas fa-money-bill-wave"></i> Balance Due on Arrival (50%):
+                    ${formattedBalance}
+                </p>
+            </div>
+            <small style="color: #666; font-style: italic; display: block; margin-top: 8px;">
                 Prices shown in ${currencyManager.getName()}
                 ${currencyManager.currentCurrency !== 'COP' ? ' (converted from Colombian Pesos)' : ''}
             </small>
@@ -937,30 +944,22 @@ function showPaymentModal(bookingData) {
     document.querySelector('.payment-form-container').style.display = 'block';
     paymentSuccess.classList.add('hidden');
     
-    // Calculate pricing
-    const roomPrices = {
-        'family-room-4': 140,
-        'large-family-room-7': 150
-    };
-    
+    // Calculate pricing in COP
     const roomNames = {
         'family-room-4': 'Family Room (Up to 4 Guests)',
         'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
-    
+
     const checkinDate = new Date(bookingData.checkinDate);
     const checkoutDate = new Date(bookingData.checkoutDate);
     const nights = Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
-    const pricePerNight = roomPrices[bookingData.roomType] || 0;
-    const subtotal = pricePerNight * nights;
-    const tax = subtotal * 0.16;
-    const total = subtotal + tax;
-    
-    // Convert to current currency
-    const convertedSubtotal = currencyManager.convert(subtotal);
-    const convertedTax = currencyManager.convert(tax);
-    const convertedTotal = currencyManager.convert(total);
-    
+    const pricePerNightCOP = ROOM_PRICES_COP[bookingData.roomType] || 0;
+    const subtotalCOP = pricePerNightCOP * nights;
+    const taxCOP = subtotalCOP * 0.16;
+    const totalCOP = subtotalCOP + taxCOP;
+    const depositCOP = Math.round(totalCOP * 0.5);
+    const balanceCOP = totalCOP - depositCOP;
+
     // Update payment summary
     paymentSummary.innerHTML = `
         <h4>Booking Summary</h4>
@@ -990,26 +989,41 @@ function showPaymentModal(bookingData) {
         </div>
         <div class="summary-row">
             <span>Room Rate:</span>
-            <span>${currencyManager.format(convertedSubtotal)}</span>
+            <span>${currencyManager.format(subtotalCOP)}</span>
         </div>
         <div class="summary-row">
             <span>Taxes & Fees:</span>
-            <span>${currencyManager.format(convertedTax)}</span>
+            <span>${currencyManager.format(taxCOP)}</span>
         </div>
         <div class="summary-row">
             <span><strong>Total:</strong></span>
-            <span><strong>${currencyManager.format(convertedTotal)}</strong></span>
+            <span><strong>${currencyManager.format(totalCOP)}</strong></span>
+        </div>
+        <div class="summary-row deposit-row">
+            <span><strong>Deposit Due Now (50%):</strong></span>
+            <span><strong>${currencyManager.format(depositCOP)}</strong></span>
+        </div>
+        <div class="summary-row balance-row">
+            <span>Balance Due on Arrival:</span>
+            <span>${currencyManager.format(balanceCOP)}</span>
         </div>
     `;
-    
-    // Update payment total
-    paymentTotal.textContent = currencyManager.format(convertedTotal);
-    
+
+    // Update payment total to show deposit amount
+    paymentTotal.textContent = currencyManager.format(depositCOP);
+
+    // Update balance display if element exists
+    const paymentBalance = document.getElementById('paymentBalance');
+    if (paymentBalance) {
+        paymentBalance.textContent = currencyManager.format(balanceCOP);
+    }
+
     // Store booking data for payment processing
     modal.dataset.bookingData = JSON.stringify({
         ...bookingData,
-        originalTotal: total,
-        convertedTotal: convertedTotal,
+        totalCOP: totalCOP,
+        depositCOP: depositCOP,
+        balanceCOP: balanceCOP,
         currency: currencyManager.currentCurrency,
         nights: nights
     });
@@ -1053,7 +1067,7 @@ function handlePaymentSubmit(event) {
                 // Show error to customer
                 showNotification(result.error.message, 'error');
                 payButton.disabled = false;
-                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Now';
+                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Deposit';
             } else {
                 // Payment succeeded
                 handlePaymentSuccess(result.paymentIntent);
@@ -1063,7 +1077,7 @@ function handlePaymentSubmit(event) {
             console.error('Payment error:', error);
             showNotification('Payment failed. Please try again.', 'error');
             payButton.disabled = false;
-            payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Now';
+            payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Deposit';
         });
 }
 
@@ -1077,8 +1091,7 @@ async function createPaymentIntent(bookingData) {
             },
             body: JSON.stringify({
                 bookingId: bookingData.bookingId,
-                currency: bookingData.currency,
-                convertedAmount: bookingData.convertedTotal
+                currency: bookingData.currency
             })
         });
         
@@ -1125,7 +1138,7 @@ function handlePaymentSuccess(paymentIntent) {
                 updateBookingSummary();
             }
             
-            showNotification('Payment successful! Your booking is confirmed.', 'success');
+            showNotification('Deposit payment successful! Your booking is confirmed.', 'success');
         } else {
             showNotification('Payment processing failed. Please contact support.', 'error');
         }

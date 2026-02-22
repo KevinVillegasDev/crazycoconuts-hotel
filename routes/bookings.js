@@ -277,14 +277,14 @@ router.put('/:id', optionalAdminAuth, async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);
-        
+
         if (!booking) {
             return res.status(404).json({
                 success: false,
                 message: 'Booking not found'
             });
         }
-        
+
         // Don't allow cancellation of completed bookings
         if (booking.status === 'completed') {
             return res.status(400).json({
@@ -292,16 +292,51 @@ router.delete('/:id', async (req, res) => {
                 message: 'Cannot cancel completed bookings'
             });
         }
-        
+
+        // Handle deposit refund if applicable
+        let refundInfo = null;
+        if (booking.paymentStatus === 'deposit_paid' && booking.paymentIntentId) {
+            if (booking.isRefundEligible) {
+                // Within 48-hour window — attempt automatic refund
+                try {
+                    const stripeInstance = process.env.STRIPE_SECRET_KEY
+                        ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+                        : null;
+                    if (stripeInstance) {
+                        const refund = await stripeInstance.refunds.create({
+                            payment_intent: booking.paymentIntentId,
+                            reason: 'requested_by_customer'
+                        });
+                        booking.refundId = refund.id;
+                        booking.refundedAt = new Date();
+                        booking.refundAmount = booking.depositAmount;
+                        booking.paymentStatus = 'refunded';
+                        refundInfo = { refundId: refund.id, amount: booking.depositAmount };
+                    }
+                } catch (refundError) {
+                    console.error('Automatic refund failed:', refundError);
+                    // Still cancel, but note the refund issue
+                }
+            }
+            // Past 48-hour window: deposit is forfeited, paymentStatus stays 'deposit_paid'
+        }
+
         booking.status = 'cancelled';
         await booking.save();
-        
+
+        let message = 'Booking cancelled successfully';
+        if (refundInfo) {
+            message = 'Booking cancelled and deposit refunded successfully';
+        } else if (booking.paymentStatus === 'deposit_paid') {
+            message = 'Booking cancelled. Deposit is non-refundable (cancellation deadline passed).';
+        }
+
         res.json({
             success: true,
-            message: 'Booking cancelled successfully',
-            data: booking
+            message,
+            data: { booking, refund: refundInfo }
         });
-        
+
     } catch (error) {
         console.error('Error cancelling booking:', error);
         res.status(500).json({

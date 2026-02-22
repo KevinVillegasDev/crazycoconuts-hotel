@@ -23,9 +23,8 @@ async function sendBookingConfirmation(booking) {
     
     try {
         const roomNames = {
-            'ocean-view': 'Ocean View Room',
-            'beachfront-suite': 'Beachfront Suite',
-            'presidential-villa': 'Presidential Villa'
+            'family-room-4': 'Family Room (Up to 4 Guests)',
+            'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
         };
         
         const emailHtml = generateBookingConfirmationHTML(booking, roomNames);
@@ -138,16 +137,26 @@ function generateBookingConfirmationHTML(booking, roomNames) {
                     <h3>Pricing Summary</h3>
                     <div class="detail-row">
                         <span class="detail-label">Room Rate (${booking.numberOfNights} nights):</span>
-                        <span>$${booking.subtotal.toFixed(2)}</span>
+                        <span>${Math.round(booking.subtotal).toLocaleString()} COP</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Taxes & Fees:</span>
-                        <span>$${booking.taxes.toFixed(2)}</span>
+                        <span>${Math.round(booking.taxes).toLocaleString()} COP</span>
                     </div>
                     <div class="total">
                         <div class="detail-row" style="border: none; margin: 0; font-size: 1.1em;">
-                            <span>Total Amount:</span>
-                            <span>$${booking.totalAmount.toFixed(2)}</span>
+                            <span>Total Booking Cost:</span>
+                            <span>${Math.round(booking.totalAmount).toLocaleString()} COP</span>
+                        </div>
+                    </div>
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                        <div class="detail-row" style="border: none; margin: 0; color: #1E6B7B; font-weight: bold;">
+                            <span>Deposit Paid (50%):</span>
+                            <span>${Math.round(booking.depositAmount || booking.totalAmount * 0.5).toLocaleString()} COP</span>
+                        </div>
+                        <div class="detail-row" style="border: none; margin: 5px 0 0 0; color: #666;">
+                            <span>Balance Due on Arrival:</span>
+                            <span>${Math.round(booking.balanceDue || booking.totalAmount * 0.5).toLocaleString()} COP</span>
                         </div>
                     </div>
                 </div>
@@ -157,9 +166,10 @@ function generateBookingConfirmationHTML(booking, roomNames) {
                     <ul>
                         <li>Check-in time: 3:00 PM</li>
                         <li>Check-out time: 11:00 AM</li>
-                        <li>Free WiFi throughout the resort</li>
-                        <li>Complimentary breakfast</li>
-                        <li>Beach access and pool facilities</li>
+                        <li>Free WiFi throughout the property</li>
+                        <li>Complimentary breakfast included daily</li>
+                        <li><strong>Deposit Policy:</strong> 50% deposit paid online, 50% balance due on arrival</li>
+                        <li><strong>Free Cancellation:</strong> Full deposit refund if cancelled within 48 hours of booking</li>
                     </ul>
                 </div>
                 
@@ -220,14 +230,21 @@ Guests: ${booking.guestCount}
 ${booking.specialRequests ? `Special Requests: ${booking.specialRequests}` : ''}
 
 PRICING SUMMARY:
-Room Rate (${booking.numberOfNights} nights): $${booking.subtotal.toFixed(2)}
-Taxes & Fees: $${booking.taxes.toFixed(2)}
-Total Amount: $${booking.totalAmount.toFixed(2)}
+Room Rate (${booking.numberOfNights} nights): ${Math.round(booking.subtotal).toLocaleString()} COP
+Taxes & Fees: ${Math.round(booking.taxes).toLocaleString()} COP
+Total Booking Cost: ${Math.round(booking.totalAmount).toLocaleString()} COP
+
+Deposit Paid (50%): ${Math.round(booking.depositAmount || booking.totalAmount * 0.5).toLocaleString()} COP
+Balance Due on Arrival: ${Math.round(booking.balanceDue || booking.totalAmount * 0.5).toLocaleString()} COP
+
+CANCELLATION POLICY:
+Free cancellation with full deposit refund within 48 hours of booking.
+After 48 hours, the deposit is non-refundable.
 
 HOTEL INFORMATION:
 Check-in time: 3:00 PM
 Check-out time: 11:00 AM
-Address: Carrera 2 #5-41, Santa Marta, Magdalena, Colombia
+Address: San Antero, Córdoba, Colombia
 Phone: +57 5 432 1000
 Email: reservations@crazycoconuts.com
 

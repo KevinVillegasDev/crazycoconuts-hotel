@@ -137,15 +137,13 @@
                         <input type="date" id="checkout" name="checkout" required>
                     </div>
                     <div class="form-group">
-                        <label for="guests">
-                            <i class="fas fa-users"></i>
-                            <span data-i18n="quickBooking.guests">Guests</span>
+                        <label for="quickRoomType">
+                            <i class="fas fa-bed"></i>
+                            <span data-i18n="quickBooking.roomType">Room</span>
                         </label>
-                        <select id="guests" name="guests">
-                            <option value="1">1 Guest</option>
-                            <option value="2" selected>2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4+ Guests</option>
+                        <select id="quickRoomType" name="roomType">
+                            <option value="family-room-4" data-i18n="quickBooking.room1">Family Room (1-4 guests)</option>
+                            <option value="large-family-room-7" data-i18n="quickBooking.room2" selected>Large Family Room (1-7 guests)</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">
@@ -222,7 +220,7 @@
             <div class="section-header">
                 <span class="section-tag" data-i18n="rooms.tag">Accommodations</span>
                 <h2 data-i18n="rooms.title" data-i18n-html="true">Comfortable rooms for <em>families & friends</em></h2>
-                <p class="section-subtitle" data-i18n="rooms.subtitle">Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, air conditioning, and everything you need for a relaxing stay.</p>
+                <p class="section-subtitle" data-i18n="rooms.subtitle">Spacious, clean, and thoughtfully designed for your comfort. Every room includes breakfast, wifi, air conditioning, and everything you need for a comfortable stay.</p>
             </div>
 
             <div class="rooms-grid">
@@ -249,7 +247,7 @@
                         <div class="room-footer">
                             <div class="room-price">
                                 <span class="price-label" data-i18n="rooms.from">From</span>
-                                <span class="price-amount">$140</span>
+                                <span class="price-amount">420,000 COP</span>
                                 <span class="price-period" data-i18n="rooms.perNight">/night</span>
                             </div>
                             <a href="#booking" class="btn btn-primary" data-i18n="rooms.bookThisRoom">Book This Room</a>
@@ -281,7 +279,7 @@
                         <div class="room-footer">
                             <div class="room-price">
                                 <span class="price-label" data-i18n="rooms.from">From</span>
-                                <span class="price-amount">$150</span>
+                                <span class="price-amount">735,000 COP</span>
                                 <span class="price-period" data-i18n="rooms.perNight">/night</span>
                             </div>
                             <a href="#booking" class="btn btn-primary" data-i18n="rooms.bookThisRoom">Book This Room</a>
@@ -321,22 +319,6 @@
                     </div>
                     <h3 data-i18n="amenities.breakfastTitle">Homemade Breakfast</h3>
                     <p data-i18n="amenities.breakfastDesc">Wake up to the smell of fresh arepas, eggs, and Colombian coffee. Made with love, every morning.</p>
-                </div>
-
-                <div class="amenity-card amenity-drinks">
-                    <div class="amenity-illustration">
-                        <svg viewBox="0 0 80 80" class="amenity-svg">
-                            <circle cx="40" cy="45" r="25" fill="currentColor" opacity="0.15"/>
-                            <path d="M30 30 L32 55 Q32 60 40 60 Q48 60 48 55 L50 30 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
-                            <ellipse cx="40" cy="30" rx="10" ry="3" stroke="currentColor" stroke-width="2.5" fill="none"/>
-                            <circle cx="36" cy="45" r="3" fill="currentColor" opacity="0.5"/>
-                            <circle cx="44" cy="50" r="2" fill="currentColor" opacity="0.5"/>
-                            <path d="M50 35 Q60 30 55 45" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            <circle cx="55" cy="46" r="4" fill="currentColor" opacity="0.3"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="amenities.drinksTitle">Fresh Coconut Water</h3>
-                    <p data-i18n="amenities.drinksDesc">Straight from the tree to your glass. Plus tropical juices and cold drinks anytime.</p>
                 </div>
 
                 <div class="amenity-card amenity-wifi">
@@ -418,10 +400,10 @@
                     <div class="attraction-info">
                         <span class="attraction-badge" data-i18n="attractions.featuredBadge">Most Popular</span>
                         <h3 data-i18n="attractions.featuredTitle">Island Hopping Tours</h3>
-                        <p data-i18n="attractions.featuredDesc">Hop on a local boat and explore pristine islands, secret beaches, and the famous bioluminescent waters. We'll pack you a cooler of drinks and snacks.</p>
+                        <p data-i18n="attractions.featuredDesc">Hop on a local boat and explore pristine islands, secret beaches, and the famous bioluminescent waters.</p>
                         <div class="attraction-meta">
                             <span><i class="fas fa-clock"></i> <span data-i18n="attractions.featuredTime">Full day trip</span></span>
-                            <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="attractions.featuredDistance">15 min from here</span></span>
+                            <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="attractions.featuredDistance">20 min from here</span></span>
                         </div>
                     </div>
                 </div>
@@ -453,17 +435,7 @@
                         </div>
                         <div class="attraction-card-content">
                             <h4 data-i18n="attractions.beachTitle">Rincón del Mar</h4>
-                            <p data-i18n="attractions.beachDesc">The most beautiful beach in the region. Crystal-clear water and fresh seafood restaurants.</p>
-                        </div>
-                    </div>
-
-                    <div class="attraction-card">
-                        <div class="attraction-card-icon">
-                            <i class="fas fa-fish"></i>
-                        </div>
-                        <div class="attraction-card-content">
-                            <h4 data-i18n="attractions.fishingTitle">Fishing with Locals</h4>
-                            <p data-i18n="attractions.fishingDesc">Join local fishermen at dawn. Whatever you catch, we'll cook it for your dinner!</p>
+                            <p data-i18n="attractions.beachDesc">Incredible snorkeling tours in crystal-clear water, with plenty of fresh seafood restaurants to refuel after.</p>
                         </div>
                     </div>
 
@@ -483,20 +455,22 @@
                         </div>
                         <div class="attraction-card-content">
                             <h4 data-i18n="attractions.marketTitle">Local Village Markets</h4>
-                            <p data-i18n="attractions.marketDesc">Explore Cobeñas and Lorica. Fresh fruit, handmade crafts, and the friendliest people.</p>
+                            <p data-i18n="attractions.marketDesc">Explore Coveñas and Lorica. Fresh fruit, handmade crafts, and the friendliest people.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="attractions-note">
-                <div class="note-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="note-content">
-                    <h4 data-i18n="attractions.noteTitle">We'll help you plan everything</h4>
-                    <p data-i18n="attractions.noteDesc">Just tell us what sounds fun and we'll arrange tours, transportation, and local guides. We know all the best spots (and the ones to skip).</p>
-                </div>
+        </div>
+    </section>
+
+    <!-- Colombia Welcome Section -->
+    <section class="colombia-welcome">
+        <div class="container">
+            <div class="colombia-welcome-content">
+                <span class="section-tag" data-i18n="colombia.tag">A Message for Our International Guests</span>
+                <h2 data-i18n="colombia.title" data-i18n-html="true">Colombia is <em>waiting for you</em></h2>
+                <p data-i18n="colombia.message">If you've been dreaming about visiting Colombia, this is your sign. The people are warm, the food is incredible, the beaches are untouched, and the culture will stay with you long after you leave. Come see for yourself — we'd love to welcome you and share everything we know about this beautiful corner of the Caribbean.</p>
             </div>
         </div>
     </section>
@@ -514,7 +488,7 @@
                     <div class="booking-highlights">
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span data-i18n="booking.highlight1">Free cancellation up to 48 hours</span>
+                            <span data-i18n="booking.highlight1">Free cancellation with full deposit refund within 48 hours</span>
                         </div>
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
@@ -526,15 +500,19 @@
                         </div>
                         <div class="highlight">
                             <i class="fas fa-check-circle"></i>
-                            <span data-i18n="booking.highlight4">Secure online payment</span>
+                            <span data-i18n="booking.highlight4">Secure online deposit payment</span>
+                        </div>
+                        <div class="highlight">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-i18n="booking.highlight5">Only 50% deposit required — pay the rest on arrival</span>
                         </div>
                     </div>
 
                     <div class="booking-contact">
-                        <p data-i18n="booking.phonePrompt">Prefer to book by phone?</p>
-                        <a href="tel:+5754321000" class="phone-link">
-                            <i class="fas fa-phone"></i>
-                            +57 5 432 1000
+                        <p data-i18n="booking.phonePrompt">Contact us on WhatsApp</p>
+                        <a href="https://wa.me/14078671294" class="phone-link" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i>
+                            +1 407 867 1294
                         </a>
                     </div>
                 </div>
@@ -634,24 +612,24 @@
 
             <div class="contact-grid">
                 <div class="contact-cards">
-                    <a href="tel:+5754321000" class="contact-card">
+                    <a href="https://wa.me/14078671294" class="contact-card" target="_blank" rel="noopener noreferrer">
                         <div class="contact-card-icon">
-                            <i class="fas fa-phone"></i>
+                            <i class="fab fa-whatsapp"></i>
                         </div>
                         <div class="contact-card-content">
-                            <h3 data-i18n="contact.callUs">Call Us</h3>
-                            <p>+57 5 432 1000</p>
+                            <h3 data-i18n="contact.callUs">WhatsApp</h3>
+                            <p>+1 407 867 1294</p>
                             <span class="contact-card-hint" data-i18n="contact.callHint">We speak English & Spanish</span>
                         </div>
                     </a>
 
-                    <a href="mailto:reservations@crazycoconuts.com" class="contact-card">
+                    <a href="mailto:contact@crazycoconutshotel.com" class="contact-card">
                         <div class="contact-card-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-card-content">
                             <h3 data-i18n="contact.emailUs">Email Us</h3>
-                            <p>reservations@crazycoconuts.com</p>
+                            <p>contact@crazycoconutshotel.com</p>
                             <span class="contact-card-hint" data-i18n="contact.emailHint">We reply within 24 hours</span>
                         </div>
                     </a>
@@ -707,10 +685,7 @@
                     </div>
                     <p data-i18n="footer.tagline">A cozy family-run bed & breakfast on Colombia's Caribbean coast. Where strangers become friends, and friends become family.</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" aria-label="TripAdvisor"><i class="fab fa-tripadvisor"></i></a>
+                        <a href="https://wa.me/14078671294" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
 
@@ -737,8 +712,6 @@
                         <h4 data-i18n="footer.policies">Policies</h4>
                         <ul>
                             <li><a href="#" data-i18n="footer.cancellation">Cancellation</a></li>
-                            <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
-                            <li><a href="#" data-i18n="footer.terms">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>
@@ -754,7 +727,7 @@
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Complete Your Booking</h3>
+                <h3 data-i18n="payment.title">Pay Your Deposit</h3>
                 <button class="modal-close" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" id="paymentModalBody">
@@ -765,7 +738,7 @@
                 <div class="payment-form-container">
                     <form id="paymentForm">
                         <div class="form-group">
-                            <label for="card-element">Credit or Debit Card</label>
+                            <label for="card-element" data-i18n="payment.cardLabel">Credit or Debit Card</label>
                             <div id="card-element" class="stripe-element">
                                 <!-- Stripe Elements will create form elements here -->
                             </div>
@@ -774,14 +747,18 @@
 
                         <div class="payment-total">
                             <div class="total-row">
-                                <span>Total Amount:</span>
+                                <span data-i18n="payment.depositAmount">Deposit Amount (50%):</span>
                                 <span id="paymentTotal" class="total-amount"></span>
+                            </div>
+                            <div class="total-row balance-row">
+                                <span data-i18n="payment.balanceOnArrival">Balance due on arrival:</span>
+                                <span id="paymentBalance" class="balance-amount"></span>
                             </div>
                         </div>
 
                         <button type="submit" id="payButton" class="btn btn-primary btn-large payment-btn">
                             <i class="fas fa-lock"></i>
-                            <span>Pay Now</span>
+                            <span data-i18n="payment.payDeposit">Pay Deposit</span>
                         </button>
                     </form>
                 </div>
@@ -790,10 +767,14 @@
                     <div class="success-icon">
                         <i class="fas fa-check-circle"></i>
                     </div>
-                    <h3>Payment Successful!</h3>
-                    <p>Your booking has been confirmed. You'll receive a confirmation email shortly.</p>
+                    <h3 data-i18n="payment.successTitle">Deposit Paid Successfully!</h3>
+                    <p data-i18n="payment.successMessage">Your deposit has been received and your booking is confirmed. The remaining balance is due upon arrival.</p>
                     <div class="confirmation-details">
-                        <p><strong>Confirmation Number:</strong> <span id="confirmationNumberDisplay"></span></p>
+                        <p><strong data-i18n="payment.confirmationNumber">Confirmation Number:</strong> <span id="confirmationNumberDisplay"></span></p>
+                    </div>
+                    <div class="cancellation-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-i18n="payment.cancellationNote">Free cancellation with full deposit refund within 48 hours of booking.</span>
                     </div>
                 </div>
             </div>

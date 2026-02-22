@@ -126,9 +126,9 @@ crazy-coconuts-website/
 └── package.json            # Project dependencies
 ```
 
-## Room Types & Pricing
-1. **Family Room (Up to 4 Guests)** - $120/night (Base rate in USD)
-2. **Large Family Room (Up to 7 Guests)** - $130/night (Base rate in USD)
+## Room Types & Pricing (Base prices in COP, breakfast included)
+1. **Family Room (Up to 4 Guests)** - 420,000 COP/night
+2. **Large Family Room (Up to 7 Guests)** - 735,000 COP/night
 
 ## Environment Variables Required
 - `MONGODB_URI` - MongoDB connection string

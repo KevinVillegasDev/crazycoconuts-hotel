@@ -1,19 +1,19 @@
 // Currency conversion utilities
 class CurrencyManager {
     constructor() {
-        // Exchange rates (update these regularly or use an API)
+        // Fallback exchange rates: COP-based (how much of each currency 1 COP buys)
+        // These are used if the live rate API is unavailable
         this.exchangeRates = {
-            // Base: 1 USD
-            'USD': 1,
-            'COP': 4200, // Colombian Peso (approximate)
-            'EUR': 0.85,
-            'GBP': 0.75,
-            'CAD': 1.25,
-            'MXN': 18.5,
-            'BRL': 5.2,
-            'ARS': 350
+            'COP': 1,
+            'USD': 1 / 4200,
+            'EUR': 0.85 / 4200,
+            'GBP': 0.75 / 4200,
+            'CAD': 1.25 / 4200,
+            'MXN': 18.5 / 4200,
+            'BRL': 5.2 / 4200,
+            'ARS': 350 / 4200
         };
-        
+
         // Currency symbols
         this.currencySymbols = {
             'USD': '$',
@@ -25,7 +25,7 @@ class CurrencyManager {
             'BRL': 'R$',
             'ARS': 'AR$'
         };
-        
+
         // Currency names
         this.currencyNames = {
             'USD': 'US Dollar',
@@ -37,132 +37,120 @@ class CurrencyManager {
             'BRL': 'Brazilian Real',
             'ARS': 'Argentine Peso'
         };
-        
-        // Default to Colombian Peso since hotel is in Colombia
+
+        // Base currency is COP (all prices stored in COP)
         this.currentCurrency = this.getSavedCurrency() || 'COP';
-        this.baseCurrency = 'USD'; // All prices stored in USD in database
+        this.baseCurrency = 'COP';
+        this.isUsingFallback = true;
+        this.ratesLastUpdated = null;
     }
-    
+
     // Get saved currency from localStorage
     getSavedCurrency() {
         return localStorage.getItem('selectedCurrency');
     }
-    
+
     // Save currency preference
     saveCurrency(currency) {
         localStorage.setItem('selectedCurrency', currency);
         this.currentCurrency = currency;
     }
-    
+
     // Auto-detect currency based on user's location/locale
     async detectUserCurrency() {
         try {
-            // First try browser locale
             const locale = navigator.language || navigator.languages[0];
             const localeToCurrency = {
-                'es-CO': 'COP', // Colombia
-                'en-US': 'USD', // United States
-                'es-MX': 'MXN', // Mexico
-                'pt-BR': 'BRL', // Brazil
-                'es-AR': 'ARS', // Argentina
-                'en-CA': 'CAD', // Canada
-                'en-GB': 'GBP', // United Kingdom
-                'fr-FR': 'EUR', // France
-                'de-DE': 'EUR', // Germany
-                'es-ES': 'EUR', // Spain
+                'es-CO': 'COP',
+                'en-US': 'USD',
+                'es-MX': 'MXN',
+                'pt-BR': 'BRL',
+                'es-AR': 'ARS',
+                'en-CA': 'CAD',
+                'en-GB': 'GBP',
+                'fr-FR': 'EUR',
+                'de-DE': 'EUR',
+                'es-ES': 'EUR',
             };
-            
-            // Check for exact locale match
+
             if (localeToCurrency[locale]) {
                 return localeToCurrency[locale];
             }
-            
-            // Check for language match
+
             const language = locale.split('-')[0];
             const languageToCurrency = {
-                'es': 'COP', // Default Spanish to Colombian Peso
-                'en': 'USD', // Default English to USD
-                'pt': 'BRL', // Portuguese to Brazilian Real
-                'fr': 'EUR', // French to Euro
-                'de': 'EUR'  // German to Euro
+                'es': 'COP',
+                'en': 'USD',
+                'pt': 'BRL',
+                'fr': 'EUR',
+                'de': 'EUR'
             };
-            
+
             if (languageToCurrency[language]) {
                 return languageToCurrency[language];
             }
-            
-            // Try geolocation API as fallback
-            if (navigator.geolocation) {
-                const position = await this.getCurrentPosition();
-                // This would need a service to convert coordinates to country
-                // For now, we'll use a simplified approach
-            }
-            
-            // Default to Colombian Peso since it's a Colombian hotel
+
             return 'COP';
-            
+
         } catch (error) {
             console.warn('Could not detect user currency:', error);
-            return 'COP'; // Default to local currency
+            return 'COP';
         }
     }
-    
-    // Get current position (for geolocation)
-    getCurrentPosition() {
-        return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-    }
-    
-    // Convert amount from base currency (USD) to target currency
-    convert(amount, fromCurrency = 'USD', toCurrency = null) {
+
+    // Convert amount from COP to target currency
+    convert(amount, fromCurrency = 'COP', toCurrency = null) {
         toCurrency = toCurrency || this.currentCurrency;
-        
+
         if (fromCurrency === toCurrency) {
             return amount;
         }
-        
-        // Convert to USD first if not already
-        let usdAmount = amount;
-        if (fromCurrency !== 'USD') {
-            usdAmount = amount / this.exchangeRates[fromCurrency];
+
+        // Convert to COP first if not already
+        let copAmount = amount;
+        if (fromCurrency !== 'COP') {
+            const fromRate = this.exchangeRates[fromCurrency];
+            if (fromRate && fromRate !== 0) {
+                copAmount = amount / fromRate;
+            }
         }
-        
-        // Convert from USD to target currency
-        return usdAmount * this.exchangeRates[toCurrency];
+
+        // Convert from COP to target currency
+        const toRate = this.exchangeRates[toCurrency];
+        if (!toRate) {
+            console.warn(`Unknown currency: ${toCurrency}`);
+            return copAmount;
+        }
+        return copAmount * toRate;
     }
-    
+
     // Format amount with currency symbol and proper decimals
     format(amount, currency = null) {
         currency = currency || this.currentCurrency;
-        const convertedAmount = this.convert(amount, 'USD', currency);
+        const convertedAmount = this.convert(amount, 'COP', currency);
         const symbol = this.currencySymbols[currency];
-        
-        // Different formatting for different currencies
+
         if (currency === 'COP') {
-            // Colombian Peso - no decimals, use thousands separator
             return `${Math.round(convertedAmount).toLocaleString('es-CO')} ${symbol}`;
-        } else if (currency === 'USD' || currency === 'EUR' || currency === 'GBP' || currency === 'CAD') {
-            // Standard currencies with 2 decimals
+        } else if (['USD', 'EUR', 'GBP', 'CAD'].includes(currency)) {
             return `${symbol}${convertedAmount.toFixed(2)}`;
         } else {
-            // Other currencies - round appropriately
             return `${symbol}${convertedAmount.toFixed(0)}`;
         }
     }
-    
+
     // Get currency symbol
     getSymbol(currency = null) {
         currency = currency || this.currentCurrency;
         return this.currencySymbols[currency];
     }
-    
+
     // Get currency name
     getName(currency = null) {
         currency = currency || this.currentCurrency;
         return this.currencyNames[currency];
     }
-    
+
     // Get available currencies
     getAvailableCurrencies() {
         return Object.keys(this.exchangeRates).map(code => ({
@@ -171,20 +159,34 @@ class CurrencyManager {
             symbol: this.currencySymbols[code]
         }));
     }
-    
-    // Update exchange rates (could be called periodically)
+
+    // Update exchange rates
     updateExchangeRates(newRates) {
         this.exchangeRates = { ...this.exchangeRates, ...newRates };
     }
-    
-    // Initialize currency system
+
+    // Initialize currency system - fetches live rates from backend
     async initialize() {
+        // Fetch live exchange rates from backend
+        try {
+            const response = await fetch('/api/exchange-rates');
+            const result = await response.json();
+            if (result.success && result.data && result.data.rates) {
+                this.updateExchangeRates(result.data.rates);
+                this.ratesLastUpdated = result.data.lastUpdated;
+                this.isUsingFallback = result.data.isUsingFallback;
+            }
+        } catch (error) {
+            console.warn('Could not fetch live exchange rates, using defaults:', error);
+            this.isUsingFallback = true;
+        }
+
         // If no saved currency, try to detect it
         if (!this.getSavedCurrency()) {
             const detectedCurrency = await this.detectUserCurrency();
             this.saveCurrency(detectedCurrency);
         }
-        
+
         return this.currentCurrency;
     }
 }
