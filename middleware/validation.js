@@ -46,7 +46,7 @@ function validateBookingData(req, res, next) {
         errors.push('Valid check-out date is required');
     }
     
-    if (!roomType || !['ocean-view', 'beachfront-suite', 'presidential-villa'].includes(roomType)) {
+    if (!roomType || !['family-room-4', 'large-family-room-7'].includes(roomType)) {
         errors.push('Valid room type is required');
     }
     

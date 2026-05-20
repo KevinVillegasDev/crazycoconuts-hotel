@@ -8,7 +8,10 @@ router.get('/', async (req, res) => {
     if (!req.query.checkIn && !req.query.checkOut) {
         try {
             const today = new Date();
-            const availability = await Booking.findAvailableRooms(today, today);
+            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const availability = await Booking.findAvailableRooms(today, tomorrow);
             
             res.json({
                 success: true,

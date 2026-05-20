@@ -127,8 +127,10 @@ crazy-coconuts-website/
 ```
 
 ## Room Types & Pricing (Base prices in COP, breakfast included)
-1. **Family Room (Up to 4 Guests)** - 420,000 COP/night
-2. **Large Family Room (Up to 7 Guests)** - 735,000 COP/night
+1. **Family Room (Up to 4 Guests)** — 420,000 COP/night — inventory: 2 rooms
+2. **Large Family Room (Up to 7 Guests)** — 735,000 COP/night — inventory: 6 rooms
+
+Tax rate: 16% (defined in `utils/pricing.js`). Deposit: 50% online, balance on arrival. Free cancellation within 48 hours of booking.
 
 ## Environment Variables Required
 - `MONGODB_URI` - MongoDB connection string
@@ -142,7 +144,7 @@ crazy-coconuts-website/
 - `npm start` - Start production server
 - `npm run dev` - Start development server with nodemon
 - `npm run seed` - Initialize database with room data
-- `node server.js` - Direct server start (port 3003)
+- `node server.js` - Direct server start (default port 3000, override via `PORT`)
 
 ## Recent Development History
 Based on git commits, the project has gone through several phases:
@@ -211,4 +213,4 @@ Based on git commits, the project has gone through several phases:
 
 *This documentation serves as a reference for all development work done on the Crazy Coconuts B&B project. Update this file when adding new features or making significant changes.*
 
-*Last updated: November 2024*
+*Last updated: May 2026*

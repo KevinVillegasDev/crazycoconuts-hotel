@@ -273,8 +273,15 @@ router.put('/:id', optionalAdminAuth, async (req, res) => {
     }
 });
 
-// DELETE /api/bookings/:id - Cancel booking
-router.delete('/:id', async (req, res) => {
+// DELETE /api/bookings/:id - Cancel booking (admin only)
+router.delete('/:id', optionalAdminAuth, async (req, res) => {
+    if (!req.isAdmin) {
+        return res.status(403).json({
+            success: false,
+            message: 'Admin access required'
+        });
+    }
+
     try {
         const booking = await Booking.findById(req.params.id);
 

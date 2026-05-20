@@ -4,6 +4,20 @@ const stripe = process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STR
 const Booking = require('../models/Booking');
 const exchangeRateService = require('../utils/exchangeRateService');
 
+// GET /api/payments/config - Public payment config for frontend
+router.get('/config', (req, res) => {
+    const stripeEnabled = !!(process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PUBLISHABLE_KEY);
+
+    res.json({
+        success: true,
+        data: {
+            provider: stripeEnabled ? 'stripe' : 'none',
+            enabled: stripeEnabled,
+            publishableKey: stripeEnabled ? process.env.STRIPE_PUBLISHABLE_KEY : null
+        }
+    });
+});
+
 // POST /api/payments/create-intent - Create payment intent for deposit
 router.post('/create-intent', async (req, res) => {
     if (!stripe) {
@@ -214,19 +228,25 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     res.json({ received: true });
 });
 
-// Helper function to handle successful deposit payment
+// Helper function to handle successful payment (deposit or balance)
 async function handlePaymentSuccess(paymentIntent) {
     try {
         const booking = await Booking.findOne({ paymentIntentId: paymentIntent.id });
+        if (!booking) return;
 
-        if (booking && booking.paymentStatus !== 'deposit_paid' && booking.paymentStatus !== 'paid') {
+        const paymentType = paymentIntent.metadata?.paymentType || 'deposit';
+
+        if (paymentType === 'balance') {
+            booking.paymentStatus = 'paid';
+        } else if (booking.paymentStatus !== 'deposit_paid' && booking.paymentStatus !== 'paid') {
             booking.paymentStatus = 'deposit_paid';
-            booking.status = 'confirmed';
-            booking.paidAt = new Date();
-            await booking.save();
-
-            console.log(`Deposit payment succeeded for booking ${booking.confirmationNumber}`);
         }
+
+        booking.status = 'confirmed';
+        booking.paidAt = new Date();
+        await booking.save();
+
+        console.log(`${paymentType} payment succeeded for booking ${booking.confirmationNumber}`);
     } catch (error) {
         console.error('Error handling payment success:', error);
     }

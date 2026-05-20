@@ -12,15 +12,15 @@ const testModel = async () => {
             lastName: "Guest", 
             email: "test@example.com",
             phone: "+12345678901",
-            checkInDate: new Date("2025-08-15"),
-            checkOutDate: new Date("2025-08-17"), 
-            roomType: "ocean-view",
+            checkInDate: new Date("2026-08-15"),
+            checkOutDate: new Date("2026-08-17"),
+            roomType: "family-room-4",
             guestCount: 2,
             specialRequests: "Test booking",
-            roomRate: 180,
-            subtotal: 360,
-            taxes: 57.6,
-            totalAmount: 417.6
+            roomRate: 420000,
+            subtotal: 840000,
+            taxes: 134400,
+            totalAmount: 974400
         });
         
         console.log('Before save - confirmationNumber:', testBooking.confirmationNumber);

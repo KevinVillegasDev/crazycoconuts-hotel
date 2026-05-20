@@ -10,11 +10,20 @@ const exchangeRateService = require('./utils/exchangeRateService');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Debug: Log environment variables on startup
+// Startup config check (no secrets logged)
 console.log('Environment check:');
-console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
-console.log('ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD || 'admin123 (default)');
-console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('NODE_ENV:', process.env.NODE_ENV || 'development');
+console.log('JWT_SECRET configured:', !!process.env.JWT_SECRET);
+console.log('ADMIN_PASSWORD configured:', !!process.env.ADMIN_PASSWORD);
+console.log('STRIPE configured:', !!(process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PUBLISHABLE_KEY));
+console.log('SMTP configured:', !!(process.env.SMTP_USER && process.env.SMTP_PASS));
+
+if (!process.env.JWT_SECRET) {
+    console.warn('⚠️  JWT_SECRET is not set — admin login will be rejected. Set it in .env.');
+}
+if (!process.env.ADMIN_PASSWORD) {
+    console.warn('⚠️  ADMIN_PASSWORD is not set — using insecure default "admin123". Set it in .env.');
+}
 
 // Security middleware
 app.use(helmet({

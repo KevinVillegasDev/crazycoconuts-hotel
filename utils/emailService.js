@@ -30,7 +30,7 @@ async function sendBookingConfirmation(booking) {
         const emailHtml = generateBookingConfirmationHTML(booking, roomNames);
         
         const mailOptions = {
-            from: `"Crazy Coconuts Hotel" <${process.env.SMTP_USER}>`,
+            from: `"Crazy Coconuts B&B" <${process.env.SMTP_USER}>`,
             to: booking.email,
             subject: `Booking Confirmation - ${booking.confirmationNumber}`,
             html: emailHtml,
@@ -90,14 +90,14 @@ function generateBookingConfirmationHTML(booking, roomNames) {
     <body>
         <div class="container">
             <div class="header">
-                <div class="logo">🥥 Crazy Coconuts Hotel</div>
+                <div class="logo">🥥 Crazy Coconuts B&amp;B</div>
                 <h1>Booking Confirmed!</h1>
                 <p>Thank you for choosing our tropical paradise</p>
             </div>
             
             <div class="content">
                 <h2>Dear ${booking.firstName} ${booking.lastName},</h2>
-                <p>We're delighted to confirm your reservation at Crazy Coconuts Hotel. Get ready for an unforgettable stay on Colombia's beautiful coast!</p>
+                <p>We're delighted to confirm your reservation at Crazy Coconuts B&amp;B. Get ready for an unforgettable stay on Colombia's beautiful coast!</p>
                 
                 <div class="booking-details">
                     <h3>Booking Details</h3>
@@ -173,18 +173,18 @@ function generateBookingConfirmationHTML(booking, roomNames) {
                     </ul>
                 </div>
                 
-                <p><strong>Need to make changes?</strong> Contact us at <a href="mailto:reservations@crazycoconuts.com">reservations@crazycoconuts.com</a> or call +57 5 432 1000.</p>
-                
+                <p><strong>Need to make changes?</strong> Contact us at <a href="mailto:contact@crazycoconutshotel.com">contact@crazycoconutshotel.com</a> or WhatsApp <a href="https://wa.me/14078671294">+1 407 867 1294</a>.</p>
+
                 <p>We can't wait to welcome you to paradise!</p>
-                
+
                 <p>Warm regards,<br>
-                The Crazy Coconuts Hotel Team</p>
+                The Crazy Coconuts Team</p>
             </div>
-            
+
             <div class="footer">
-                <p>Crazy Coconuts Hotel<br>
-                Carrera 2 #5-41, Santa Marta, Magdalena, Colombia<br>
-                Phone: +57 5 432 1000 | Email: info@crazycoconuts.com</p>
+                <p>Crazy Coconuts B&amp;B<br>
+                San Antero, Córdoba, Colombia<br>
+                WhatsApp: +1 407 867 1294 | Email: contact@crazycoconutshotel.com</p>
             </div>
         </div>
     </body>
@@ -214,11 +214,11 @@ function generateBookingConfirmationText(booking, roomNames) {
     });
     
     return `
-CRAZY COCONUTS HOTEL - BOOKING CONFIRMATION
+CRAZY COCONUTS B&B - BOOKING CONFIRMATION
 
 Dear ${booking.firstName} ${booking.lastName},
 
-We're delighted to confirm your reservation at Crazy Coconuts Hotel!
+We're delighted to confirm your reservation at Crazy Coconuts B&B!
 
 BOOKING DETAILS:
 Confirmation Number: ${booking.confirmationNumber}
@@ -245,13 +245,13 @@ HOTEL INFORMATION:
 Check-in time: 3:00 PM
 Check-out time: 11:00 AM
 Address: San Antero, Córdoba, Colombia
-Phone: +57 5 432 1000
-Email: reservations@crazycoconuts.com
+WhatsApp: +1 407 867 1294
+Email: contact@crazycoconutshotel.com
 
 We can't wait to welcome you to paradise!
 
 Warm regards,
-The Crazy Coconuts Hotel Team
+The Crazy Coconuts Team
     `;
 }
 
@@ -270,7 +270,7 @@ async function sendEmail(to, subject, html, text) {
     
     try {
         const mailOptions = {
-            from: `"Crazy Coconuts Hotel" <${process.env.SMTP_USER}>`,
+            from: `"Crazy Coconuts B&B" <${process.env.SMTP_USER}>`,
             to,
             subject,
             html,

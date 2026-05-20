@@ -1,4 +1,4 @@
-# Crazy Coconuts Hotel - Quick Reference Guide
+# Crazy Coconuts B&B - Quick Reference Guide
 
 ## 🚀 Quick Start Commands
 ```bash
@@ -17,8 +17,8 @@ npm run seed
 
 ## 🔐 Admin Dashboard Access
 - **URL**: `http://localhost:3000/admin.html`
-- **Password**: Check `routes/admin.js:12` - default is `admin123` or set via `ADMIN_PASSWORD` env var
-- **Authentication**: Session-based (stored in sessionStorage)
+- **Password**: Set via `ADMIN_PASSWORD` env var. Falls back to `admin123` with a startup warning if unset.
+- **Authentication**: JWT (24h expiry, stored in sessionStorage). Requires `JWT_SECRET` env var; login is refused if unset.
 
 ## 🏗️ Project Architecture
 
@@ -53,87 +53,104 @@ npm run seed
 ## 🌐 API Endpoints
 
 ### Public Endpoints
-- `GET /api/rooms` - Get all room types
-- `POST /api/availability` - Check room availability  
+- `GET /api/rooms` - List rooms
+- `GET /api/availability?checkIn=&checkOut=&roomType=` - Check room availability
+- `GET /api/bookings/:confirmationNumber` - Look up a booking
 - `POST /api/bookings` - Create new booking
-- `POST /api/payments/create-payment-intent` - Create Stripe payment
-- `POST /api/payments/webhook` - Stripe webhook handler
+- `GET /api/payments/config` - Active payment provider info + publishable key (or `enabled: false`)
+- `POST /api/payments/create-intent` - Create Stripe deposit payment intent
+- `POST /api/payments/confirm` - Confirm deposit
+- `GET /api/payments/status/:confirmationNumber` - Payment status lookup
+- `POST /api/payments/webhook` - Stripe webhook
+- `GET /api/exchange-rates` - Current cached COP-based exchange rates
+- `GET /api/health` - Liveness probe
 
-### Admin Endpoints (Protected)
-- `POST /api/admin/login` - Admin authentication
-- `GET /api/admin/bookings` - Get all bookings with filters
-- `PUT /api/admin/bookings/:id` - Update booking status
-- `DELETE /api/admin/bookings/:id` - Cancel booking
-- `GET /api/admin/stats` - Dashboard statistics
-- `GET /api/admin/export` - Export bookings data
+### Admin Endpoints (JWT-protected — `Authorization: Bearer <token>`)
+- `POST /api/admin/login` - Admin authentication (returns token)
+- `GET /api/admin/dashboard` - Dashboard stats (bookings, revenue, occupancy)
+- `GET /api/admin/bookings/recent?limit=N` - Recent bookings
+- `GET /api/bookings` - List bookings (paginated, admin-only)
+- `PUT /api/bookings/:id` - Update booking status/notes (admin-only)
+- `DELETE /api/bookings/:id` - Cancel booking + auto-refund deposit if within 48h (admin-only)
+- `POST /api/payments/refund` - Refund a deposit by booking ID or confirmation number
 
 ## 💰 Currency System
-- **Supported**: COP, USD, EUR, CAD, MXN, BRL
-- **Base Currency**: USD (all prices stored in USD)
-- **Conversion**: Real-time via external API (`utils/currency.js`)
+- **Supported**: COP, USD, EUR, CAD, GBP, MXN, BRL, ARS
+- **Base Currency**: COP (all prices stored in COP)
+- **Live rates**: Fetched from `open.er-api.com` every 6h with fallback table (`utils/exchangeRateService.js`)
 - **Storage**: User preference in localStorage
 
-## 🏨 Room Types & Base Pricing (USD)
-1. **Ocean View Room** - $180/night
-2. **Beachfront Suite** - $350/night  
-3. **Presidential Villa** - $650/night
+## 🏨 Room Types & Base Pricing (COP)
+1. **Family Room (Up to 4 Guests)** — 420,000 COP/night — 2 rooms in inventory
+2. **Large Family Room (Up to 7 Guests)** — 735,000 COP/night — 6 rooms in inventory
+
+Tax: 16%. Deposit: 50% online, balance on arrival. Free cancellation within 48h of booking.
 
 ## 💳 Payment Processing
-- **Provider**: Stripe
-- **Flow**: Payment Intents API
-- **Webhook**: Automatic booking confirmation
-- **Security**: PCI DSS compliant
+- **Provider**: Stripe (Payment Intents API for the 50% deposit). Configurable via `STRIPE_*` env vars.
+- If Stripe env vars are not set, `/api/payments/config` reports `enabled: false` and the frontend payment modal shows a WhatsApp fallback instead of crashing.
+- **Webhook**: `POST /api/payments/webhook` — uses `paymentType` metadata to disambiguate deposit vs. balance.
+- **Refunds**: Automatic via `DELETE /api/bookings/:id` when within 48h cancellation window.
 
 ## 🗄️ Database Models
 
-### Booking Schema
+### Booking Schema (selected fields — see `models/Booking.js` for full schema)
 ```javascript
 {
-  confirmationNumber: String (unique),
-  roomType: String (required),
-  checkIn: Date,
-  checkOut: Date, 
-  guests: Number,
-  totalAmount: Number,
-  currency: String,
-  status: String, // pending, confirmed, cancelled, completed
-  paymentStatus: String, // pending, completed, failed
-  stripePaymentIntentId: String,
-  guestInfo: {
-    firstName: String,
-    lastName: String,
-    email: String,
-    phone: String
-  },
+  confirmationNumber: String (unique, auto-generated as 'CC' + 8-digit timestamp),
+  firstName, lastName, email, phone,         // guest info (top-level, not nested)
+  checkInDate, checkOutDate, numberOfNights,
+  roomType: 'family-room-4' | 'large-family-room-7',
+  guestCount: Number (1–8),
   specialRequests: String,
-  createdAt: Date
+  roomRate, subtotal, taxes, totalAmount,    // all in COP
+  depositAmount, balanceDue,                 // 50/50 split, auto-computed
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no-show',
+  paymentStatus: 'pending' | 'deposit_paid' | 'paid' | 'failed' | 'refunded',
+  paymentIntentId: String,                   // Stripe PI id
+  paymentCurrency, convertedAmount,          // currency at checkout
+  paidAt, refundId, refundedAt, refundAmount,
+  cancellationDeadline: Date                 // 48h after createdAt
 }
 ```
 
 ### Room Schema
 ```javascript
 {
-  name: String,
-  description: String,
-  basePrice: Number, // in USD
-  maxOccupancy: Number,
-  amenities: [String],
-  images: [String],
-  available: Boolean
+  type: 'family-room-4' | 'large-family-room-7',  // unique
+  name, description,
+  basePrice: Number,        // in COP
+  maxGuests: Number,
+  totalRooms: Number,       // inventory count
+  amenities: [{ icon, name, description }],
+  images: [{ url, alt, isPrimary }],
+  isActive: Boolean,
+  seasonalPricing: [{ name, startDate, endDate, priceMultiplier }]
 }
 ```
 
-## 🔧 Environment Variables Required
+## 🔧 Environment Variables
 ```env
+# Required for full functionality
 MONGODB_URI=mongodb://localhost:27017/crazycoconuts
+JWT_SECRET=your-jwt-secret              # admin login refused without this
+ADMIN_PASSWORD=your-admin-password      # falls back to 'admin123' with warning
+
+# Stripe (optional — if unset, payment modal shows WhatsApp fallback)
 STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-JWT_SECRET=your-jwt-secret
-ADMIN_PASSWORD=your-admin-password
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-email-password
+
+# Email (optional — confirmation emails are silently skipped if unset)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# Server
 NODE_ENV=development
 PORT=3000
+FRONTEND_URL=http://localhost:3000      # used for CORS in production
 ```
 
 ## 🛡️ Security Features
@@ -161,8 +178,7 @@ PORT=3000
 3. Update frontend room display in `index.html`
 
 ### Modify Admin Password
-1. Set `ADMIN_PASSWORD` environment variable, or
-2. Change default in `routes/admin.js:12`
+Set the `ADMIN_PASSWORD` env var. The fallback `admin123` is only for local dev and emits a startup warning.
 
 ### Add New Currency
 1. Update `utils/currency.js` - add to `SUPPORTED_CURRENCIES`
@@ -191,7 +207,7 @@ PORT=3000
 
 **Currency conversion errors**:
 - Check internet connection for API calls
-- Fallback to USD if API fails
+- Service falls back to hardcoded rates in `utils/exchangeRateService.js` if the upstream API fails
 
 ## 📊 Key Metrics Tracked
 - Total bookings

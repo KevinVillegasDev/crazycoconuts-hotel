@@ -493,9 +493,8 @@ function showBookingConfirmation(bookingData, confirmationNumber) {
     
     // Get room type display name
     const roomNames = {
-        'ocean-view': 'Ocean View Room',
-        'beachfront-suite': 'Beachfront Suite', 
-        'presidential-villa': 'Presidential Villa'
+        'family-room-4': 'Family Room (Up to 4 Guests)',
+        'large-family-room-7': 'Large Family Room (Up to 7 Guests)'
     };
     
     modal.innerHTML = `
@@ -899,37 +898,55 @@ updateBookingSummary = updateBookingSummaryWithCurrency;
 let stripe;
 let elements;
 let card;
+let paymentConfig = null;
 
-// Initialize Stripe
-function initializeStripe() {
-    // Initialize Stripe (you'll need to replace with your publishable key)
-    stripe = Stripe('pk_test_your_publishable_key_here'); // Replace with actual key
+// Load payment provider config from backend (publishable key, provider, enabled)
+async function loadPaymentConfig() {
+    if (paymentConfig) return paymentConfig;
+    try {
+        const response = await fetch('/api/payments/config');
+        const result = await response.json();
+        paymentConfig = result.success ? result.data : { enabled: false, provider: 'none' };
+    } catch (error) {
+        console.warn('Failed to load payment config:', error);
+        paymentConfig = { enabled: false, provider: 'none' };
+    }
+    return paymentConfig;
+}
+
+// Initialize Stripe (no-op if payments disabled or library missing)
+async function initializeStripe() {
+    const config = await loadPaymentConfig();
+
+    if (!config.enabled || config.provider !== 'stripe' || !config.publishableKey) {
+        return false;
+    }
+    if (typeof Stripe === 'undefined') {
+        console.error('Stripe.js not loaded');
+        return false;
+    }
+
+    stripe = Stripe(config.publishableKey);
     elements = stripe.elements();
-    
-    // Create card element
+
     card = elements.create('card', {
         style: {
             base: {
                 fontSize: '16px',
                 color: '#424770',
-                '::placeholder': {
-                    color: '#aab7c4',
-                },
-            },
-        },
-    });
-    
-    card.mount('#card-element');
-    
-    // Handle real-time validation errors from the card Element
-    card.on('change', ({error}) => {
-        const displayError = document.getElementById('card-errors');
-        if (error) {
-            displayError.textContent = error.message;
-        } else {
-            displayError.textContent = '';
+                '::placeholder': { color: '#aab7c4' }
+            }
         }
     });
+
+    card.mount('#card-element');
+
+    card.on('change', ({ error }) => {
+        const displayError = document.getElementById('card-errors');
+        if (displayError) displayError.textContent = error ? error.message : '';
+    });
+
+    return true;
 }
 
 // Show payment modal
@@ -1030,11 +1047,31 @@ function showPaymentModal(bookingData) {
     
     // Show modal
     modal.classList.add('show');
-    
-    // Initialize Stripe if not already done
+
+    // Initialize payment provider if not already done
     if (!stripe) {
-        initializeStripe();
+        initializeStripe().then(ready => {
+            if (!ready) showPaymentUnavailableFallback();
+        });
     }
+}
+
+// Render a fallback inside the payment modal when no online payment provider is configured.
+// Guests are directed to confirm via WhatsApp; admins will mark payment manually.
+function showPaymentUnavailableFallback() {
+    const container = document.querySelector('.payment-form-container');
+    if (!container) return;
+    container.innerHTML = `
+        <div class="payment-unavailable" style="padding: 1.5rem; text-align: center;">
+            <h3>Online payment temporarily unavailable</h3>
+            <p>Your booking has been recorded. To confirm your reservation, please contact us
+            via WhatsApp to arrange your 50% deposit payment.</p>
+            <a href="https://wa.me/14078671294" target="_blank" rel="noopener noreferrer"
+               class="btn btn-primary" style="display: inline-block; margin-top: 1rem;">
+                <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+            </a>
+        </div>
+    `;
 }
 
 // Handle payment form submission

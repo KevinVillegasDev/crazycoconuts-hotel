@@ -26,16 +26,8 @@ STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
 STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
 ```
 
-### 4. Update Frontend Configuration
-In `script.js`, replace the placeholder with your publishable key:
-
-```javascript
-// Line 889: Replace this line
-stripe = Stripe('pk_test_your_publishable_key_here');
-
-// With your actual key
-stripe = Stripe('pk_test_51ABC123...');
-```
+### 4. Frontend Configuration
+No code change needed. The frontend fetches the publishable key at runtime from `GET /api/payments/config`, which reads `STRIPE_PUBLISHABLE_KEY` from `.env`. If Stripe env vars are not set, the endpoint returns `enabled: false` and the payment modal renders a WhatsApp fallback instead of failing.
 
 ### 5. Configure Webhooks (Recommended)
 1. In Stripe Dashboard, go to **Developers** → **Webhooks**

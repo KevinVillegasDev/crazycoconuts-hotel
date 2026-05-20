@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const Booking = require('../models/Booking');
 const Room = require('../models/Room');
 
@@ -39,24 +38,23 @@ router.post('/login', async (req, res) => {
     try {
         const { password } = req.body;
         
-        // Simple password check (in production, use proper user management)
         const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-        
-        // Debug logging
-        console.log('Admin login attempt:');
-        console.log('Received password:', password);
-        console.log('Expected password:', adminPassword);
-        console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
-        
+
+        if (!process.env.JWT_SECRET) {
+            console.error('JWT_SECRET is not set — refusing to issue admin tokens');
+            return res.status(500).json({
+                success: false,
+                message: 'Server misconfigured. Contact administrator.'
+            });
+        }
+
         if (password !== adminPassword) {
-            console.log('Password mismatch!');
             return res.status(401).json({
                 success: false,
                 message: 'Invalid password'
             });
         }
-        
-        // Generate JWT token
+
         const token = jwt.sign(
             { role: 'admin', timestamp: Date.now() },
             process.env.JWT_SECRET,
@@ -106,7 +104,7 @@ router.get('/dashboard', authenticateAdmin, async (req, res) => {
                 {
                     $match: {
                         createdAt: { $gte: startOfMonth, $lte: endOfMonth },
-                        paymentStatus: 'paid'
+                        paymentStatus: { $in: ['deposit_paid', 'paid'] }
                     }
                 },
                 {
@@ -118,7 +116,7 @@ router.get('/dashboard', authenticateAdmin, async (req, res) => {
             ]),
             Booking.aggregate([
                 {
-                    $match: { paymentStatus: 'paid' }
+                    $match: { paymentStatus: { $in: ['deposit_paid', 'paid'] } }
                 },
                 {
                     $group: {
@@ -161,9 +159,8 @@ router.get('/dashboard', authenticateAdmin, async (req, res) => {
         ]);
         
         const roomStats = {
-            'ocean-view': { total: 10, occupied: 0 },
-            'beachfront-suite': { total: 5, occupied: 0 },
-            'presidential-villa': { total: 2, occupied: 0 }
+            'family-room-4': { total: 2, occupied: 0 },
+            'large-family-room-7': { total: 6, occupied: 0 }
         };
         
         roomOccupancy.forEach(room => {
